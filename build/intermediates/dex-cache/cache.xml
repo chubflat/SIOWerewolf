@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Kazuaki\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="C:\GitHub\SIOWerewolf\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0-1412e526a0f4ed9f2b6b1641f8f15e6c3d71450e.jar" />
+    </item>
+    <item
+        jar="C:\GitHub\SIOWerewolf\app\libs\socketio.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="44c36d02b4945f63312e041a0b545ee292662b14">
+        <dex dex="C:\GitHub\SIOWerewolf\app\build\intermediates\pre-dexed\debug\socketio-831e5d6ae6fd759d575cc99cddcd6f1786300aa2.jar" />
+    </item>
+
+</items>
