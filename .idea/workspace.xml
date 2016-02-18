@@ -5,6 +5,9 @@
       <config />
     </shared>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="3f8980d9-b53b-496e-8a83-9a40610b2452" name="Default" comment="" />
     <ignored path="SIOWerewolf.iws" />
@@ -36,20 +39,18 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7705314">
-              <caret line="129" column="2" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.670886">
+              <caret line="239" column="9" selection-start-line="239" selection-start-column="9" selection-end-line="239" selection-end-column="9" />
               <folding>
-                <element signature="method#connect#0;class#MainActivity#0" expanded="false" />
-                <element signature="class#4238:5336" expanded="false" />
-                <element signature="e#4292#4293#0" expanded="true" />
-                <element signature="e#4335#4336#0" expanded="true" />
-                <element signature="e#4379#4380#0" expanded="true" />
-                <element signature="e#4425#4426#0" expanded="true" />
-                <element signature="e#4500#4501#0" expanded="true" />
-                <element signature="e#4540#4541#0" expanded="true" />
-                <element signature="e#4611#4612#0" expanded="true" />
-                <element signature="e#4654#4655#0" expanded="true" />
-                <element signature="method#sendEvent#0;class#MainActivity#0" expanded="false" />
+                <element signature="e#5240#5241#0" expanded="true" />
+                <element signature="e#5283#5284#0" expanded="true" />
+                <element signature="e#5327#5328#0" expanded="true" />
+                <element signature="e#5373#5374#0" expanded="true" />
+                <element signature="e#5448#5449#0" expanded="true" />
+                <element signature="e#5488#5489#0" expanded="true" />
+                <element signature="e#5559#5560#0" expanded="true" />
+                <element signature="e#5602#5603#0" expanded="true" />
+                <element signature="e#6187#6202#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,10 +60,13 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="166" column="40" selection-start-line="166" selection-start-column="40" selection-end-line="166" selection-end-column="40" />
+              <caret line="364" column="60" selection-start-line="364" selection-start-column="60" selection-end-line="364" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#dispatchKeyEvent#0;class#CustomView#0" expanded="false" />
+                <element signature="method#setSameVariable#0;class#CustomView#0" expanded="false" />
+                <element signature="method#decodeSampledBitmapFromResource#0;class#CustomView#0" expanded="false" />
+                <element signature="method#calculateInSampleSize#0;class#CustomView#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1399,10 +1403,9 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="66" />
-    <option name="y" value="-8" />
-    <option name="width" value="1308" />
-    <option name="height" value="784" />
+    <option name="x" value="713" />
+    <option name="width" value="660" />
+    <option name="height" value="765" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -1552,7 +1555,7 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="CB5A1YYYY1" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_22_x86" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../LiarWolf" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Custom" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
@@ -1754,7 +1757,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="66" y="-8" width="1308" height="784" extended-state="6" />
+    <frame x="713" y="0" width="660" height="765" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1768,10 +1771,10 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280757" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32312405" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33280757" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2588141" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.53833336" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1829,7 +1832,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java</url>
-          <line>136</line>
+          <line>166</line>
           <properties class="com.example.siowerewolf.MainActivity" method="connect" />
         </line-breakpoint>
       </breakpoints>
@@ -1957,30 +1960,31 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="166" column="40" selection-start-line="166" selection-start-column="40" selection-end-line="166" selection-end-column="40" />
+          <caret line="364" column="60" selection-start-line="364" selection-start-column="60" selection-end-line="364" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#dispatchKeyEvent#0;class#CustomView#0" expanded="false" />
+            <element signature="method#setSameVariable#0;class#CustomView#0" expanded="false" />
+            <element signature="method#decodeSampledBitmapFromResource#0;class#CustomView#0" expanded="false" />
+            <element signature="method#calculateInSampleSize#0;class#CustomView#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7705314">
-          <caret line="129" column="2" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.670886">
+          <caret line="239" column="9" selection-start-line="239" selection-start-column="9" selection-end-line="239" selection-end-column="9" />
           <folding>
-            <element signature="method#connect#0;class#MainActivity#0" expanded="false" />
-            <element signature="class#4238:5336" expanded="false" />
-            <element signature="e#4292#4293#0" expanded="true" />
-            <element signature="e#4335#4336#0" expanded="true" />
-            <element signature="e#4379#4380#0" expanded="true" />
-            <element signature="e#4425#4426#0" expanded="true" />
-            <element signature="e#4500#4501#0" expanded="true" />
-            <element signature="e#4540#4541#0" expanded="true" />
-            <element signature="e#4611#4612#0" expanded="true" />
-            <element signature="e#4654#4655#0" expanded="true" />
-            <element signature="method#sendEvent#0;class#MainActivity#0" expanded="false" />
+            <element signature="e#5240#5241#0" expanded="true" />
+            <element signature="e#5283#5284#0" expanded="true" />
+            <element signature="e#5327#5328#0" expanded="true" />
+            <element signature="e#5373#5374#0" expanded="true" />
+            <element signature="e#5448#5449#0" expanded="true" />
+            <element signature="e#5488#5489#0" expanded="true" />
+            <element signature="e#5559#5560#0" expanded="true" />
+            <element signature="e#5602#5603#0" expanded="true" />
+            <element signature="e#6187#6202#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -2,8 +2,10 @@ package com.example.siowerewolf;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +15,7 @@ import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,7 +33,15 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import static android.content.SharedPreferences.*;
+
 public class MainActivity extends Activity {
+
+    /**preferences**/
+    private SharedPreferences preference;
+    private Editor editor;
+    public static String myId = "test";
+    public static String myName = "hasebe";
 
 
 	// socketIO
@@ -38,6 +49,8 @@ public class MainActivity extends Activity {
 	private ArrayAdapter<String> adapter;
 	public static SocketIO socket;
     private Handler handler = new Handler();
+    public static String receivedmsg = "";
+    public static String sendmsg = "";
 
     // List
 	public static ListView listView;
@@ -77,7 +90,6 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         isSettingScene = true;
         settingPhase = "setting_menu";
-
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -99,9 +111,8 @@ public class MainActivity extends Activity {
 //		ListView listView = (ListView)findViewById(R.id.listView1);
 //		listView.setAdapter(adapter);
         listView = new ListView(this);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(customView.width,customView.height*4/10);
-        lp.gravity = Gravity.TOP;
-        lp.bottomMargin = 0;
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(customView.width*90/100,customView.height*4/10);
+        lp.gravity = Gravity.CENTER_HORIZONTAL;
         selectedPlayerId = -2;
 
         listPlayerIdArray = new ArrayList<>();
@@ -115,6 +126,7 @@ public class MainActivity extends Activity {
         listView.setBackgroundColor(Color.WHITE);
 
         mFrameLayout.addView(listView);
+        drawListView(false);
 
         /** ListViewの追加終了 **/
 
@@ -127,12 +139,30 @@ public class MainActivity extends Activity {
         editText.setBackgroundColor(Color.WHITE);
 
         mFrameLayout.addView(editText);
+        draweditText(false);
 		try {
 			connect();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+
+        preference = getSharedPreferences("user_setting", MODE_PRIVATE);
+        editor = preference.edit();
+
+        if(preference.getBoolean("Launched",false)){
+            //初回起動時処理
+            int id = (int)Math.random()*999999;
+            myId = String.format("%1$06d",id);
+            myName = "はせべ";
+            /**preferenceの書き換え**/
+            editor.putBoolean("Launched",true);
+            editor.commit();
+
+        }else{
+            /**2回目以降の処理**/
+        }
     }
+    /**onCreateここまで**/
 
     private void connect() throws MalformedURLException{
 		socket = new SocketIO("http://blewerewolfserver.herokuapp.com/");
@@ -171,8 +201,20 @@ public class MainActivity extends Activity {
 					public void run() {
 						try {
 							if(message.getString("message") != null) {
+                                /**文章の解読**/
+                                receivedmsg = message.getString("message");
+                                String[] roomInfo = receivedmsg.split(":",0);
+                                Map<String,String> roomInfoDic = new HashMap<String,String>();
+                                roomInfoDic.put("header",roomInfo[0]);
+                                roomInfoDic.put("gameID",roomInfo[1]);
+                                roomInfoDic.put("periID",roomInfo[2]);
+                                roomInfoDic.put("periName",roomInfo[3]);
 								// メッセージが空でなければ追加
-								adapter.insert(message.getString("message"), 0);
+								adapter.insert(roomInfo[3] + "(" + roomInfo[1] + ")", 0);
+                                /**受信メッセージを格納**/
+                            // TODO 配列に辞書追加
+
+                                customView.invalidate();
 							}
 
 							} catch (JSONException e) {
@@ -193,14 +235,20 @@ public class MainActivity extends Activity {
 
     public static void sendEvent(View view){
 		// 文字が入力されていなければ何もしない
-		if (editText.getText().toString().length() == 0) {
-		    return;
-		}
+//		if (editText.getText().toString().length() == 0) {
+//		    return;
+//		}
 
+        String sendmsd = "";
+        sendmsg = "mes:" + 0 + ":" + "periID" + ":"+
+                "centID" + ":" + "participateRequest" + ":"+
+                "012345/centID/はせべ/" +
+                "periID/0";
 		try {
 		// イベント送信
 			JSONObject json = new JSONObject();
-			json.put("message", editText.getText().toString());
+//			json.put("message", editText.getText().toString());
+			json.put("message", sendmsg);
 			socket.emit("message:send", json);
 
 		} catch (JSONException e) {
@@ -208,6 +256,22 @@ public class MainActivity extends Activity {
 		}
 
     	// テキストフィールドをリセット
-    	editText.setText("");
+//    	editText.setText("");
+    }
+
+    public static void drawListView(boolean visible){
+        if(visible == true) {
+            listView.setVisibility(View.VISIBLE);
+        }else if(visible == false){
+            listView.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public static void draweditText(boolean visible){
+        if(visible == true) {
+            editText.setVisibility(View.VISIBLE);
+        }else if(visible == false){
+            editText.setVisibility(View.INVISIBLE);
+        }
     }
 }

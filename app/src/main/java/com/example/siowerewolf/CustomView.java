@@ -127,7 +127,7 @@ public class CustomView extends View {
         canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
         // default List非表示
-//        GameScene.drawListView(false);
+//        MainActivity.drawListView(false);
 
         Log.d("if","if=");
 
@@ -147,6 +147,23 @@ public class CustomView extends View {
                     break;
                 case "user_setting":
                     // TODO User設定画面描画
+
+                    /**background**/
+                    backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
+                    /**user ID**/
+                    canvas.drawText(MainActivity.myId,width * 20 / 100,height * 5/100,paint);
+                    canvas.drawText(MainActivity.myName,width * 20 / 100,height * 15/100,paint);
+
+                    /**user name**/
+
+                    /**room select**/
+                    canvas.drawBitmap(buttonImg,null,roomSelectButtonRect,paint);
+                    canvas.drawText("名前変更", width * 25 / 100, height * 55 / 100, paint);
+                    /**user_setting**/
+                    canvas.drawBitmap(buttonImg,null,confirmButtonRect,paint);
+                    canvas.drawText("戻る",width * 25/100,height * 70/100,paint);
+
                         /*
                         * username
                         * userId
@@ -154,10 +171,10 @@ public class CustomView extends View {
                     break;
                 case "room_select":
                     //TODO Client設定 部屋探索
-                        /*
+                        /**
                         * bluetoothで部屋のIDを受信
                         * リストに表示
-                        * リストの中身を選択したら待機画面に*/
+                        * リストの中身を選択したら待機画面に**/
 
                     confirmButtonRect = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
 //                    backgroundImg = BitmapFactory.decodeResource(getResources(),R.drawable.night);
@@ -167,7 +184,7 @@ public class CustomView extends View {
                     canvas.drawText("待機中",width * 30/100,height * 50 / 100,paint);
 
                     canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
-                    canvas.drawText("次へ",width * 25/100,height * 85/100,paint);
+                    canvas.drawText(MainActivity.receivedmsg,width * 25/100,height * 85/100,paint);
 
                     break;
                 case "rule_confirm":
@@ -240,7 +257,7 @@ public class CustomView extends View {
                     break;
 
                 case "night_chat":
-//                    GameScene.drawChat(true);
+//                    MainActivity.drawChat(true);
                     canvas.drawBitmap(roleImg,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
                     canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
@@ -340,24 +357,28 @@ public class CustomView extends View {
                     switch (settingPhase){
                         case "setting_menu":
                             if(roomSelectButtonRect.contains((int)pointX,(int)pointY)){
-//                                setDialog("Seer");
-//                                SettingScene.settingPhase = "room_select";
+                                MainActivity.settingPhase = "room_select";
+                                MainActivity.drawListView(true);
+//                                MainActivity.sendEvent(this);
+                            }else if(userSettingButtonRect.contains((int)pointX,(int)pointY)){
+                                MainActivity.settingPhase = "user_setting";
                                 MainActivity.sendEvent(this);
+//                                MainActivity.drawListView(true);
+//                                MainActivity.sendEvent(this);
                             }
                             break;
                         case "room_select":
                             if(confirmButtonRect.contains((int)pointX,(int)pointY)){
-                                setDialog("Werewolf");
-//                                SettingScene.settingPhase = "rule_confirm";
-//                                GameScene.scene = "game_scene";
+//                                MainActivity.settingPhase = "rule_confirm";
+//                                MainActivity.scene = "game_scene";
                                 //コメントアウト
-//                                GameScene.settingPhase = "setting_menu";
+//                                MainActivity.settingPhase = "setting_menu";
                             }
                             break;
                         case "rule_confirm":
                             if(confirmButtonRect.contains((int)pointX,(int)pointY)){
-//                                SettingScene.isSettingScene = true;
-//                                SettingScene.isGameScene = true;
+//                                MainActivity.isSettingScene = true;
+//                                MainActivity.isGameScene = true;
                             }
 
                             break;
@@ -367,7 +388,7 @@ public class CustomView extends View {
 
                 }else if(!isSettingScene && isGameScene){
                     if(confirmButtonRect.contains((int)pointX,(int)pointY)){
-//                        GameScene.goNextPhase();
+//                        MainActivity.goNextPhase();
                     }
 
                 }
@@ -380,13 +401,13 @@ public class CustomView extends View {
             invalidate();
         }
 
-        return false;
+        return true;
 
     }
 
     private void setDialog(String dialogPattern){
-//        GameScene.onDialog = true;
-//        GameScene.dialogPattern = dialogPattern;
+//        MainActivity.onDialog = true;
+//        MainActivity.dialogPattern = dialogPattern;
     }
 
     public static void setSameVariable(){
