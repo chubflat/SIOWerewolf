@@ -1,6 +1,9 @@
 package com.example.siowerewolf;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,8 +18,13 @@ import android.app.Activity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -25,11 +33,59 @@ public class MainActivity extends Activity {
 	private SocketIO socket;
     private Handler handler = new Handler();
 
+	public static ListView listView;
+	public static SimpleAdapter simpleAdapter;
+	//    public static Adapter adapter;
+	public static CustomView customView = null;
+	public static String dialogPattern = "default";
+
+	// 各種List宣言
+	public static List<Map<String,Object>> playerArray;//参加者Array
+	public static List<Map<String,String>> listInfoDicArray;//リストに表示する情報のArray
+	public static ArrayList<Integer> listPlayerIdArray;//listに入っているplayerId Array
+	public static ArrayList<Integer> victimArray;//夜間犠牲者Array
+
+	public static int selectedPlayerId;//リストで選択されたプレイヤーのID
+
+	// TODO Adapter宣言
+
+	// dialog関連
+	public static boolean onDialog = false;
+
+	// フラグ管理用 変数宣言
+	public static int day;
+	public static Boolean isSettingScene;
+	public static Boolean isGameScene;
+	public static String settingPhase;
+	public static String gamePhase;
+	public static boolean isFirstNight;
+
+	// list_item
+	public static LinearLayout content;
+	public static TextView txtInfo;
+	public static LinearLayout contentWithBackground;
+	public static TextView txtMessage;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_main);
+
+		// FrameLayout作成
+		FrameLayout mFrameLayout = new FrameLayout(this);
+		setContentView(mFrameLayout);
+
+		// TODO initBackground
+
+		isSettingScene = true;
+		settingPhase = "setting_menu";
+
+		//TODO FrameLayoutに追加
+		customView = new CustomView(this);
+		mFrameLayout.addView(customView);
+//		setContentView(R.layout.activity_main);
+
+
 
 		// ListViewの設定
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
