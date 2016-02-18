@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">SocketIOSample</string>
+    <string name="app_name">SIOWerewolf</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>

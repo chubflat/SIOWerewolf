@@ -10,7 +10,7 @@
     <dimen name="padding_small">8dp</dimen>
     <!-- From: file:/C:/GitHub/SIOWerewolf/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="app_name">SocketIOSample</string>
+    <string name="app_name">SIOWerewolf</string>
     <string name="button_label">送信</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>

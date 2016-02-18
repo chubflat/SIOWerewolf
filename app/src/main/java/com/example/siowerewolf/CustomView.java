@@ -13,6 +13,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -120,13 +121,15 @@ public class CustomView extends View {
         timerRect = new Rect(width * 22 / 100, height * 5/100 ,width * 70 / 100 ,height * 20 / 100);
 
         //TODO GameSceneとの共有変数の初期化
-//        setSameVariable();
+        setSameVariable();
 
         backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
         canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
         // default List非表示
 //        GameScene.drawListView(false);
+
+        Log.d("if","if=");
 
         if(isSettingScene){
             switch (settingPhase){
@@ -386,13 +389,12 @@ public class CustomView extends View {
     }
 
     public static void setSameVariable(){
-//        isSettingScene = SettingScene.isSettingScene;
-//        isGameScene = SettingScene.isGameScene;
-//        day = GameScene.day;
-//        selectedPlayerId = GameScene.selectedPlayerId;
-//        isFirstNight = GameScene.isFirstNight;
-//        settingPhase = SettingScene.settingPhase;
-//        gamePhase = GameScene.gamePhase;
+        isSettingScene = MainActivity.isSettingScene;
+        isGameScene = MainActivity.isGameScene;
+//        selectedPlayerId = MainActivity.selectedPlayerId;
+        isFirstNight = MainActivity.isFirstNight;
+        settingPhase = MainActivity.settingPhase;
+        gamePhase = MainActivity.gamePhase;
 
     }
 
