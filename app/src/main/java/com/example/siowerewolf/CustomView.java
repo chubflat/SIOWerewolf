@@ -39,7 +39,7 @@ public class CustomView extends View {
 
     //SettingScene用
     public static Rect backgroundRect;
-    public static Rect clientButtonRect;
+    public static Rect roomSelectButtonRect;
     public static Rect userSettingButtonRect;
     // TODO ユーザー設定中身
 
@@ -110,7 +110,7 @@ public class CustomView extends View {
 
         //SettingScene用Rect初期化
         backgroundRect = new Rect(0,0,bitmapWidth,bitmapHeight);
-        clientButtonRect = new Rect(width * 10 / 100 ,height * 50 / 100,width * 90 / 100 ,height * 60 / 100);
+        roomSelectButtonRect = new Rect(width * 10 / 100 ,height * 50 / 100,width * 90 / 100 ,height * 60 / 100);
         userSettingButtonRect = new Rect(width * 10 / 100 ,height * 65 / 100,width * 90 / 100 ,height * 75 / 100);
 
         //GameScene用Rect初期化
@@ -134,13 +134,13 @@ public class CustomView extends View {
         if(isSettingScene){
             switch (settingPhase){
                 case "setting_menu":
-                    //Background
+                    /**background**/
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
-                    // Client Button
-                    canvas.drawBitmap(buttonImg,null,clientButtonRect,paint);
-                    canvas.drawText("クライアント", width * 25 / 100, height * 55 / 100, paint);
-                    // UserSetting Button
+                    /**room select**/
+                    canvas.drawBitmap(buttonImg,null,roomSelectButtonRect,paint);
+                    canvas.drawText("ルーム設定", width * 25 / 100, height * 55 / 100, paint);
+                    /**user_setting**/
                     canvas.drawBitmap(buttonImg,null,userSettingButtonRect,paint);
                     canvas.drawText("ユーザー設定",width * 25/100,height * 70/100,paint);
 
@@ -152,7 +152,7 @@ public class CustomView extends View {
                         * userId
                         * back button*/
                     break;
-                case "client_menu":
+                case "room_select":
                     //TODO Client設定 部屋探索
                         /*
                         * bluetoothで部屋のIDを受信
@@ -164,7 +164,7 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.night,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     paint.setColor(Color.WHITE);
-                    canvas.drawText("ルール設定待ち",width * 30/100,height * 50 / 100,paint);
+                    canvas.drawText("待機中",width * 30/100,height * 50 / 100,paint);
 
                     canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
                     canvas.drawText("次へ",width * 25/100,height * 85/100,paint);
@@ -339,12 +339,13 @@ public class CustomView extends View {
                 if(isSettingScene){
                     switch (settingPhase){
                         case "setting_menu":
-                            if(clientButtonRect.contains((int)pointX,(int)pointY)){
-                                setDialog("Seer");
-//                                SettingScene.settingPhase = "client_menu";
+                            if(roomSelectButtonRect.contains((int)pointX,(int)pointY)){
+//                                setDialog("Seer");
+//                                SettingScene.settingPhase = "room_select";
+                                MainActivity.sendEvent(this);
                             }
                             break;
-                        case "client_menu":
+                        case "room_select":
                             if(confirmButtonRect.contains((int)pointX,(int)pointY)){
                                 setDialog("Werewolf");
 //                                SettingScene.settingPhase = "rule_confirm";

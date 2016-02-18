@@ -21,6 +21,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            android:windowSoftInputMode="adjustPan"
         </activity>
     </application>
 

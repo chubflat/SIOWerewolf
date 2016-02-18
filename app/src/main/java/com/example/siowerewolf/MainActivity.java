@@ -12,10 +12,13 @@ import io.socket.IOAcknowledge;
 import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -31,9 +34,9 @@ public class MainActivity extends Activity {
 
 
 	// socketIO
-	private EditText editText;
+//	private EditText editText;
 	private ArrayAdapter<String> adapter;
-	private SocketIO socket;
+	public static SocketIO socket;
     private Handler handler = new Handler();
 
     // List
@@ -42,14 +45,15 @@ public class MainActivity extends Activity {
 	//    public static Adapter adapter;
 	public static CustomView customView = null;
 	public static String dialogPattern = "default";
+    public static EditText editText;
 
 	// 各種List宣言
-//	public static List<Map<String,Object>> playerArray;//参加者Array
-//	public static List<Map<String,String>> listInfoDicArray;//リストに表示する情報のArray
-//	public static ArrayList<Integer> listPlayerIdArray;//listに入っているplayerId Array
-//	public static ArrayList<Integer> victimArray;//夜間犠牲者Array
+	public static List<Map<String,Object>> playerArray;//参加者Array
+	public static List<Map<String,String>> listInfoDicArray;//リストに表示する情報のArray
+	public static ArrayList<Integer> listPlayerIdArray;//listに入っているplayerId Array
+	public static ArrayList<Integer> victimArray;//夜間犠牲者Array
 
-//	public static int selectedPlayerId;//リストで選択されたプレイヤーのID
+	public static int selectedPlayerId;//リストで選択されたプレイヤーのID
 
 	// TODO Adapter宣言
 
@@ -77,8 +81,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-
-
 		// FrameLayout作成
 		FrameLayout mFrameLayout = new FrameLayout(this);
 		setContentView(mFrameLayout);
@@ -90,98 +92,122 @@ public class MainActivity extends Activity {
 		mFrameLayout.addView(customView);
 //		setContentView(R.layout.activity_main);
 
-        Log.d("custom","custom=");
-
 
 //
-//		// ListViewの設定
-//		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        /**ListViewの追加**/
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 //		ListView listView = (ListView)findViewById(R.id.listView1);
 //		listView.setAdapter(adapter);
-//
-//		editText = (EditText)findViewById(R.id.editText1);
-//
-//		try {
-//			connect();
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//    }
-//
-//    private void connect() throws MalformedURLException{
-//		socket = new SocketIO("http://blewerewolfserver.herokuapp.com/");
-//		socket.connect(iocallback);
-//    }
-//
-//	private IOCallback iocallback = new IOCallback() {
-//
-//		@Override
-//		public void onConnect() {
-//		    System.out.println("onConnect");
-//		}
-//
-//		@Override
-//		public void onDisconnect() {
-//		    System.out.println("onDisconnect");
-//		}
-//
-//		@Override
-//		public void onMessage(JSONObject json, IOAcknowledge ack) {
-//			System.out.println("onMessage");
-//		}
-//
-//		@Override
-//		public void onMessage(String data, IOAcknowledge ack) {
-//		    System.out.println("onMessage");
-//		}
-//
-//		@Override
-//		public void on(String event, IOAcknowledge ack, Object... args) {
-//			final JSONObject message = (JSONObject)args[0];
-//
-//			new Thread(new Runnable() {
-//				public void run() {
-//				handler.post(new Runnable() {
-//					public void run() {
-//						try {
-//							if(message.getString("message") != null) {
-//								// メッセージが空でなければ追加
-//								adapter.insert(message.getString("message"), 0);
-//							}
-//
-//							} catch (JSONException e) {
-//								e.printStackTrace();
-//							}
-//						}
-//					});
-//				}
-//			}).start();
-//		}
-//
-//		@Override
-//		public void onError(SocketIOException socketIOException) {
-//		    System.out.println("onError");
-//		    socketIOException.printStackTrace();
-//		}
-//    };
-//
-//    public void sendEvent(View view){
-//		// 文字が入力されていなければ何もしない
-//		if (editText.getText().toString().length() == 0) {
-//		    return;
-//		}
-//
-//		try {
-//		// イベント送信
-//			JSONObject json = new JSONObject();
-//			json.put("message", editText.getText().toString());
-//			socket.emit("message:send", json);
-//
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//
-//    	// テキストフィールドをリセット
-//    	editText.setText("");
+        listView = new ListView(this);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(customView.width,customView.height*4/10);
+        lp.gravity = Gravity.TOP;
+        lp.bottomMargin = 0;
+        selectedPlayerId = -2;
+
+        listPlayerIdArray = new ArrayList<>();
+        Log.d("array", "array=");
+
+//        listInfoDicArray = new ArrayList<Map<String,String>>();
+//        simpleAdapter = new SimpleAdapter(this,listInfoDicArray,android.R.layout.simple_list_item_2,new String[]{"name","listSecondInfo"},new int[]{android.R.id.text1,android.R.id.text2});
+
+        listView.setAdapter(adapter);
+        listView.setLayoutParams(lp);
+        listView.setBackgroundColor(Color.WHITE);
+
+        mFrameLayout.addView(listView);
+
+        /** ListViewの追加終了 **/
+
+        editText = new EditText(this);
+        FrameLayout.LayoutParams editLP = new FrameLayout.LayoutParams(customView.width,customView.height/10);
+        editLP.gravity = Gravity.BOTTOM;
+        editLP.bottomMargin = customView.height*10/100;
+
+        editText.setLayoutParams(editLP);
+        editText.setBackgroundColor(Color.WHITE);
+
+        mFrameLayout.addView(editText);
+		try {
+			connect();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+    }
+
+    private void connect() throws MalformedURLException{
+		socket = new SocketIO("http://blewerewolfserver.herokuapp.com/");
+		socket.connect(iocallback);
+    }
+
+	private IOCallback iocallback = new IOCallback() {
+
+		@Override
+		public void onConnect() {
+		    System.out.println("onConnect");
+		}
+
+		@Override
+		public void onDisconnect() {
+		    System.out.println("onDisconnect");
+		}
+
+		@Override
+		public void onMessage(JSONObject json, IOAcknowledge ack) {
+			System.out.println("onMessage");
+		}
+
+		@Override
+		public void onMessage(String data, IOAcknowledge ack) {
+		    System.out.println("onMessage");
+		}
+
+		@Override
+		public void on(String event, IOAcknowledge ack, Object... args) {
+			final JSONObject message = (JSONObject)args[0];
+
+			new Thread(new Runnable() {
+				public void run() {
+				handler.post(new Runnable() {
+					public void run() {
+						try {
+							if(message.getString("message") != null) {
+								// メッセージが空でなければ追加
+								adapter.insert(message.getString("message"), 0);
+							}
+
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+					});
+				}
+			}).start();
+		}
+
+		@Override
+		public void onError(SocketIOException socketIOException) {
+		    System.out.println("onError");
+		    socketIOException.printStackTrace();
+		}
+    };
+
+    public static void sendEvent(View view){
+		// 文字が入力されていなければ何もしない
+		if (editText.getText().toString().length() == 0) {
+		    return;
+		}
+
+		try {
+		// イベント送信
+			JSONObject json = new JSONObject();
+			json.put("message", editText.getText().toString());
+			socket.emit("message:send", json);
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+    	// テキストフィールドをリセット
+    	editText.setText("");
     }
 }
