@@ -90,6 +90,8 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         isSettingScene = true;
         settingPhase = "setting_menu";
+        int id = (int)(Math.random()*999999);
+        myId = String.format("%1$06d",id);
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -146,13 +148,15 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 
+
+        
         preference = getSharedPreferences("user_setting", MODE_PRIVATE);
         editor = preference.edit();
 
         if(preference.getBoolean("Launched",false)){
             //初回起動時処理
-            int id = (int)Math.random()*999999;
-            myId = String.format("%1$06d",id);
+//            int id = (int)Math.random()*999999;
+//            myId = String.format("%1$06d",id);
             myName = "はせべ";
             /**preferenceの書き換え**/
             editor.putBoolean("Launched",true);
