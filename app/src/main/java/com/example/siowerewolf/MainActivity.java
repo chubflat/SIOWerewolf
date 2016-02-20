@@ -40,8 +40,8 @@ public class MainActivity extends Activity {
     /**preferences**/
     private SharedPreferences preference;
     private Editor editor;
-    public static String myId = "test";
-    public static String myName = "hasebe";
+    public static String myId = "noID";
+    public static String myName = "guest";
 
 
 	// socketIO
@@ -169,27 +169,22 @@ public class MainActivity extends Activity {
 
     public void setUserID(){
 
-        preference = getSharedPreferences("user_setting", MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
+        preference = getPreferences(MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
         editor = preference.edit();
 
-
-        editor.putBoolean("Launched",false);
-        editor.commit();
-        myName = "はせべ";
-
-        if(preference.getBoolean("Launched",false)){
+        if(!(preference.getBoolean("launched",false))){
 //            初回起動時処理
             int id = (int)(Math.random()*999999);
             myId = String.format("%1$06d", id);
             editor.putString("userID",myId);
             /**preferenceの書き換え**/
-//            editor.putBoolean("Launched",true);
+            editor.putBoolean("launched",true);
             editor.commit();
 
         }else{
             /**2回目以降の処理**/
-        myId = preference.getString("userID","100000");
-        myName = "hahaha";
+        myId = preference.getString("userID","noID");
+        myName = preference.getString("userName","guest");
         }
     }
 

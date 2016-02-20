@@ -97,6 +97,7 @@ public class CustomView extends View {
         paint.setTextSize(50);
         paint.setColor(Color.BLACK);
 
+
         // Bitmap初期化
         bitmapWidth = width;
         bitmapHeight = height;
@@ -162,7 +163,7 @@ public class CustomView extends View {
                     canvas.drawText("名前変更", width * 25 / 100, height * 55 / 100, paint);
                     /**user_setting**/
                     canvas.drawBitmap(buttonImg,null,confirmButtonRect,paint);
-                    canvas.drawText("戻る",width * 25/100,height * 70/100,paint);
+                    canvas.drawText("戻る",width * 25/100,height * 93/100,paint);
 
                         /*
                         * username
@@ -372,7 +373,7 @@ public class CustomView extends View {
 //                                MainActivity.settingPhase = "rule_confirm";
 //                                MainActivity.scene = "game_scene";
                                 //コメントアウト
-//                                MainActivity.settingPhase = "setting_menu";
+                                MainActivity.settingPhase = "setting_menu";
                             }
                             break;
                         case "rule_confirm":
