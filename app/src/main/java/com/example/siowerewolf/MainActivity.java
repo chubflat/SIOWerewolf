@@ -338,6 +338,7 @@ public class MainActivity extends Activity {
                                     editor.putString("userName",text);
                                     /**preferenceの書き換え**/
                                     editor.commit();
+                                    myName = text;
 
                                 }
                             }
