@@ -196,6 +196,11 @@ public class CustomView extends View {
                     paint.setColor(Color.WHITE);
                     canvas.drawText("プレイヤー情報確認中", width * 20 / 100, height * 50 / 100, paint);
 
+                    canvas.drawText("test1", width * 20 / 100, height * 70 / 100, paint);
+                    canvas.drawText("test2", width * 20 / 100, height * 80 / 100, paint);
+                    canvas.drawText("test3", width * 20 / 100, height * 90 / 100, paint);
+
+
                     break;
                 case "rule_confirm":
                     // background

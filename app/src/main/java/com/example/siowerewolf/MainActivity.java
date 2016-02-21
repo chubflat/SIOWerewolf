@@ -2,6 +2,8 @@ package com.example.siowerewolf;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +69,7 @@ public class MainActivity extends Activity {
     public static EditText editText;
 
 	// 各種List宣言
-	public static List<Map<String,Object>> playerArray;//参加者Array
+	public static List<Map<String,Object>> playerInfoDicArray;//参加者Array
 	public static List<Map<String,String>> listInfoDicArray;//リストに表示する情報のArray
 	public static ArrayList<Integer> listPlayerIdArray;//listに入っているplayerId Array
 	public static ArrayList<Integer> victimArray;//夜間犠牲者Array
@@ -371,7 +373,7 @@ public class MainActivity extends Activity {
                             receivedmsg = message.getString("message");
                             String [] msgInfo = receivedmsg.split(":",0);
                             getCommand(msgInfo);
-                            // command,commandMessage
+                            // command,commandMessage,commandMessageArray
 
                             switch (msgInfo[0]){
                                 case "advertiseMyDevice":
@@ -415,6 +417,30 @@ public class MainActivity extends Activity {
                                         settingPhase = "info_check";
                                         customView.invalidate();
                                     }
+                                    switch (command){
+                                        case "member":
+                                            Map<String,Object> member = new HashMap<String, Object>();
+                                            member.put("playerID",commandMessageArray[0]);
+                                            member.put("userID",commandMessageArray[1]);
+                                            member.put("userName",commandMessageArray[2]);
+                                            playerInfoDicArray.add(member);
+
+                                            Collections.sort(playerInfoDicArray, new Comparator<Map<String, Object>>() {
+                                                public int compare(Map<String, Object> member1, Map<String, Object> member2) {
+                                                    // 引数１と引数２はそれぞれ商品データ。
+
+                                                    // 商品データのproduct_idを取得する。
+                                                    String player_id1 = member1.get("playerID").toString();
+                                                    String player_id2 = member2.get("playerID").toString();
+
+                                                    return player_id1.compareTo(player_id2);
+                                                }
+                                            });
+
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                     break;
                                 default:
                                     break;
@@ -427,6 +453,7 @@ public class MainActivity extends Activity {
 				}
 			}).start();
 		}
+
 
 		@Override
 		public void onError(SocketIOException socketIOException) {
