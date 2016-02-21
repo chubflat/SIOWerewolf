@@ -71,6 +71,7 @@ public class MainActivity extends Activity {
 	public static List<Map<String,String>> listInfoDicArray;//リストに表示する情報のArray
 	public static ArrayList<Integer> listPlayerIdArray;//listに入っているplayerId Array
 	public static ArrayList<Integer> victimArray;//夜間犠牲者Array
+    public static List<Map<String,String>> roomInfoDicArray;
 
 	public static int selectedPlayerId;//リストで選択されたプレイヤーのID
 
@@ -123,6 +124,7 @@ public class MainActivity extends Activity {
         selectedPlayerId = -2;
 
         listPlayerIdArray = new ArrayList<>();
+        roomInfoDicArray = new ArrayList<>();
 
 //        listInfoDicArray = new ArrayList<Map<String,String>>();
 //        simpleAdapter = new SimpleAdapter(this,listInfoDicArray,android.R.layout.simple_list_item_2,new String[]{"name","listSecondInfo"},new int[]{android.R.id.text1,android.R.id.text2});
@@ -133,12 +135,15 @@ public class MainActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (phase.equals("player_setting")) {
+//                if (settingPhase.equals("player_setting")) {
 //                    selectedPlayerId = -2;
 //                } else {
 //                    selectedPlayerId = listPlayerIdArray.get(position);
 //                }
-//
+
+                if(settingPhase.equals("room_select")){
+                    sendEvent();
+                }
 //                if (phase.equals("player_setting")) {
 //
 //                } else {
@@ -181,7 +186,7 @@ public class MainActivity extends Activity {
         editText.setBackgroundColor(Color.WHITE);
 
         mFrameLayout.addView(editText);
-        draweditText(false);
+        drawEditText(false);
 		try {
 			connect();
 		} catch(Exception e) {
@@ -208,6 +213,90 @@ public class MainActivity extends Activity {
     }
     /**onCreateここまで**/
 
+    public static void setListAdapter(String type){
+        listInfoDicArray.clear();
+        listPlayerIdArray.clear();
+
+        switch (type){
+            case "select _room":
+
+                break;
+            default:
+                break;
+        }
+//        if(type == -1) { //処刑用
+//            for (int i = 0; i < playerArray.size(); i++) {
+//                if ((boolean) playerArray.get(i).get("isLive") == true) {
+//                    listPlayerIdArray.add(i);
+//
+//                    Map<String,String> conMap = new HashMap<>();
+//                    conMap.put("name",(String)playerArray.get(i).get("name"));
+//                    conMap.put("listSecondInfo","");
+//                    listInfoDicArray.add(conMap);
+//                }
+//            }
+//        }else if(type == 1){//人狼用
+//            if(isFirstNight){//仲間確認用
+//                for (int i = 0; i < playerArray.size(); i++) {
+//                    if (playerArray.get(i).get("roleId") == Utility.Role.Werewolf && nowPlayer != i) {
+//                        listPlayerIdArray.add(i);
+//
+//                        Map<String,String> conMap = new HashMap<>();
+//                        conMap.put("name",(String)playerArray.get(i).get("name"));
+//                        conMap.put("listSecondInfo","");
+//                        listInfoDicArray.add(conMap);
+//                    }
+//                }
+//                Map<String,String> confirm = new HashMap<>();
+//                confirm.put("name","確認したらここをタップ");
+//                confirm.put("listSecondInfo", "");
+//                listInfoDicArray.add(confirm);
+//                listPlayerIdArray.add(-1);
+//
+//            }else{ // 噛み用
+//                for (int i = 0; i < playerArray.size(); i++) {
+//                    if ((boolean) playerArray.get(i).get("isLive") == true && playerArray.get(i).get("roleId") != Utility.Role.Werewolf) {
+//                        listPlayerIdArray.add(i);
+//
+//                        Map<String,String> conMap = new HashMap<>();
+//                        conMap.put("name", (String) playerArray.get(i).get("name"));
+//
+//                        String listSecondInfo = String.format("feel: %d ,should: %d ,must: %d ",wolfkillArray.get(i).get(0),wolfkillArray.get(i).get(1),wolfkillArray.get(i).get(2));
+//                        if((wolfkillArray.get(i).get(0) + wolfkillArray.get(i).get(1) + wolfkillArray.get(i).get(2) >  0)){
+//                            conMap.put("listSecondInfo",listSecondInfo);
+//                        }else{
+//                            conMap.put("listSecondInfo","");
+//                        }
+//                        listInfoDicArray.add(conMap);
+//                    }
+//                }
+//            }
+//        }else if(type == 2){//予言者用
+//            for(int i=0;i < playerArray.size();i++){
+//                if((boolean) playerArray.get(i).get("isLive") == true && playerArray.get(i).get("roleId") != Utility.Role.Seer){
+//                    listPlayerIdArray.add(i);
+//
+//                    Map<String,String> conMap = new HashMap<>();
+//                    conMap.put("name",(String)playerArray.get(i).get("name"));
+//                    conMap.put("listSecondInfo","");
+//                    listInfoDicArray.add(conMap);
+//                }
+//            }
+//        }else if(type == 3){
+//            for(int i=0;i < playerArray.size();i++){
+//                if((boolean) playerArray.get(i).get("isLive") == true && playerArray.get(i).get("roleId") != Utility.Role.Bodyguard){
+//                    listPlayerIdArray.add(i);
+//
+//                    Map<String,String> conMap = new HashMap<>();
+//                    conMap.put("name",(String)playerArray.get(i).get("name"));
+//                    conMap.put("listSecondInfo","");
+//                    listInfoDicArray.add(conMap);
+//                }
+//            }
+//        }
+//        listView.invalidateViews();
+    }
+
     public void setUserID(){
 
         preference = getPreferences(MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
@@ -228,10 +317,10 @@ public class MainActivity extends Activity {
         myName = preference.getString("userName","guest");
         }
     }
-    public static String ipAddress = "悦族先を設定してください";
+    public static String ipAddress = "接続先を設定してください";
 
     private void connect() throws MalformedURLException{
-        ipAddress = preference.getString("ipAddress","悦族先を設定してください");
+        ipAddress = preference.getString("ipAddress","接続先を設定してください");
 		socket = new SocketIO(ipAddress);
 		socket.connect(iocallback);
     }
@@ -267,17 +356,33 @@ public class MainActivity extends Activity {
 				handler.post(new Runnable() {
 					public void run() {
 						try {
+                            receivedmsg = message.getString("message");
+                            String [] msgInfo = receivedmsg.split(":",0);
+
+                            switch (msgInfo[0]){
+                                case "adver":
+                                    break;
+                                case "clo":
+                                    break;
+                                case "mes":
+                                    break;
+                                default:
+                                    break;
+                            }
+
+
 							if(message.getString("message") != null) {
                                 /**文章の解読**/
-                                receivedmsg = message.getString("message");
-                                String[] roomInfo = receivedmsg.split(":",0);
                                 Map<String,String> roomInfoDic = new HashMap<String,String>();
-                                roomInfoDic.put("header",roomInfo[0]);
-                                roomInfoDic.put("gameID",roomInfo[1]);
-                                roomInfoDic.put("periID",roomInfo[2]);
-                                roomInfoDic.put("periName",roomInfo[3]);
+                                roomInfoDic.put("header",msgInfo[0]);
+                                roomInfoDic.put("gameID",msgInfo[1]);
+                                roomInfoDic.put("periID",msgInfo[2]);
+                                roomInfoDic.put("periName",msgInfo[3]);
+
+                                roomInfoDicArray.add(roomInfoDic);
 								// メッセージが空でなければ追加
-								adapter.insert(roomInfo[3] + "(" + roomInfo[1] + ")", 0);
+//								adapter.insert(roomInfo[3] + "(" + roomInfo[1] + ")", 0);
+                                adapter.add(roomInfoDic.get("periName") + "(" + roomInfoDic.get("gameID") + ")");
                                 /**受信メッセージを格納**/
                             // TODO 配列に辞書追加
 
@@ -300,17 +405,23 @@ public class MainActivity extends Activity {
 		}
     };
 
-    public static void sendEvent(View view){
+    public static void sendEvent(){
 		// 文字が入力されていなければ何もしない
 //		if (editText.getText().toString().length() == 0) {
 //		    return;
 //		}
 
         String sendmsd = "";
-        sendmsg = "mes:" + 0 + ":" + "periID" + ":"+
-                "centID" + ":" + "participateRequest" + ":"+
-                "012345/centID/はせべ/" +
-                "periID/0";
+        String periID = roomInfoDicArray.get(1).get("periID");
+        String centID = myId;
+        String command = "participateRequest";
+        String gameID = roomInfoDicArray.get(1).get("gameID");
+        String centName = myName;
+
+        sendmsg = "mes:" + 0 + ":" + periID + ":"+
+                centID + ":" + command + ":"+
+                gameID + "/" + centID + "/" +centName + "/" +
+                periID + "/0";
 		try {
 		// イベント送信
 			JSONObject json = new JSONObject();
@@ -334,7 +445,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    public static void draweditText(boolean visible){
+    public static void drawEditText(boolean visible){
         if(visible == true) {
             editText.setVisibility(View.VISIBLE);
         }else if(visible == false){

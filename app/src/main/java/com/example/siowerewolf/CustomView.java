@@ -155,9 +155,9 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     /**user ID**/
-                    canvas.drawText(MainActivity.myId,width * 30 / 100,height * 5/100,paint);
-                    canvas.drawText(MainActivity.myName,width * 30 / 100,height * 15/100,paint);
-                    canvas.drawText(MainActivity.ipAddress,width * 30 / 100,height * 25/100,paint);
+                    canvas.drawText("ID   :" + MainActivity.myId,width * 5 / 100,height * 5/100,paint);
+                    canvas.drawText("Name :" + MainActivity.myName,width * 5 / 100,height * 15/100,paint);
+                    canvas.drawText("接続先:" + MainActivity.ipAddress,width * 5 / 100,height * 25/100,paint);
 
                     /**接続先変更**/
                     canvas.drawBitmap(buttonImg,null,buttonRect3,paint);
