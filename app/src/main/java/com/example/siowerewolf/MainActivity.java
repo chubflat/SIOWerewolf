@@ -15,6 +15,9 @@ import io.socket.IOCallback;
 import io.socket.SocketIO;
 import io.socket.SocketIOException;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ import android.os.Handler;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -71,7 +76,7 @@ public class MainActivity extends Activity {
 	// TODO Adapter宣言
 
 	// dialog関連
-//	public static boolean onDialog = false;
+	public static boolean onDialog = false;
 
 	// フラグ管理用 変数宣言
 	public static Boolean isSettingScene;
@@ -113,11 +118,10 @@ public class MainActivity extends Activity {
 //		listView.setAdapter(adapter);
         listView = new ListView(this);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(customView.width*90/100,customView.height*4/10);
-        lp.gravity = Gravity.CENTER_HORIZONTAL;
+        lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
         selectedPlayerId = -2;
 
         listPlayerIdArray = new ArrayList<>();
-        Log.d("array", "array=");
 
 //        listInfoDicArray = new ArrayList<Map<String,String>>();
 //        simpleAdapter = new SimpleAdapter(this,listInfoDicArray,android.R.layout.simple_list_item_2,new String[]{"name","listSecondInfo"},new int[]{android.R.id.text1,android.R.id.text2});
@@ -298,4 +302,134 @@ public class MainActivity extends Activity {
             editText.setVisibility(View.INVISIBLE);
         }
     }
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {    //戻るボタンの反応なくす
+        if(event.getAction() == KeyEvent.ACTION_DOWN){
+            switch (event.getKeyCode()){
+                case KeyEvent.KEYCODE_BACK:
+                    return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        int actionId = event.getAction();
+
+
+        String dialogText = "dialogText";
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN && onDialog == true ){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            if(dialogPattern.equals("editUserName")){
+                final EditText editUserName = new EditText(this);
+                builder.setTitle("プレイヤー名変更")
+                        //setViewにてビューを設定
+                        .setView(editUserName)
+                        .setPositiveButton("変更", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                       Toast.makeText(SettingScene.this, addPlayerView.getText().toString(), Toast.LENGTH_LONG).show();
+
+                                String text = editUserName.getText().toString();
+                                if(!(text.equals(""))){
+                                    editor.putString("userName",text);
+                                    /**preferenceの書き換え**/
+                                    editor.commit();
+
+                                }
+                            }
+                        })
+                        .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
+                dialogPattern = "";
+
+            }else if(dialogPattern.equals("start")){
+
+                switch (dialogPattern){
+                    case "start":
+                        dialogText = "ゲームを開始します";
+                        break;
+                    default:
+                        break;
+                }
+//                builder.setMessage(dialogText)
+//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                // ボタンをクリックしたときの動作
+//                                // dialog 表示しない
+//                                onDialog = false;
+//                                SettingScene.isSettingScene = false;
+//                                SettingScene.isGameScene = true;
+//                                // Activity遷移
+//                                Intent intent = new Intent(SettingScene.this,GameScene.class);
+//                                startActivity(intent);
+////                                                   customView.invalidate();
+//
+//                            }
+//                        });
+//                builder.setMessage(dialogText)
+//                        .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int id) {
+//                                // ボタンをクリックしたときの動作
+//                            }
+//                        });
+//                builder.show();
+            }
+//                   else if(dialogPattern.equals("roleVolume")){
+//                       ArrayList<Integer> roleVolume = new ArrayList<>();
+//                       for(int i = 0;i<playerNameArray.size();i++){
+//                           roleVolume.add(i);
+//                       }
+//                       builder.setTitle("人数を選択してください")
+//                               //setViewにてビューを設定
+//                               .setSingleChoiceItems(roleVolume,0,mClickListerner)
+//                               .setPositiveButton("追加", new DialogInterface.OnClickListener() {
+//                                   @Override
+//                                   public void onClick(DialogInterface dialog, int which) {
+////                                       Toast.makeText(SettingScene.this, addPlayerView.getText().toString(), Toast.LENGTH_LONG).show();
+//
+//                                       String text = addPlayerView.getText().toString();
+//                                       if (!(text.equals(""))) {
+//                                           playerNameArray.add(text);
+//                                       }
+//
+//                                       listInfoDicArray.clear();
+//
+//                                       for (int i = 0; i < playerNameArray.size(); i++) {
+//
+//                                           Map<String, String> conMap = new HashMap<>();
+//                                           conMap.put("name", playerNameArray.get(i));
+//                                           conMap.put("listSecondInfo", "");
+//                                           listInfoDicArray.add(conMap);
+//                                       }
+//
+//                                       playerListView.invalidateViews();
+////                                       // 中身クリア
+////                                       GameScene.editText.getEditableText().clear();
+//                                   }
+//                               })
+//                               .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+//                                   @Override
+//                                   public void onClick(DialogInterface dialog, int which) {
+//
+//                                   }
+//                               })
+//                               .show();
+//
+//                       dialogPattern = "";
+//
+//                   }
+        }
+        return true;
+    }
+
 }

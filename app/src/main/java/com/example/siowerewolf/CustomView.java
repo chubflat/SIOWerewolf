@@ -128,9 +128,11 @@ public class CustomView extends View {
         canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
         // default List非表示
-//        MainActivity.drawListView(false);
+        MainActivity.drawListView(false);
 
-        Log.d("if","if=");
+
+        /**listview表示**/
+
 
         if(isSettingScene){
             switch (settingPhase){
@@ -157,13 +159,11 @@ public class CustomView extends View {
                     canvas.drawText(MainActivity.myName,width * 20 / 100,height * 15/100,paint);
 
                     /**user name**/
-
-                    /**room select**/
                     canvas.drawBitmap(buttonImg,null,roomSelectButtonRect,paint);
                     canvas.drawText("名前変更", width * 25 / 100, height * 55 / 100, paint);
                     /**user_setting**/
                     canvas.drawBitmap(buttonImg,null,confirmButtonRect,paint);
-                    canvas.drawText("戻る",width * 25/100,height * 93/100,paint);
+                    canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
 
                         /*
                         * username
@@ -182,10 +182,12 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.night,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     paint.setColor(Color.WHITE);
-                    canvas.drawText("待機中",width * 30/100,height * 50 / 100,paint);
+                    canvas.drawText("待機中", width * 30 / 100, height * 50 / 100, paint);
 
                     canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
-                    canvas.drawText(MainActivity.receivedmsg,width * 25/100,height * 85/100,paint);
+                    canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
+
+                    MainActivity.drawListView(true);
 
                     break;
                 case "rule_confirm":
@@ -345,39 +347,59 @@ public class CustomView extends View {
 
     }
 
+    public static float pointX;
+    public static float pointY;
+
+    public boolean getTouchButton(Rect r){
+        if(r.contains((int)pointX,(int)pointY)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        float pointX = event.getX();
-        float pointY = event.getY();
-
-
+        pointX = event.getX();
+        pointY = event.getY();
 
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 if(isSettingScene){
                     switch (settingPhase){
                         case "setting_menu":
-                            if(roomSelectButtonRect.contains((int)pointX,(int)pointY)){
+                            if(getTouchButton(roomSelectButtonRect)){
                                 MainActivity.settingPhase = "room_select";
                                 MainActivity.drawListView(true);
 //                                MainActivity.sendEvent(this);
-                            }else if(userSettingButtonRect.contains((int)pointX,(int)pointY)){
+                            }else if(getTouchButton(userSettingButtonRect)){
                                 MainActivity.settingPhase = "user_setting";
-                                MainActivity.sendEvent(this);
+//                                MainActivity.sendEvent(this);
 //                                MainActivity.drawListView(true);
 //                                MainActivity.sendEvent(this);
                             }
                             break;
                         case "room_select":
-                            if(confirmButtonRect.contains((int)pointX,(int)pointY)){
+                            if(getTouchButton(confirmButtonRect)){
 //                                MainActivity.settingPhase = "rule_confirm";
 //                                MainActivity.scene = "game_scene";
                                 //コメントアウト
                                 MainActivity.settingPhase = "setting_menu";
                             }
                             break;
+                        case "user_setting":
+                            if(getTouchButton(confirmButtonRect)){
+//                                MainActivity.settingPhase = "rule_confirm";
+//                                MainActivity.scene = "game_scene";
+                                //コメントアウト
+                                MainActivity.settingPhase = "setting_menu";
+                            }else if(getTouchButton(roomSelectButtonRect)){
+                                setDialog("editUserName");
+
+                        }
+                            break;
                         case "rule_confirm":
-                            if(confirmButtonRect.contains((int)pointX,(int)pointY)){
+                            if(getTouchButton(confirmButtonRect)){
 //                                MainActivity.isSettingScene = true;
 //                                MainActivity.isGameScene = true;
                             }
@@ -388,7 +410,7 @@ public class CustomView extends View {
                     }
 
                 }else if(!isSettingScene && isGameScene){
-                    if(confirmButtonRect.contains((int)pointX,(int)pointY)){
+                    if(getTouchButton(confirmButtonRect)){
 //                        MainActivity.goNextPhase();
                     }
 
@@ -398,17 +420,16 @@ public class CustomView extends View {
             default:
                 return true;
         }
-        if(!settingPhase.equals("rule_confirm")){
-            invalidate();
-        }
+        invalidate();
 
-        return true;
+        return false;
 
     }
 
+
     private void setDialog(String dialogPattern){
-//        MainActivity.onDialog = true;
-//        MainActivity.dialogPattern = dialogPattern;
+        MainActivity.onDialog = true;
+        MainActivity.dialogPattern = dialogPattern;
     }
 
     public static void setSameVariable(){
