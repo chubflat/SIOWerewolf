@@ -29,6 +29,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -129,6 +130,42 @@ public class MainActivity extends Activity {
         listView.setAdapter(adapter);
         listView.setLayoutParams(lp);
         listView.setBackgroundColor(Color.WHITE);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (phase.equals("player_setting")) {
+//                    selectedPlayerId = -2;
+//                } else {
+//                    selectedPlayerId = listPlayerIdArray.get(position);
+//                }
+//
+//                if (phase.equals("player_setting")) {
+//
+//                } else {
+//                    if (nowPlayer < playerArray.size() && playerArray.get(nowPlayer).get("roleId") == Utility.Role.Werewolf) {
+//                        if (isFirstNight) {//人狼：初日の夜はタッチできない
+//                            if (selectedPlayerId == -1) {
+//                                goNextPhase();
+//                                customView.invalidate();
+//                            }
+//
+//                        } else {// 人狼：2日目以降タッチされたplayerIdを渡して再描画
+//                            wolfkill(selectedPlayerId, 0);
+//                            goNextPhase();
+//                            customView.invalidate();
+//                        }
+//                    } else if (nowPlayer < playerArray.size() && playerArray.get(nowPlayer).get("roleId") == Utility.Role.Bodyguard) {
+//                        bodyguardId = selectedPlayerId;
+//                        goNextPhase();
+//                        customView.invalidate();
+//                    } else {
+//                        goNextPhase();
+//                        customView.invalidate();
+//                    }
+//                }
+            }
+
+        });
 
         mFrameLayout.addView(listView);
         drawListView(false);
@@ -191,9 +228,11 @@ public class MainActivity extends Activity {
         myName = preference.getString("userName","guest");
         }
     }
+    public static String ipAddress = "悦族先を設定してください";
 
     private void connect() throws MalformedURLException{
-		socket = new SocketIO("http://blewerewolfserver.herokuapp.com/");
+        ipAddress = preference.getString("ipAddress","悦族先を設定してください");
+		socket = new SocketIO(ipAddress);
 		socket.connect(iocallback);
     }
 
@@ -323,45 +362,73 @@ public class MainActivity extends Activity {
         if(event.getAction() == MotionEvent.ACTION_DOWN && onDialog == true ){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            if(dialogPattern.equals("editUserName")){
-                final EditText editUserName = new EditText(this);
-                builder.setTitle("プレイヤー名変更")
-                        //setViewにてビューを設定
-                        .setView(editUserName)
-                        .setPositiveButton("変更", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+            switch (dialogPattern){
+                case "editUserName":
+                    final EditText editUserName = new EditText(this);
+                    builder.setTitle("プレイヤー名変更")
+                            //setViewにてビューを設定
+                            .setView(editUserName)
+                            .setPositiveButton("変更", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 //                                       Toast.makeText(SettingScene.this, addPlayerView.getText().toString(), Toast.LENGTH_LONG).show();
 
-                                String text = editUserName.getText().toString();
-                                if(!(text.equals(""))){
-                                    editor.putString("userName",text);
-                                    /**preferenceの書き換え**/
-                                    editor.commit();
-                                    myName = text;
+                                    String text = editUserName.getText().toString();
+                                    if(!(text.equals(""))){
+                                        editor.putString("userName",text);
+                                        /**preferenceの書き換え**/
+                                        editor.commit();
+                                        myName = text;
+
+                                    }
+                                }
+                            })
+                            .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
                                 }
-                            }
-                        })
-                        .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            })
+                            .show();
 
-                            }
-                        })
-                        .show();
+                    dialogPattern = "";
+                    break;
+                case "editIpAddress":
+                    final EditText editIpAddress = new EditText(this);
+                    builder.setTitle("接続先を入力してください")
+                            //setViewにてビューを設定
+                            .setView(editIpAddress)
+                            .setPositiveButton("設定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+//                                       Toast.makeText(SettingScene.this, addPlayerView.getText().toString(), Toast.LENGTH_LONG).show();
 
-                dialogPattern = "";
+                                    String text = editIpAddress.getText().toString();
+                                    if(!(text.equals(""))){
+                                        editor.putString("ipAddress",text);
+                                        /**preferenceの書き換え**/
+                                        editor.commit();
+                                        ipAddress = text;
 
-            }else if(dialogPattern.equals("start")){
+                                    }
+                                }
+                            })
+                            .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                switch (dialogPattern){
-                    case "start":
-                        dialogText = "ゲームを開始します";
-                        break;
-                    default:
-                        break;
-                }
+                                }
+                            })
+                            .show();
+
+                    dialogPattern = "";
+
+                    break;
+                default:
+                    break;
+
+            }
+
 //                builder.setMessage(dialogText)
 //                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 //                            public void onClick(DialogInterface dialog, int id) {
@@ -429,7 +496,6 @@ public class MainActivity extends Activity {
 //                       dialogPattern = "";
 //
 //                   }
-        }
         return true;
     }
 
