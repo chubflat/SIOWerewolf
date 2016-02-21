@@ -72,8 +72,10 @@ public class MainActivity extends Activity {
 	public static ArrayList<Integer> listPlayerIdArray;//listに入っているplayerId Array
 	public static ArrayList<Integer> victimArray;//夜間犠牲者Array
     public static List<Map<String,String>> roomInfoDicArray;
+    public static Map<String,String> fixedGameInfo;
 
 	public static int selectedPlayerId;//リストで選択されたプレイヤーのID
+    public static int selectedRoomId;
 
 	// TODO Adapter宣言
 
@@ -92,6 +94,9 @@ public class MainActivity extends Activity {
 	public static TextView txtInfo;
 	public static LinearLayout contentWithBackground;
 	public static TextView txtMessage;
+
+    public static int signalID;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,6 +130,9 @@ public class MainActivity extends Activity {
 
         listPlayerIdArray = new ArrayList<>();
         roomInfoDicArray = new ArrayList<>();
+        fixedGameInfo = new HashMap<>();
+
+        signalID = (int)(Math.random()*999999);
 
 //        listInfoDicArray = new ArrayList<Map<String,String>>();
 //        simpleAdapter = new SimpleAdapter(this,listInfoDicArray,android.R.layout.simple_list_item_2,new String[]{"name","listSecondInfo"},new int[]{android.R.id.text1,android.R.id.text2});
@@ -140,9 +148,15 @@ public class MainActivity extends Activity {
 //                } else {
 //                    selectedPlayerId = listPlayerIdArray.get(position);
 //                }
-
                 if(settingPhase.equals("room_select")){
+                    selectedRoomId = position;
+                    Log.d("posi","posi=");
+                    fixedGameInfo.put("gameID", roomInfoDicArray.get(selectedRoomId).get("gameID"));
+                    fixedGameInfo.put("periID", roomInfoDicArray.get(selectedRoomId).get("periID"));
+                    fixedGameInfo.put("periName",roomInfoDicArray.get(selectedRoomId).get("periName"));
+                    Log.d("posi1", "posi1=");
                     sendEvent();
+                    Log.d("posi2", "posi2=");
                 }
 //                if (phase.equals("player_setting")) {
 //
@@ -360,36 +374,64 @@ public class MainActivity extends Activity {
                             String [] msgInfo = receivedmsg.split(":",0);
 
                             switch (msgInfo[0]){
-                                case "adver":
+                                case "advertiseMyDevice":
+                                    Boolean isNew = true;
+                                    for(int i=0;i<roomInfoDicArray.size();i++){
+                                        if(roomInfoDicArray.get(i).get("gameID").equals(msgInfo[1])){
+                                            isNew = false;
+                                        }
+                                    }
+                                    if(isNew){
+                                        /**文章の解読**/
+                                        Map<String,String> roomInfoDic = new HashMap<String,String>();
+                                        roomInfoDic.put("header",msgInfo[0]);
+                                        roomInfoDic.put("gameID",msgInfo[1]);
+                                        roomInfoDic.put("periID",msgInfo[2]);
+                                        roomInfoDic.put("periName", msgInfo[3]);
+
+                                        roomInfoDicArray.add(roomInfoDic);
+                                        // メッセージが空でなければ追加
+                                        adapter.add(roomInfoDic.get("periName") + "(" + roomInfoDic.get("gameID") + ")");
+                                        /**受信メッセージを格納**/
+                                        // TODO 配列に辞書追加
+
+                                        customView.invalidate();
+                                    }
+
                                     break;
-                                case "clo":
+                                case "closeMyDevice":
+                                    for(int i=0;i<roomInfoDicArray.size();i++){
+                                        if(roomInfoDicArray.get(i).get("gameID").equals(msgInfo[1])){
+                                            adapter.remove(roomInfoDicArray.get(i).get("periName") + "(" + roomInfoDicArray.get(i).get("gameID") + ")");
+                                            roomInfoDicArray.remove(i);
+                                        }
+
+                                    }
+                                    customView.invalidate();
+                                    // 参加登録しめきり
                                     break;
                                 case "mes":
+                                    if(msgInfo[2].equals(fixedGameInfo.get("periID")) && msgInfo[3].equals(myId)){
+                                        /**from peri , to me のもののみ受け取る**/
+                                        Map<String,String> c = new HashMap<String,String>();
+                                        c.put("header",msgInfo[0]);
+                                        c.put("gameID",msgInfo[1]);
+                                        c.put("periID",msgInfo[2]);
+                                        c.put("periName",msgInfo[3]);
+
+                                        roomInfoDicArray.add(c);
+                                        // メッセージが空でなければ追加
+                                        adapter.add(c.get("periName") + "(" + c.get("gameID") + ")");
+                                        /**受信メッセージを格納**/
+                                        // TODO 配列に辞書追加
+
+                                        customView.invalidate();
+                                    }
                                     break;
                                 default:
                                     break;
                             }
-
-
-							if(message.getString("message") != null) {
-                                /**文章の解読**/
-                                Map<String,String> roomInfoDic = new HashMap<String,String>();
-                                roomInfoDic.put("header",msgInfo[0]);
-                                roomInfoDic.put("gameID",msgInfo[1]);
-                                roomInfoDic.put("periID",msgInfo[2]);
-                                roomInfoDic.put("periName",msgInfo[3]);
-
-                                roomInfoDicArray.add(roomInfoDic);
-								// メッセージが空でなければ追加
-//								adapter.insert(roomInfo[3] + "(" + roomInfo[1] + ")", 0);
-                                adapter.add(roomInfoDic.get("periName") + "(" + roomInfoDic.get("gameID") + ")");
-                                /**受信メッセージを格納**/
-                            // TODO 配列に辞書追加
-
-                                customView.invalidate();
-							}
-
-							} catch (JSONException e) {
+                        } catch (JSONException e) {
 								e.printStackTrace();
 							}
 						}
@@ -405,23 +447,30 @@ public class MainActivity extends Activity {
 		}
     };
 
+
     public static void sendEvent(){
 		// 文字が入力されていなければ何もしない
 //		if (editText.getText().toString().length() == 0) {
 //		    return;
 //		}
 
-        String sendmsd = "";
-        String periID = roomInfoDicArray.get(1).get("periID");
+        Log.d("sendEvent","sendEvent=");
+        String sendmsg = "";
+        String periID = roomInfoDicArray.get(selectedRoomId).get("periID");
         String centID = myId;
         String command = "participateRequest";
-        String gameID = roomInfoDicArray.get(1).get("gameID");
+        String gameID = roomInfoDicArray.get(selectedRoomId).get("gameID");
         String centName = myName;
 
-        sendmsg = "mes:" + 0 + ":" + periID + ":"+
-                centID + ":" + command + ":"+
-                gameID + "/" + centID + "/" +centName + "/" +
-                periID + "/0";
+        sendmsg = "mes:"
+                + Integer.toString(signalID) + ":"
+                + periID + ":"
+                + centID + ":"
+                + command + ":"
+                + gameID + "/"
+                + centID + "/"
+                + centName + "/"
+                + periID + "/0";
 		try {
 		// イベント送信
 			JSONObject json = new JSONObject();
