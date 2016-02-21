@@ -39,12 +39,12 @@ public class CustomView extends View {
 
     //SettingScene用
     public static Rect backgroundRect;
-    public static Rect roomSelectButtonRect;
-    public static Rect userSettingButtonRect;
+    public static Rect buttonRect3;
+    public static Rect buttonRect2;
     // TODO ユーザー設定中身
 
     //gameScene用
-    public static Rect confirmButtonRect;
+    public static Rect buttonRect1;
     public static Rect actionButtonRect;
     public static Rect topTextRect;
     public static Rect roleCardRect;
@@ -111,11 +111,11 @@ public class CustomView extends View {
 
         //SettingScene用Rect初期化
         backgroundRect = new Rect(0,0,bitmapWidth,bitmapHeight);
-        roomSelectButtonRect = new Rect(width * 10 / 100 ,height * 50 / 100,width * 90 / 100 ,height * 60 / 100);
-        userSettingButtonRect = new Rect(width * 10 / 100 ,height * 65 / 100,width * 90 / 100 ,height * 75 / 100);
+        buttonRect3 = new Rect(width * 10 / 100 ,height * 50 / 100,width * 90 / 100 ,height * 60 / 100);
+        buttonRect2 = new Rect(width * 10 / 100 ,height * 65 / 100,width * 90 / 100 ,height * 75 / 100);
 
         //GameScene用Rect初期化
-        confirmButtonRect = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
+        buttonRect1 = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
         actionButtonRect = new Rect (width * 75 / 100 ,height * 5 / 100,width * 95 / 100 ,height * 20 / 100);
         topTextRect = new Rect(width * 20 / 100 ,height * 5 / 100,width * 80 / 100 ,height * 15 / 100);
         roleCardRect = new Rect(width * 5 / 100, height * 5/100 ,width * 20 / 100 ,height * 20 / 100);
@@ -141,10 +141,10 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     /**room select**/
-                    canvas.drawBitmap(buttonImg,null,roomSelectButtonRect,paint);
+                    canvas.drawBitmap(buttonImg,null,buttonRect3,paint);
                     canvas.drawText("ルーム設定", width * 25 / 100, height * 55 / 100, paint);
                     /**user_setting**/
-                    canvas.drawBitmap(buttonImg,null,userSettingButtonRect,paint);
+                    canvas.drawBitmap(buttonImg,null,buttonRect2,paint);
                     canvas.drawText("ユーザー設定",width * 25/100,height * 70/100,paint);
 
                     break;
@@ -153,22 +153,21 @@ public class CustomView extends View {
 
                     /**background**/
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
+                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     /**user ID**/
                     canvas.drawText(MainActivity.myId,width * 20 / 100,height * 5/100,paint);
                     canvas.drawText(MainActivity.myName,width * 20 / 100,height * 15/100,paint);
 
+                    /**接続先変更**/
+                    canvas.drawBitmap(buttonImg,null,buttonRect3,paint);
+                    canvas.drawText("接続先変更", width * 25 / 100, height * 55 / 100, paint);
                     /**user name**/
-                    canvas.drawBitmap(buttonImg,null,roomSelectButtonRect,paint);
-                    canvas.drawText("名前変更", width * 25 / 100, height * 55 / 100, paint);
+                    canvas.drawBitmap(buttonImg,null,buttonRect2,paint);
+                    canvas.drawText("名前変更", width * 25 / 100, height * 70 / 100, paint);
                     /**user_setting**/
-                    canvas.drawBitmap(buttonImg,null,confirmButtonRect,paint);
+                    canvas.drawBitmap(buttonImg,null,buttonRect1,paint);
                     canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
 
-                        /*
-                        * username
-                        * userId
-                        * back button*/
                     break;
                 case "room_select":
                     //TODO Client設定 部屋探索
@@ -177,14 +176,14 @@ public class CustomView extends View {
                         * リストに表示
                         * リストの中身を選択したら待機画面に**/
 
-                    confirmButtonRect = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
+                    buttonRect1 = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
 //                    backgroundImg = BitmapFactory.decodeResource(getResources(),R.drawable.night);
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.night,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     paint.setColor(Color.WHITE);
                     canvas.drawText("待機中", width * 30 / 100, height * 50 / 100, paint);
 
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
 
                     MainActivity.drawListView(true);
@@ -202,7 +201,7 @@ public class CustomView extends View {
                     // 2行リスト GameSceneに記述
 
                     //confirmButton
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("確認",width * 25/100,height * 85/100,paint);
                     break;
                 default:
@@ -226,7 +225,7 @@ public class CustomView extends View {
 
                     canvas.drawBitmap(roleImg,null,rotateCardRect,paint);
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("詳細確認", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
@@ -253,7 +252,7 @@ public class CustomView extends View {
                     canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
                     canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
                     // confirm button
-                    canvas.drawBitmap(buttonImg,null,confirmButtonRect,paint);
+                    canvas.drawBitmap(buttonImg,null,buttonRect1,paint);
                     canvas.drawText("初日夜へ", width * 25 / 100, height * 85 / 100, paint);
 
 
@@ -271,7 +270,7 @@ public class CustomView extends View {
 
                     // TODO Chat実装
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
@@ -289,7 +288,7 @@ public class CustomView extends View {
                     //TODO Text表示
 
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
 
@@ -304,7 +303,7 @@ public class CustomView extends View {
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
 
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
@@ -316,7 +315,7 @@ public class CustomView extends View {
                     // TODO List表示
 
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
@@ -330,13 +329,13 @@ public class CustomView extends View {
                     canvas.drawBitmap(frameImg,null,excutionFrameRect,paint);
 
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
                 case "gameover":
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, confirmButtonRect, paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
@@ -368,11 +367,11 @@ public class CustomView extends View {
                 if(isSettingScene){
                     switch (settingPhase){
                         case "setting_menu":
-                            if(getTouchButton(roomSelectButtonRect)){
+                            if(getTouchButton(buttonRect3)){
                                 MainActivity.settingPhase = "room_select";
                                 MainActivity.drawListView(true);
 //                                MainActivity.sendEvent(this);
-                            }else if(getTouchButton(userSettingButtonRect)){
+                            }else if(getTouchButton(buttonRect2)){
                                 MainActivity.settingPhase = "user_setting";
 //                                MainActivity.sendEvent(this);
 //                                MainActivity.drawListView(true);
@@ -380,7 +379,7 @@ public class CustomView extends View {
                             }
                             break;
                         case "room_select":
-                            if(getTouchButton(confirmButtonRect)){
+                            if(getTouchButton(buttonRect1)){
 //                                MainActivity.settingPhase = "rule_confirm";
 //                                MainActivity.scene = "game_scene";
                                 //コメントアウト
@@ -388,18 +387,19 @@ public class CustomView extends View {
                             }
                             break;
                         case "user_setting":
-                            if(getTouchButton(confirmButtonRect)){
+                            if(getTouchButton(buttonRect1)){
 //                                MainActivity.settingPhase = "rule_confirm";
 //                                MainActivity.scene = "game_scene";
                                 //コメントアウト
                                 MainActivity.settingPhase = "setting_menu";
-                            }else if(getTouchButton(roomSelectButtonRect)){
-                                setDialog("editUserName");
+                            }else if(getTouchButton(buttonRect3)){
 
-                        }
+                            }else if(getTouchButton(buttonRect2)){
+                                setDialog("editUserName");
+                            }
                             break;
                         case "rule_confirm":
-                            if(getTouchButton(confirmButtonRect)){
+                            if(getTouchButton(buttonRect1)){
 //                                MainActivity.isSettingScene = true;
 //                                MainActivity.isGameScene = true;
                             }
@@ -410,7 +410,7 @@ public class CustomView extends View {
                     }
 
                 }else if(!isSettingScene && isGameScene){
-                    if(getTouchButton(confirmButtonRect)){
+                    if(getTouchButton(buttonRect1)){
 //                        MainActivity.goNextPhase();
                     }
 
