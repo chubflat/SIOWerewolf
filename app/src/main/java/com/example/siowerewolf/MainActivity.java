@@ -483,7 +483,7 @@ public class MainActivity extends Activity {
 		}
 
     	// テキストフィールドをリセット
-//    	editText.setText("");
+        signalID++;
     }
 
     public static void drawListView(boolean visible){
