@@ -190,6 +190,13 @@ public class CustomView extends View {
                     MainActivity.drawListView(true);
 
                     break;
+                case "info_check":
+                    backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.night,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
+                    paint.setColor(Color.WHITE);
+                    canvas.drawText("プレイヤー情報確認中", width * 20 / 100, height * 50 / 100, paint);
+
+                    break;
                 case "rule_confirm":
                     // background
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
