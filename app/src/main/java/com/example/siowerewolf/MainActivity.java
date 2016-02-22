@@ -155,7 +155,7 @@ public class MainActivity extends Activity {
                     fixedGameInfo.put("gameID", roomInfoDicArray.get(selectedRoomId).get("gameID"));
                     fixedGameInfo.put("periID", roomInfoDicArray.get(selectedRoomId).get("periID"));
                     fixedGameInfo.put("periName", roomInfoDicArray.get(selectedRoomId).get("periName"));
-                    sendEvent();
+                    sendEvent("participateRequest");
                     drawListView(false);
                 }
 //                if (phase.equals("player_setting")) {
@@ -373,7 +373,7 @@ public class MainActivity extends Activity {
                             receivedmsg = message.getString("message");
                             String [] msgInfo = receivedmsg.split(":",0);
                             getCommand(msgInfo);
-                            // command,commandMessage,commandMessageArray
+                            // command,receivedCommandMessage,receivedCommandMessageArray
 
                             switch (msgInfo[0]){
                                 case "advertiseMyDevice":
@@ -417,12 +417,12 @@ public class MainActivity extends Activity {
                                         settingPhase = "info_check";
                                         customView.invalidate();
                                     }
-                                    switch (command){
+                                    switch (receivedCommand){
                                         case "member":
                                             Map<String,Object> member = new HashMap<String, Object>();
-                                            member.put("playerID",commandMessageArray[0]);
-                                            member.put("userID",commandMessageArray[1]);
-                                            member.put("userName",commandMessageArray[2]);
+                                            member.put("playerID",receivedCommandMessageArray[0]);
+                                            member.put("userID",receivedCommandMessageArray[1]);
+                                            member.put("userName",receivedCommandMessageArray[2]);
                                             playerInfoDicArray.add(member);
 
                                             Collections.sort(playerInfoDicArray, new Comparator<Map<String, Object>>() {
@@ -436,6 +436,10 @@ public class MainActivity extends Activity {
                                                     return player_id1.compareTo(player_id2);
                                                 }
                                             });
+                                            if(playerInfoDicArray.size() == Integer.valueOf(receivedCommandMessageArray[3])){
+                                                // 参加人数分の配列取得
+                                                sendEvent("participateRequest");
+                                            }
 
                                             break;
                                         default:
@@ -462,28 +466,31 @@ public class MainActivity extends Activity {
 		}
     };
 
-    public static String command;
-    public static String commandMessage;
-    public static String[] commandMessageArray;
+    public static String receivedCommand;
+    public static String receivedCommandMessage;
+    public static String[] receivedCommandMessageArray;
+    public static String sendMessage;
 
     public static void getCommand(String[] message){
         if(message[0].equals("mes")){
-            command = message[4];
-            commandMessage = message[5];
-            commandMessageArray = commandMessage.split("/",0);
+            receivedCommand = message[4];
+            receivedCommandMessage = message[5];
+            receivedCommandMessageArray = receivedCommandMessage.split("/",0);
         }
     }
 
-    public static void sendEvent(){
+    public static void setSendMessage(){
+        
+    }
 
-        String sendmsg = "";
+    public static void sendEvent(String command){
+
         String periID = roomInfoDicArray.get(selectedRoomId).get("periID");
         String centID = myId;
-        String command = "participateRequest";
         String gameID = roomInfoDicArray.get(selectedRoomId).get("gameID");
         String centName = myName;
 
-        sendmsg = "mes:"
+        sendMessage = "mes:"
                 + Integer.toString(signalID) + ":"
                 + periID + ":"
                 + centID + ":"
@@ -496,7 +503,7 @@ public class MainActivity extends Activity {
 		// イベント送信
 			JSONObject json = new JSONObject();
 //			json.put("message", editText.getText().toString());
-			json.put("message", sendmsg);
+			json.put("message", sendMessage);
 			socket.emit("message:send", json);
 
 		} catch (JSONException e) {
