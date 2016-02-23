@@ -133,6 +133,7 @@ public class MainActivity extends Activity {
         listPlayerIdArray = new ArrayList<>();
         roomInfoDicArray = new ArrayList<>();
         fixedGameInfo = new HashMap<>();
+        playerInfoDicArray = new ArrayList<>();
 
         signalID = (int)(Math.random()*999999);
 
@@ -418,37 +419,40 @@ public class MainActivity extends Activity {
                                     // 参加登録しめきり
                                     break;
                                 case "mes":
-                                    if(msgInfo[4].equals("participateAllow")){
-                                        settingPhase = "info_check";
-                                        customView.invalidate();
-                                    }
-                                    switch (receivedCommand){
-                                        case "member":
-                                            Map<String,Object> member = new HashMap<String, Object>();
-                                            member.put("playerID",receivedCommandMessageArray[0]);
-                                            member.put("userID",receivedCommandMessageArray[1]);
-                                            member.put("userName",receivedCommandMessageArray[2]);
-                                            playerInfoDicArray.add(member);
+                                    if(msgInfo[2].equals(myId) && msgInfo[3].equals(fixedGameInfo.get("periID"))){
+                                        if(msgInfo[4].equals("participateAllow")){
+                                            settingPhase = "info_check";
+                                            customView.invalidate();
+                                        }
+                                        switch (receivedCommand){
+                                            case "member":
+                                                Map<String,Object> member = new HashMap<String, Object>();
+                                                member.put("playerID",receivedCommandMessageArray[0]);
+                                                member.put("userID",receivedCommandMessageArray[1]);
+                                                member.put("userName",receivedCommandMessageArray[2]);
+                                                playerInfoDicArray.add(member);
 
-                                            Collections.sort(playerInfoDicArray, new Comparator<Map<String, Object>>() {
-                                                public int compare(Map<String, Object> member1, Map<String, Object> member2) {
-                                                    // 引数１と引数２はそれぞれ商品データ。
-
-                                                    // 商品データのproduct_idを取得する。
-                                                    String player_id1 = member1.get("playerID").toString();
-                                                    String player_id2 = member2.get("playerID").toString();
-
-                                                    return player_id1.compareTo(player_id2);
+//                                            Collections.sort(playerInfoDicArray, new Comparator<Map<String, Object>>() {
+//                                                public int compare(Map<String, Object> member1, Map<String, Object> member2) {
+//                                                    // 引数１と引数２はそれぞれ商品データ。
+//
+//                                                    // 商品データのproduct_idを取得する。
+//                                                    String player_id1 = member1.get("playerID").toString();
+//                                                    String player_id2 = member2.get("playerID").toString();
+//
+//                                                    return player_id1.compareTo(player_id2);
+//                                                }
+//                                            });
+                                                if(playerInfoDicArray.size() == Integer.valueOf(receivedCommandMessageArray[3])){
+                                                    // 参加人数分の配列取得
+                                                    sendEvent(fixedGameInfo.get("periID"),"membercheck:"+ myId);
                                                 }
-                                            });
-                                            if(playerInfoDicArray.size() == Integer.valueOf(receivedCommandMessageArray[3])){
-                                                // 参加人数分の配列取得
-                                                sendEvent(fixedGameInfo.get("periID"),"membercheck:"+ myId);
-                                            }
 
-                                            break;
-                                        default:
-                                            break;
+                                                break;
+                                            default:
+                                                break;
+                                        }
+                                    }else{
                                     }
                                     break;
                                 default:
@@ -489,8 +493,6 @@ public class MainActivity extends Activity {
 
     public static void sendEvent(String yourID,String message){
 
-        String periID = roomInfoDicArray.get(selectedRoomId).get("periID");
-        String gameID = roomInfoDicArray.get(selectedRoomId).get("gameID");
         String msgInfo = "mes:" + Integer.toString(signalID) + ":" + yourID + ":" + myId +":";
 
         String sendMessage = msgInfo + message;
