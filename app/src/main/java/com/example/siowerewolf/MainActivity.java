@@ -155,7 +155,12 @@ public class MainActivity extends Activity {
                     fixedGameInfo.put("gameID", roomInfoDicArray.get(selectedRoomId).get("gameID"));
                     fixedGameInfo.put("periID", roomInfoDicArray.get(selectedRoomId).get("periID"));
                     fixedGameInfo.put("periName", roomInfoDicArray.get(selectedRoomId).get("periName"));
-                    sendEvent("participateRequest");
+                    String participateRequest = "participateRequest" + ":"
+                            + fixedGameInfo.get("gameID") + "/"
+                            + myId + "/"
+                            + myName + "/"
+                            + fixedGameInfo.get("periID") + "/0";
+                    sendEvent(fixedGameInfo.get("periID"),participateRequest);
                     drawListView(false);
                 }
 //                if (phase.equals("player_setting")) {
@@ -438,7 +443,7 @@ public class MainActivity extends Activity {
                                             });
                                             if(playerInfoDicArray.size() == Integer.valueOf(receivedCommandMessageArray[3])){
                                                 // 参加人数分の配列取得
-                                                sendEvent("participateRequest");
+                                                sendEvent(fixedGameInfo.get("periID"),"membercheck:"+ myId);
                                             }
 
                                             break;
@@ -469,7 +474,6 @@ public class MainActivity extends Activity {
     public static String receivedCommand;
     public static String receivedCommandMessage;
     public static String[] receivedCommandMessageArray;
-    public static String sendMessage;
 
     public static void getCommand(String[] message){
         if(message[0].equals("mes")){
@@ -480,25 +484,25 @@ public class MainActivity extends Activity {
     }
 
     public static void setSendMessage(){
-        
+
     }
 
-    public static void sendEvent(String command){
+    public static void sendEvent(String yourID,String message){
 
         String periID = roomInfoDicArray.get(selectedRoomId).get("periID");
-        String centID = myId;
         String gameID = roomInfoDicArray.get(selectedRoomId).get("gameID");
-        String centName = myName;
+        String msgInfo = "mes:" + Integer.toString(signalID) + ":" + yourID + ":" + myId +":";
 
-        sendMessage = "mes:"
-                + Integer.toString(signalID) + ":"
-                + periID + ":"
-                + centID + ":"
-                + command + ":"
-                + gameID + "/"
-                + centID + "/"
-                + centName + "/"
-                + periID + "/0";
+        String sendMessage = msgInfo + message;
+//                "mes:"
+//                + Integer.toString(signalID) + ":"
+//                + periID + ":"
+//                + centID + ":"
+//                + command + ":"
+//                + gameID + "/"
+//                + centID + "/"
+//                + centName + "/"
+//                + periID + "/0";
 		try {
 		// イベント送信
 			JSONObject json = new JSONObject();
