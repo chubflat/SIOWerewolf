@@ -60,6 +60,7 @@ public class CustomView extends View {
     public static String gamePhase;
     public static Boolean isSettingScene;
     public static Boolean isGameScene;
+    public static Boolean isWaiting;
 
     //TODO Canvasに新要素追加時
 
@@ -155,12 +156,12 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     /**user ID**/
-                    canvas.drawText("ID   :" + MainActivity.myId,width * 5 / 100,height * 5/100,paint);
-                    canvas.drawText("Name :" + MainActivity.myName,width * 5 / 100,height * 15/100,paint);
-                    canvas.drawText("接続先:" + MainActivity.ipAddress,width * 5 / 100,height * 25/100,paint);
+                    canvas.drawText("ID   :\n" + MainActivity.myId,width * 5 / 100,height * 5/100,paint);
+                    canvas.drawText("Name :\n" + MainActivity.myName,width * 5 / 100,height * 15/100,paint);
+                    canvas.drawText("接続先:\n" + MainActivity.ipAddress,width * 5 / 100,height * 25/100,paint);
 
                     /**接続先変更**/
-                    canvas.drawBitmap(buttonImg,null,buttonRect3,paint);
+                    canvas.drawBitmap(buttonImg, null, buttonRect3, paint);
                     canvas.drawText("接続先変更", width * 25 / 100, height * 55 / 100, paint);
                     /**user name**/
                     canvas.drawBitmap(buttonImg,null,buttonRect2,paint);
@@ -196,26 +197,30 @@ public class CustomView extends View {
                     paint.setColor(Color.WHITE);
                     canvas.drawText("プレイヤー情報確認中", width * 20 / 100, height * 50 / 100, paint);
 
-                    canvas.drawText("test1", width * 20 / 100, height * 70 / 100, paint);
-                    canvas.drawText("test2", width * 20 / 100, height * 80 / 100, paint);
-                    canvas.drawText("test3", width * 20 / 100, height * 90 / 100, paint);
-
+//                    canvas.drawText("test1", width * 20 / 100, height * 70 / 100, paint);
+//                    canvas.drawText("test2", width * 20 / 100, height * 80 / 100, paint);
+//                    canvas.drawText("test3", width * 20 / 100, height * 90 / 100, paint);
 
                     break;
                 case "rule_confirm":
+                    MainActivity.drawListView(true);
                     // background
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
+                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     //topText
                     canvas.drawBitmap(timerFrameImg,null,topTextRect,paint);
-                    canvas.drawText("ルール",width * 30/100,height * 10/100,paint);
-
-                    // TODO List表示
-                    // 2行リスト GameSceneに記述
+                    canvas.drawText("ルール", width * 30 / 100, height * 10 / 100, paint);
 
                     //confirmButton
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("確認",width * 25/100,height * 85/100,paint);
+
+                    String text1 = "";
+                    if(!(isWaiting)){
+                        canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                        text1 = "確認";
+                    }else{
+                        text1 = "全員の確認待ち";
+                    }
+                    canvas.drawText(text1,width * 25/100,height * 85/100,paint);
                     break;
                 default:
                     break;
@@ -235,13 +240,18 @@ public class CustomView extends View {
                     canvas.drawBitmap(backCard, null, rotateCardRect, paint);
                     //timer実装
 
+//                    canvas.drawText((String)Utility.getRoleInfo(MainActivity.getRole((int)MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("name"), width * 25 / 100, height * 5 / 100, paint);
+                    canvas.drawText((String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("name"), width * 25 / 100, height * 5 / 100, paint);
+//                    canvas.drawText("test", width * 25 / 100, height * 5 / 100, paint);
 
-                    canvas.drawBitmap(roleImg,null,rotateCardRect,paint);
+
+                    canvas.drawBitmap(roleImg, null, rotateCardRect, paint);
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                    canvas.drawBitmap(buttonImg,null,buttonRect1,paint);
                     canvas.drawText("詳細確認", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
+
                 case "night_roleCheck":
 
                     //Rect宣言
@@ -252,11 +262,11 @@ public class CustomView extends View {
                     // canvasDraw
                     // 画面上部のテキスト情報
                     canvas.drawBitmap(frameImg,null,topFrameRect,paint);
-                    String roleText = String.format("あなたの役職は「%s」です。%s","村人","役職のテキスト");
+                    String roleText = String.format("あなたの役職は「%s」です。%s",(String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("name"),(String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("explain"));
 
                     TextPaint mTextPaint = new TextPaint();
                     mTextPaint.setTextSize(30);
-                    StaticLayout mTextLayout = new StaticLayout(roleText,mTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f,0.0f,false);
+                    StaticLayout mTextLayout = new StaticLayout(roleText,mTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
                     canvas.translate(width * 2 / 10, height * 25 / 100);//text の左上座標の指定
 
                     mTextLayout.draw(canvas);
@@ -265,21 +275,28 @@ public class CustomView extends View {
                     canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
                     canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
                     // confirm button
-                    canvas.drawBitmap(buttonImg,null,buttonRect1,paint);
-                    canvas.drawText("初日夜へ", width * 25 / 100, height * 85 / 100, paint);
+
+                    String text1 = "";
+                    if(!(isWaiting)){
+                        canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                        text1 = "初日夜へ";
+                    }else{
+                        text1 = "全員の確認待ち";
+                    }
+                    canvas.drawText(text1,width * 25/100,height * 85/100,paint);
 
 
                     break;
 
-                case "night_chat":
+                case "night_action":
 //                    MainActivity.drawChat(true);
-                    canvas.drawBitmap(roleImg,null,roleCardRect,paint);
-                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
-                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
+//                    canvas.drawBitmap(roleImg,null,roleCardRect,paint);
+//                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
+//                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
 
-                    String action = "占う";
-                    // TODO 役職ごとに文字を変えるswitch文
-                    canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
+//                    String action = "占う";
+//                    // TODO 役職ごとに文字を変えるswitch文
+//                    canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
 
                     // TODO Chat実装
                     // confirm button
@@ -413,19 +430,37 @@ public class CustomView extends View {
                             }
                             break;
                         case "rule_confirm":
-                            if(getTouchButton(buttonRect1)){
+                            if(getTouchButton(buttonRect1)&& !(isWaiting)){
+                                MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"settingCheck:" + MainActivity.myId);
+                                MainActivity.isWaiting = true;
 //                                MainActivity.isSettingScene = true;
 //                                MainActivity.isGameScene = true;
                             }
 
                             break;
+
                         default:
                             break;
                     }
 
                 }else if(!isSettingScene && isGameScene){
                     if(getTouchButton(buttonRect1)){
-//                        MainActivity.goNextPhase();
+                        switch (gamePhase){
+                        case "night_roleRotate":
+                            if(getTouchButton(buttonRect1)){
+                                MainActivity.gamePhase = "night_roleCheck";
+                            }
+                            break;
+                        case "night_roleCheck":
+                            if(getTouchButton(buttonRect1) && !(isWaiting)){
+                                MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"roleCheck:" + MainActivity.myId);
+                                MainActivity.isWaiting = true;
+                            }
+
+                            break;
+                        default:
+                            break;
+                        }
                     }
 
                 }
@@ -453,6 +488,7 @@ public class CustomView extends View {
         isFirstNight = MainActivity.isFirstNight;
         settingPhase = MainActivity.settingPhase;
         gamePhase = MainActivity.gamePhase;
+        isWaiting = MainActivity.isWaiting;
 
     }
 

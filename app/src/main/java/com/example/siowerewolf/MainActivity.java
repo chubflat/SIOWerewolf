@@ -2,6 +2,7 @@ package com.example.siowerewolf;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -48,13 +49,14 @@ public class MainActivity extends Activity {
     /**preferences**/
     private SharedPreferences preference;
     private Editor editor;
-    public static String myId = "noID";
+    public static String myId = "noId";
     public static String myName = "guest";
+    public static int myPlayerId = 0;
 
 
 	// socketIO
 //	private EditText editText;
-	private ArrayAdapter<String> adapter;
+	public static ArrayAdapter<String> adapter;
 	public static SocketIO socket;
     private Handler handler = new Handler();
     public static String receivedmsg = "";
@@ -75,8 +77,10 @@ public class MainActivity extends Activity {
 	public static ArrayList<Integer> victimArray;//夜間犠牲者Array
     public static List<Map<String,String>> roomInfoDicArray;
     public static Map<String,String> fixedGameInfo;
+    public static Map<String,Object> ruleDic;
+    public static ArrayList<Integer> roleArray;
 
-	public static int selectedPlayerId;//リストで選択されたプレイヤーのID
+	public static int selectedPlayerId;//リストで選択されたプレイヤーのId
     public static int selectedRoomId;
 
 	// TODO Adapter宣言
@@ -90,6 +94,7 @@ public class MainActivity extends Activity {
 	public static String settingPhase;
 	public static String gamePhase;
 	public static boolean isFirstNight;
+    public static boolean isWaiting;
 
 	// list_item
 	public static LinearLayout content;
@@ -97,14 +102,13 @@ public class MainActivity extends Activity {
 	public static LinearLayout contentWithBackground;
 	public static TextView txtMessage;
 
-    public static int signalID;
+    public static int signalId;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        isSettingScene = true;
-        settingPhase = "setting_menu";
-        setUserID();
+        setUserId();
+        initBackground();
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -126,18 +130,11 @@ public class MainActivity extends Activity {
 //		ListView listView = (ListView)findViewById(R.id.listView1);
 //		listView.setAdapter(adapter);
         listView = new ListView(this);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(customView.width*90/100,customView.height*4/10);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(customView.width*90/100,customView.height*6/10);
         lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
         selectedPlayerId = -2;
 
-        listPlayerIdArray = new ArrayList<>();
-        roomInfoDicArray = new ArrayList<>();
-        fixedGameInfo = new HashMap<>();
-        playerInfoDicArray = new ArrayList<>();
-
-        signalID = (int)(Math.random()*999999);
-
-//        listInfoDicArray = new ArrayList<Map<String,String>>();
+        //        listInfoDicArray = new ArrayList<Map<String,String>>();
 //        simpleAdapter = new SimpleAdapter(this,listInfoDicArray,android.R.layout.simple_list_item_2,new String[]{"name","listSecondInfo"},new int[]{android.R.id.text1,android.R.id.text2});
 
         listView.setAdapter(adapter);
@@ -153,15 +150,11 @@ public class MainActivity extends Activity {
 //                }
                 if(settingPhase.equals("room_select")){
                     selectedRoomId = position;
-                    fixedGameInfo.put("gameID", roomInfoDicArray.get(selectedRoomId).get("gameID"));
-                    fixedGameInfo.put("periID", roomInfoDicArray.get(selectedRoomId).get("periID"));
+                    fixedGameInfo.put("gameId", roomInfoDicArray.get(selectedRoomId).get("gameId"));
+                    fixedGameInfo.put("periId", roomInfoDicArray.get(selectedRoomId).get("periId"));
                     fixedGameInfo.put("periName", roomInfoDicArray.get(selectedRoomId).get("periName"));
-                    String participateRequest = "participateRequest" + ":"
-                            + fixedGameInfo.get("gameID") + "/"
-                            + myId + "/"
-                            + myName + "/"
-                            + fixedGameInfo.get("periID") + "/0";
-                    sendEvent(fixedGameInfo.get("periID"),participateRequest);
+                    String participateRequest = String.format("participateRequest:%s/%s/%s/%s/0",fixedGameInfo.get("gameId"),myId,myName,fixedGameInfo.get("periId"));
+                    sendEvent(fixedGameInfo.get("periId"),participateRequest);
                     drawListView(false);
                 }
 //                if (phase.equals("player_setting")) {
@@ -233,13 +226,30 @@ public class MainActivity extends Activity {
     }
     /**onCreateここまで**/
 
+    public static void initBackground(){
+        isSettingScene = true;
+        settingPhase = "setting_menu";
+
+        listPlayerIdArray = new ArrayList<>();
+        roomInfoDicArray = new ArrayList<>();
+        fixedGameInfo = new HashMap<>();
+        playerInfoDicArray = new ArrayList<>();
+        roleArray = new ArrayList<>();
+
+        signalId = (int)(Math.random()*999999);
+
+        isWaiting = false;
+        receivedCommand = "";
+
+    }
     public static void setListAdapter(String type){
         listInfoDicArray.clear();
         listPlayerIdArray.clear();
+        adapter.clear();
 
         switch (type){
-            case "select _room":
-
+            case "ruleCheck":
+                adapter.add("");
                 break;
             default:
                 break;
@@ -317,7 +327,7 @@ public class MainActivity extends Activity {
 //        listView.invalidateViews();
     }
 
-    public void setUserID(){
+    public void setUserId(){
 
         preference = getPreferences(MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
         editor = preference.edit();
@@ -326,15 +336,15 @@ public class MainActivity extends Activity {
 //            初回起動時処理
             int id = (int)(Math.random()*999999);
             myId = String.format("%1$06d", id);
-            editor.putString("userID",myId);
+            editor.putString("userId",myId);
             /**preferenceの書き換え**/
             editor.putBoolean("launched",true);
             editor.commit();
 
         }else{
             /**2回目以降の処理**/
-        myId = preference.getString("userID","noID");
-        myName = preference.getString("userName","guest");
+            myId = preference.getString("userId","noId");
+            myName = preference.getString("userName","guest");
         }
     }
     public static String ipAddress = "接続先を設定してください";
@@ -378,14 +388,17 @@ public class MainActivity extends Activity {
 						try {
                             receivedmsg = message.getString("message");
                             String [] msgInfo = receivedmsg.split(":",0);
-                            getCommand(msgInfo);
+                            if(!(receivedCommand.equals("firstNight"))){
+                                getCommand(msgInfo);
+                            }
+
                             // command,receivedCommandMessage,receivedCommandMessageArray
 
                             switch (msgInfo[0]){
                                 case "advertiseMyDevice":
                                     Boolean isNew = true;
                                     for(int i=0;i<roomInfoDicArray.size();i++){
-                                        if(roomInfoDicArray.get(i).get("gameID").equals(msgInfo[1])){
+                                        if(roomInfoDicArray.get(i).get("gameId").equals(msgInfo[1])){
                                             isNew = false;
                                         }
                                     }
@@ -393,15 +406,14 @@ public class MainActivity extends Activity {
                                         /**文章の解読**/
                                         Map<String,String> roomInfoDic = new HashMap<String,String>();
                                         roomInfoDic.put("header",msgInfo[0]);
-                                        roomInfoDic.put("gameID",msgInfo[1]);
-                                        roomInfoDic.put("periID",msgInfo[2]);
+                                        roomInfoDic.put("gameId",msgInfo[1]);
+                                        roomInfoDic.put("periId",msgInfo[2]);
                                         roomInfoDic.put("periName", msgInfo[3]);
 
                                         roomInfoDicArray.add(roomInfoDic);
                                         // メッセージが空でなければ追加
-                                        adapter.add(roomInfoDic.get("periName") + "(" + roomInfoDic.get("gameID") + ")");
+                                        adapter.add(roomInfoDic.get("periName") + "(" + roomInfoDic.get("gameId") + ")");
                                         /**受信メッセージを格納**/
-                                        // TODO 配列に辞書追加
 
                                         customView.invalidate();
                                     }
@@ -409,8 +421,8 @@ public class MainActivity extends Activity {
                                     break;
                                 case "closeMyDevice":
                                     for(int i=0;i<roomInfoDicArray.size();i++){
-                                        if(roomInfoDicArray.get(i).get("gameID").equals(msgInfo[1])){
-                                            adapter.remove(roomInfoDicArray.get(i).get("periName") + "(" + roomInfoDicArray.get(i).get("gameID") + ")");
+                                        if(roomInfoDicArray.get(i).get("gameId").equals(msgInfo[1])){
+                                            adapter.remove(roomInfoDicArray.get(i).get("periName") + "(" + roomInfoDicArray.get(i).get("gameId") + ")");
                                             roomInfoDicArray.remove(i);
                                         }
 
@@ -419,7 +431,7 @@ public class MainActivity extends Activity {
                                     // 参加登録しめきり
                                     break;
                                 case "mes":
-                                    if(msgInfo[2].equals(myId) && msgInfo[3].equals(fixedGameInfo.get("periID"))){
+                                    if((msgInfo[2].equals(myId) || msgInfo[2].equals("centrals")) && msgInfo[3].equals(fixedGameInfo.get("periId"))){
                                         if(msgInfo[4].equals("participateAllow")){
                                             settingPhase = "info_check";
                                             customView.invalidate();
@@ -427,31 +439,127 @@ public class MainActivity extends Activity {
                                         switch (receivedCommand){
                                             case "member":
                                                 Map<String,Object> member = new HashMap<String, Object>();
-                                                member.put("playerID",receivedCommandMessageArray[0]);
-                                                member.put("userID",receivedCommandMessageArray[1]);
+                                                member.put("playerId",Integer.valueOf(receivedCommandMessageArray[0]));
+                                                member.put("userId",receivedCommandMessageArray[1]);
                                                 member.put("userName",receivedCommandMessageArray[2]);
                                                 playerInfoDicArray.add(member);
+                                                if(receivedCommandMessageArray[1].equals(myId)){
+                                                    myPlayerId = Integer.valueOf(receivedCommandMessageArray[0]);
+                                                }
 
 //                                            Collections.sort(playerInfoDicArray, new Comparator<Map<String, Object>>() {
 //                                                public int compare(Map<String, Object> member1, Map<String, Object> member2) {
 //                                                    // 引数１と引数２はそれぞれ商品データ。
 //
 //                                                    // 商品データのproduct_idを取得する。
-//                                                    String player_id1 = member1.get("playerID").toString();
-//                                                    String player_id2 = member2.get("playerID").toString();
+//                                                    String player_id1 = member1.get("playerId").toString();
+//                                                    String player_id2 = member2.get("playerId").toString();
 //
 //                                                    return player_id1.compareTo(player_id2);
 //                                                }
 //                                            });
                                                 if(playerInfoDicArray.size() == Integer.valueOf(receivedCommandMessageArray[3])){
                                                     // 参加人数分の配列取得
-                                                    sendEvent(fixedGameInfo.get("periID"),"membercheck:"+ myId);
+                                                    sendEvent(fixedGameInfo.get("periId"),"memberCheck:"+ myId);
                                                 }
 
                                                 break;
+                                            case "setting":
+                                                adapter.clear();
+
+                                                /**role_setting**/
+                                                String[] roleSetting = receivedCommandMessageArray[0].split(",",0);
+                                                String roleString = "";
+                                                for(int i= 0;i<roleSetting.length;i++){
+                                                    int j = Integer.valueOf(roleSetting[i]);
+                                                    roleArray.add(j);
+                                                    Utility.Role role = getRole(i);
+                                                    if(j!=0){
+                                                        roleString = roleString + Utility.getRoleInfo(role).get("token") + j ;
+                                                    }
+                                                }
+                                                adapter.add(roleString);
+                                                /**rule_setting**/
+                                                String [] ruleSetting = receivedCommandMessageArray[1].split(",",0);
+                                                ruleDic = new HashMap<String, Object>();
+                                                ruleDic.put("timer", ruleSetting[0]); // 昼時間
+                                                ruleDic.put("night_timer",ruleSetting[1]);// 夜時間
+                                                ruleDic.put("seerMode",ruleSetting[2]);// 初日占い
+                                                ruleDic.put("canGuard",ruleSetting[3]);// 連続ガード
+                                                ruleDic.put("isLack", ruleSetting[4]);// 役欠け
+
+                                                for(int i =0;i<ruleSetting.length;i++){
+                                                    String ruleString = "";
+                                                    int ruleNum = Integer.valueOf(ruleSetting[i]);
+                                                    String text = "";
+                                                    switch (i){
+                                                        case 0:
+                                                            ruleDic.put("timer", ruleNum); // 昼時間
+                                                            ruleString = String.format("昼時間:  %d分",ruleNum);
+                                                            break;
+                                                        case 1:
+                                                            ruleDic.put("night_timer", ruleNum); // 夜時間
+                                                            ruleString = String.format("夜時間:  %d分",ruleNum);
+                                                            break;
+                                                        case 2:
+                                                            ruleDic.put("seerMode", ruleNum); // 初日占い
+
+                                                            if(ruleNum == 0){
+                                                                text = "なし";
+                                                            }else if(ruleNum == 1){
+                                                                text = "あり";
+                                                            }else if(ruleNum == 2){
+                                                                text = "お告げ";
+                                                            }
+                                                            ruleString = String.format("初日占い:  %s",text);
+                                                            break;
+                                                        case 3:
+                                                            ruleDic.put("canContinuousGuard", ruleNum); // 連続ガード
+                                                            if(ruleNum == 0){
+                                                                text = "なし";
+                                                            }else if(ruleNum == 1){
+                                                                text = "あり";
+                                                            }
+                                                            ruleString = String.format("連続ガード:  %s",text);
+                                                            break;
+                                                        case 4:
+                                                            ruleDic.put("isLacking", ruleNum); // 役欠け
+                                                            if(ruleNum == 0){
+                                                                text = "なし";
+                                                            }else if(ruleNum == 1){
+                                                                text = "あり";
+                                                            }
+                                                            ruleString = String.format("役かけ:  %s",text);
+                                                            break;
+                                                    }
+                                                    adapter.add(ruleString);
+                                                }
+                                                settingPhase = "rule_confirm";
+
+                                                break;
+                                            case "gamestart":
+                                                goGameScene();
+                                                isWaiting = false;
+                                                //receivedCommandMessageArray  = 0,2/1,1/2,0/3,1
+                                                //receivedCommandMessageArray[0] = 0,2
+                                                for(int i= 0;i<receivedCommandMessageArray.length;i++){
+                                                    String[] playerRole = receivedCommandMessageArray[i].split(",",0);
+                                                    int j = Integer.valueOf(playerRole[0]);
+                                                    playerInfoDicArray.get(j).put("roleId",Integer.valueOf(playerRole[1]));
+                                                    playerInfoDicArray.get(j).put("isLive",true);
+                                                }
+
+                                                break;
+
+                                            case "firstNight":
+                                                gamePhase = "night_action";
+                                                break;
+
                                             default:
                                                 break;
                                         }
+                                        customView.invalidate();
+
                                     }else{
                                     }
                                     break;
@@ -475,36 +583,44 @@ public class MainActivity extends Activity {
 		}
     };
 
+    public static Utility.Role getRole(int i){
+        Utility.Role[] values = Utility.Role.values();
+        Utility.Role role = values[i];
+        return role;
+    }
+
+    public static void goGameScene(){
+        isSettingScene = false;
+        isGameScene = true;
+        gamePhase = "night_roleRotate";
+    }
+
     public static String receivedCommand;
-    public static String receivedCommandMessage;
     public static String[] receivedCommandMessageArray;
 
     public static void getCommand(String[] message){
         if(message[0].equals("mes")){
             receivedCommand = message[4];
-            receivedCommandMessage = message[5];
+            String receivedCommandMessage = message[5];
             receivedCommandMessageArray = receivedCommandMessage.split("/",0);
+        }else{
+            receivedCommand = "";
         }
     }
 
-    public static void setSendMessage(){
+    public static void sendEvent(String yourId,String message){
 
-    }
+        String sendMessage = String.format("mes:%d:%s:%s:%s",signalId,yourId,myId,message);
 
-    public static void sendEvent(String yourID,String message){
-
-        String msgInfo = "mes:" + Integer.toString(signalID) + ":" + yourID + ":" + myId +":";
-
-        String sendMessage = msgInfo + message;
 //                "mes:"
-//                + Integer.toString(signalID) + ":"
-//                + periID + ":"
-//                + centID + ":"
+//                + Integer.toString(signalId) + ":"
+//                + periId + ":"
+//                + centId + ":"
 //                + command + ":"
-//                + gameID + "/"
-//                + centID + "/"
+//                + gameId + "/"
+//                + centId + "/"
 //                + centName + "/"
-//                + periID + "/0";
+//                + periId + "/0";
 		try {
 		// イベント送信
 			JSONObject json = new JSONObject();
@@ -517,7 +633,7 @@ public class MainActivity extends Activity {
 		}
 
     	// テキストフィールドをリセット
-        signalID++;
+        signalId++;
     }
 
     public static void drawListView(boolean visible){
