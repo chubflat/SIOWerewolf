@@ -243,7 +243,7 @@ public class CustomView extends View {
                     canvas.drawBitmap(backCard, null, rotateCardRect, paint);
                     //timer実装
 
-                    canvas.drawText(getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
+                    canvas.drawText(MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 //                    canvas.drawText("test", width * 25 / 100, height * 5 / 100, paint);
 
 
@@ -264,7 +264,7 @@ public class CustomView extends View {
                     // canvasDraw
                     // 画面上部のテキスト情報
                     canvas.drawBitmap(frameImg, null, topFrameRect, paint);
-                    String roleText = String.format("あなたの役職は「%s」です。%s",getPlayerInfo(myPlayerId,"roleId","name"),getPlayerInfo(myPlayerId,"roleId","explain"));
+                    String roleText = String.format("あなたの役職は「%s」です。%s",MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"),MainActivity.getPlayerInfo(myPlayerId, "roleId", "explain"));
 
                     canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
                     canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
@@ -494,11 +494,7 @@ public class CustomView extends View {
 
     }
 
-    public static String getPlayerInfo(int arrayId,String playerInfoKey,String roleInfoKey){
-        String playerInfo = (String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(arrayId).get(playerInfoKey))).get(roleInfoKey);
 
-        return playerInfo;
-    }
 
 
 

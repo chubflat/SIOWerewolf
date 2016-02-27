@@ -347,6 +347,12 @@ public class MainActivity extends Activity {
 //        listView.invalidateViews();
     }
 
+    public static String getPlayerInfo(int arrayId,String playerInfoKey,String roleInfoKey){
+        String playerInfo = (String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(arrayId).get(playerInfoKey))).get(roleInfoKey);
+
+        return playerInfo;
+    }
+
     public void setUserId(){
 
         preference = getPreferences(MODE_WORLD_READABLE | MODE_WORLD_WRITEABLE);
@@ -584,14 +590,15 @@ public class MainActivity extends Activity {
                                                     String receivedMessage = receivedCommandMessageArray[2];
                                                     chatMessage.setId(1);//dummy
                                                     chatMessage.setMessage(receivedMessage);
-                                                    chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+                                                    chatMessage.setName("GM");
                                                     chatMessage.setMe(false);
 
                                                 }else{
                                                     String receivedMessage = receivedCommandMessageArray[1];
+                                                    String name = "testtest";
                                                     chatMessage.setId(1);//dummy
                                                     chatMessage.setMessage(receivedMessage);
-                                                    chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+                                                    chatMessage.setName(name);
                                                     chatMessage.setMe(false);
                                                 }
                                                 displayMessage(chatMessage);
@@ -651,7 +658,7 @@ public class MainActivity extends Activity {
                 ChatMessage chatMessage = new ChatMessage();
                 chatMessage.setId(122);//dummy
                 chatMessage.setMessage(messageText);
-                chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+                chatMessage.setName(myName);
                 chatMessage.setMe(true);
 
                 messageET.setText("");

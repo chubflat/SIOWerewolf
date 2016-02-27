@@ -8,7 +8,7 @@ public class ChatMessage {
     private boolean isMe;
     private String message;
     private Long userId;
-    private String dateTime;
+    private String playerName;
 
     public long getId() {
         return id;
@@ -36,11 +36,11 @@ public class ChatMessage {
         this.userId = userId;
     }
 
-    public String getDate() {
-        return dateTime;
+    public String getName() {
+        return playerName;
     }
 
-    public void setDate(String dateTime) {
-        this.dateTime = dateTime;
+    public void setName(String playerName) {
+        this.playerName = playerName;
     }
 }
