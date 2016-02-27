@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@color/background_floating_material_dark"
+            android:background="@color/white"
             android:text="Send MSG"
-            android:textColor="@color/background_material_light"/>
+            android:textColor="@color/black"/>
 
         <ListView
             android:id="@+id/messagesContainer"

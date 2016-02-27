@@ -1,5 +1,6 @@
 package com.example.siowerewolf;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,7 +17,7 @@ import java.util.Date;
 /**
  * Created by Kazuaki on 2016/02/27.
  */
-public class ChatActivity {
+public class ChatActivity extends Activity {
 //    private EditText messageET;
 //    private ListView messagesContainer;
 //    private Button sendBtn;
