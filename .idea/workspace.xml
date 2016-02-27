@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="=" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="132b4f57-ed27-4b4e-a8b1-49e7581b345d" name="Default" comment="" />
@@ -39,26 +39,39 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.664">
-              <caret line="629" column="5" selection-start-line="629" selection-start-column="5" selection-end-line="629" selection-end-column="5" />
+            <state vertical-scroll-proportion="0.76103896">
+              <caret line="219" column="41" selection-start-line="219" selection-start-column="41" selection-end-line="219" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="docComment;field#preference#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#3887#3930#0" expanded="false" />
-                <element signature="e#4043#4106#0" expanded="false" />
-                <element signature="e#4410#4475#0" expanded="false" />
-                <element signature="e#5051#5113#0" expanded="false" />
-                <element signature="e#5995#6050#0" expanded="false" />
+                <element signature="e#4088#4151#0" expanded="false" />
+                <element signature="e#4673#6996#0" expanded="true" />
+                <element signature="e#4830#4892#0" expanded="false" />
+                <element signature="e#5781#5836#0" expanded="false" />
+                <element signature="e#6995#6996#0" expanded="true" />
                 <element signature="docComment;method#initBackground#0;class#MainActivity#0" expanded="false" />
-                <element signature="e#14267#26821#0" expanded="true" />
-                <element signature="e#14325#26808#0" expanded="true" />
-                <element signature="e#17553#17569#0" expanded="true" />
-                <element signature="e#26807#26808#0" expanded="true" />
-                <element signature="e#26820#26821#0" expanded="true" />
-                <element signature="e#27578#28242#0" expanded="true" />
-                <element signature="e#28241#28242#0" expanded="true" />
-                <element signature="e#28435#28436#0" expanded="true" />
-                <element signature="e#28515#28516#0" expanded="true" />
+                <element signature="e#14530#27084#0" expanded="true" />
+                <element signature="e#14588#27071#0" expanded="true" />
+                <element signature="e#17816#17832#0" expanded="true" />
+                <element signature="e#27070#27071#0" expanded="true" />
+                <element signature="e#27083#27084#0" expanded="true" />
+                <element signature="e#27877#28541#0" expanded="true" />
+                <element signature="e#28540#28541#0" expanded="true" />
+                <element signature="e#28734#28735#0" expanded="true" />
+                <element signature="e#28814#28815#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+              <folding>
+                <element signature="e#606#635#0" expanded="true" />
+                <element signature="e#940#958#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,10 +81,48 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="250" column="37" selection-start-line="250" selection-start-column="37" selection-end-line="250" selection-end-column="37" />
+              <caret line="278" column="21" selection-start-line="278" selection-start-column="21" selection-end-line="278" selection-end-column="21" />
               <folding>
                 <element signature="method#decodeSampledBitmapFromResource#0;class#CustomView#0" expanded="false" />
                 <element signature="method#calculateInSampleSize#0;class#CustomView#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_chat.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml">
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChatAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="128" column="41" selection-start-line="128" selection-start-column="41" selection-end-line="128" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChatActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="98" column="25" selection-start-line="98" selection-start-column="25" selection-end-line="98" selection-end-column="25" />
+              <folding>
+                <element signature="e#1446#2110#0" expanded="true" />
+                <element signature="e#2109#2110#0" expanded="true" />
+                <element signature="e#2295#2296#0" expanded="true" />
+                <element signature="e#2375#2376#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1399,13 +1450,13 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/Utility.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatMessage.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_chat_message.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/color.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java" />
       </list>
     </option>
@@ -1462,6 +1513,28 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SIOWerewolf" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1743,11 +1816,12 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924962" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924962" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32312405" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32312405" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12580128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1761,7 +1835,6 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1788,21 +1861,21 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;field#preference#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#3887#3930#0" expanded="false" />
-            <element signature="e#4043#4106#0" expanded="false" />
-            <element signature="e#4410#4475#0" expanded="false" />
-            <element signature="e#5051#5113#0" expanded="false" />
-            <element signature="e#5995#6050#0" expanded="false" />
+            <element signature="e#4088#4151#0" expanded="false" />
+            <element signature="e#4673#6996#0" expanded="true" />
+            <element signature="e#4830#4892#0" expanded="false" />
+            <element signature="e#5781#5836#0" expanded="false" />
+            <element signature="e#6995#6996#0" expanded="true" />
             <element signature="docComment;method#initBackground#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#14267#26821#0" expanded="true" />
-            <element signature="e#14325#26808#0" expanded="true" />
-            <element signature="e#17553#17569#0" expanded="true" />
-            <element signature="e#26807#26808#0" expanded="true" />
-            <element signature="e#26820#26821#0" expanded="true" />
-            <element signature="e#27578#28242#0" expanded="true" />
-            <element signature="e#28241#28242#0" expanded="true" />
-            <element signature="e#28435#28436#0" expanded="true" />
-            <element signature="e#28515#28516#0" expanded="true" />
+            <element signature="e#14530#27084#0" expanded="true" />
+            <element signature="e#14588#27071#0" expanded="true" />
+            <element signature="e#17816#17832#0" expanded="true" />
+            <element signature="e#27070#27071#0" expanded="true" />
+            <element signature="e#27083#27084#0" expanded="true" />
+            <element signature="e#27877#28541#0" expanded="true" />
+            <element signature="e#28540#28541#0" expanded="true" />
+            <element signature="e#28734#28735#0" expanded="true" />
+            <element signature="e#28814#28815#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1812,8 +1885,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="34" selection-start-line="22" selection-start-column="34" selection-end-line="22" selection-end-column="34" />
           <folding>
-            <element signature="e#425#443#0" expanded="true" />
             <element signature="e#606#635#0" expanded="true" />
+            <element signature="e#940#958#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1865,10 +1938,10 @@
           <folding>
             <element signature="e#1144#1145#0" expanded="false" />
             <element signature="e#1175#1176#0" expanded="false" />
-            <element signature="e#2131#2132#0" expanded="false" />
-            <element signature="e#2172#2173#0" expanded="false" />
-            <element signature="e#2223#2224#0" expanded="false" />
-            <element signature="e#2268#2269#0" expanded="false" />
+            <element signature="e#2097#2098#0" expanded="false" />
+            <element signature="e#2138#2139#0" expanded="false" />
+            <element signature="e#2189#2190#0" expanded="false" />
+            <element signature="e#2234#2235#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1929,21 +2002,21 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;field#preference#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#3887#3930#0" expanded="false" />
-            <element signature="e#4043#4106#0" expanded="false" />
-            <element signature="e#4410#4475#0" expanded="false" />
-            <element signature="e#5051#5113#0" expanded="false" />
-            <element signature="e#5995#6050#0" expanded="false" />
+            <element signature="e#4088#4151#0" expanded="false" />
+            <element signature="e#4673#6996#0" expanded="true" />
+            <element signature="e#4830#4892#0" expanded="false" />
+            <element signature="e#5781#5836#0" expanded="false" />
+            <element signature="e#6995#6996#0" expanded="true" />
             <element signature="docComment;method#initBackground#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#14267#26821#0" expanded="true" />
-            <element signature="e#14325#26808#0" expanded="true" />
-            <element signature="e#17553#17569#0" expanded="true" />
-            <element signature="e#26807#26808#0" expanded="true" />
-            <element signature="e#26820#26821#0" expanded="true" />
-            <element signature="e#27578#28242#0" expanded="true" />
-            <element signature="e#28241#28242#0" expanded="true" />
-            <element signature="e#28435#28436#0" expanded="true" />
-            <element signature="e#28515#28516#0" expanded="true" />
+            <element signature="e#14530#27084#0" expanded="true" />
+            <element signature="e#14588#27071#0" expanded="true" />
+            <element signature="e#17816#17832#0" expanded="true" />
+            <element signature="e#27070#27071#0" expanded="true" />
+            <element signature="e#27083#27084#0" expanded="true" />
+            <element signature="e#27877#28541#0" expanded="true" />
+            <element signature="e#28540#28541#0" expanded="true" />
+            <element signature="e#28734#28735#0" expanded="true" />
+            <element signature="e#28814#28815#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1953,8 +2026,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
           <folding>
-            <element signature="e#425#443#0" expanded="true" />
             <element signature="e#606#635#0" expanded="true" />
+            <element signature="e#940#958#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1985,21 +2058,21 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;field#preference#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#3887#3930#0" expanded="false" />
-            <element signature="e#4043#4106#0" expanded="false" />
-            <element signature="e#4410#4475#0" expanded="false" />
-            <element signature="e#5051#5113#0" expanded="false" />
-            <element signature="e#5995#6050#0" expanded="false" />
+            <element signature="e#4088#4151#0" expanded="false" />
+            <element signature="e#4673#6996#0" expanded="true" />
+            <element signature="e#4830#4892#0" expanded="false" />
+            <element signature="e#5781#5836#0" expanded="false" />
+            <element signature="e#6995#6996#0" expanded="true" />
             <element signature="docComment;method#initBackground#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#14267#26821#0" expanded="true" />
-            <element signature="e#14325#26808#0" expanded="true" />
-            <element signature="e#17553#17569#0" expanded="true" />
-            <element signature="e#26807#26808#0" expanded="true" />
-            <element signature="e#26820#26821#0" expanded="true" />
-            <element signature="e#27578#28242#0" expanded="true" />
-            <element signature="e#28241#28242#0" expanded="true" />
-            <element signature="e#28435#28436#0" expanded="true" />
-            <element signature="e#28515#28516#0" expanded="true" />
+            <element signature="e#14530#27084#0" expanded="true" />
+            <element signature="e#14588#27071#0" expanded="true" />
+            <element signature="e#17816#17832#0" expanded="true" />
+            <element signature="e#27070#27071#0" expanded="true" />
+            <element signature="e#27083#27084#0" expanded="true" />
+            <element signature="e#27877#28541#0" expanded="true" />
+            <element signature="e#28540#28541#0" expanded="true" />
+            <element signature="e#28734#28735#0" expanded="true" />
+            <element signature="e#28814#28815#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2022,21 +2095,21 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;field#preference#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#3887#3930#0" expanded="false" />
-            <element signature="e#4043#4106#0" expanded="false" />
-            <element signature="e#4410#4475#0" expanded="false" />
-            <element signature="e#5051#5113#0" expanded="false" />
-            <element signature="e#5995#6050#0" expanded="false" />
+            <element signature="e#4088#4151#0" expanded="false" />
+            <element signature="e#4673#6996#0" expanded="true" />
+            <element signature="e#4830#4892#0" expanded="false" />
+            <element signature="e#5781#5836#0" expanded="false" />
+            <element signature="e#6995#6996#0" expanded="true" />
             <element signature="docComment;method#initBackground#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#14267#26821#0" expanded="true" />
-            <element signature="e#14325#26808#0" expanded="true" />
-            <element signature="e#17553#17569#0" expanded="true" />
-            <element signature="e#26807#26808#0" expanded="true" />
-            <element signature="e#26820#26821#0" expanded="true" />
-            <element signature="e#27578#28242#0" expanded="true" />
-            <element signature="e#28241#28242#0" expanded="true" />
-            <element signature="e#28435#28436#0" expanded="true" />
-            <element signature="e#28515#28516#0" expanded="true" />
+            <element signature="e#14530#27084#0" expanded="true" />
+            <element signature="e#14588#27071#0" expanded="true" />
+            <element signature="e#17816#17832#0" expanded="true" />
+            <element signature="e#27070#27071#0" expanded="true" />
+            <element signature="e#27083#27084#0" expanded="true" />
+            <element signature="e#27877#28541#0" expanded="true" />
+            <element signature="e#28540#28541#0" expanded="true" />
+            <element signature="e#28734#28735#0" expanded="true" />
+            <element signature="e#28814#28815#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2104,21 +2177,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="10" selection-start-line="53" selection-start-column="10" selection-end-line="69" selection-end-column="56" />
-          <folding>
-            <element signature="e#1144#1145#0" expanded="false" />
-            <element signature="e#1175#1176#0" expanded="false" />
-            <element signature="e#2131#2132#0" expanded="false" />
-            <element signature="e#2172#2173#0" expanded="false" />
-            <element signature="e#2223#2224#0" expanded="false" />
-            <element signature="e#2268#2269#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -2163,17 +2221,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="32" column="43" selection-start-line="32" selection-start-column="43" selection-end-line="32" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/color.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2182,21 +2229,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatActivity.java">
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-15/android.jar!/android/widget/AbsListView.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
+        <state vertical-scroll-proportion="12.169665">
+          <caret line="579" column="0" selection-start-line="579" selection-start-column="0" selection-end-line="579" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="14" column="34" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
+          <caret line="98" column="25" selection-start-line="98" selection-start-column="25" selection-end-line="98" selection-end-column="25" />
           <folding>
-            <element signature="e#425#443#0" expanded="true" />
-            <element signature="e#606#635#0" expanded="true" />
+            <element signature="e#1446#2110#0" expanded="true" />
+            <element signature="e#2109#2110#0" expanded="true" />
+            <element signature="e#2295#2296#0" expanded="true" />
+            <element signature="e#2375#2376#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2204,7 +2253,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="250" column="37" selection-start-line="250" selection-start-column="37" selection-end-line="250" selection-end-column="37" />
+          <caret line="278" column="21" selection-start-line="278" selection-start-column="21" selection-end-line="278" selection-end-column="21" />
           <folding>
             <element signature="method#decodeSampledBitmapFromResource#0;class#CustomView#0" expanded="false" />
             <element signature="method#calculateInSampleSize#0;class#CustomView#0" expanded="false" />
@@ -2212,28 +2261,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+          <folding>
+            <element signature="e#606#635#0" expanded="true" />
+            <element signature="e#940#958#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="8" selection-start-line="34" selection-start-column="8" selection-end-line="34" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/ChatAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="128" column="41" selection-start-line="128" selection-start-column="41" selection-end-line="128" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.664">
-          <caret line="629" column="5" selection-start-line="629" selection-start-column="5" selection-end-line="629" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.76103896">
+          <caret line="219" column="41" selection-start-line="219" selection-start-column="41" selection-end-line="219" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="docComment;field#preference#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#3887#3930#0" expanded="false" />
-            <element signature="e#4043#4106#0" expanded="false" />
-            <element signature="e#4410#4475#0" expanded="false" />
-            <element signature="e#5051#5113#0" expanded="false" />
-            <element signature="e#5995#6050#0" expanded="false" />
+            <element signature="e#4088#4151#0" expanded="false" />
+            <element signature="e#4673#6996#0" expanded="true" />
+            <element signature="e#4830#4892#0" expanded="false" />
+            <element signature="e#5781#5836#0" expanded="false" />
+            <element signature="e#6995#6996#0" expanded="true" />
             <element signature="docComment;method#initBackground#0;class#MainActivity#0" expanded="false" />
-            <element signature="e#14267#26821#0" expanded="true" />
-            <element signature="e#14325#26808#0" expanded="true" />
-            <element signature="e#17553#17569#0" expanded="true" />
-            <element signature="e#26807#26808#0" expanded="true" />
-            <element signature="e#26820#26821#0" expanded="true" />
-            <element signature="e#27578#28242#0" expanded="true" />
-            <element signature="e#28241#28242#0" expanded="true" />
-            <element signature="e#28435#28436#0" expanded="true" />
-            <element signature="e#28515#28516#0" expanded="true" />
+            <element signature="e#14530#27084#0" expanded="true" />
+            <element signature="e#14588#27071#0" expanded="true" />
+            <element signature="e#17816#17832#0" expanded="true" />
+            <element signature="e#27070#27071#0" expanded="true" />
+            <element signature="e#27083#27084#0" expanded="true" />
+            <element signature="e#27877#28541#0" expanded="true" />
+            <element signature="e#28540#28541#0" expanded="true" />
+            <element signature="e#28734#28735#0" expanded="true" />
+            <element signature="e#28814#28815#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -51,23 +51,23 @@ public class ChatAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-//        ViewHolder holder;
-//        ChatMessage chatMessage = getItem(position);
-//        LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//
-//        if (convertView == null) {
-//            convertView = vi.inflate(R.layout.list_item_chat_message, null);
-//            holder = createViewHolder(convertView);
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-//
-//        boolean myMsg = chatMessage.getIsme() ;//Just a dummy check
-//        //to simulate whether it me or other sender
-//        setAlignment(holder, myMsg);
-//        holder.txtMessage.setText(chatMessage.getMessage());
-//        holder.txtInfo.setText(chatMessage.getDate());
+        ViewHolder holder;
+        ChatMessage chatMessage = getItem(position);
+        LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        if (convertView == null) {
+            convertView = vi.inflate(R.layout.list_item_chat_message, null);
+            holder = createViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        boolean myMsg = chatMessage.getIsme() ;//Just a dummy check
+        //to simulate whether it me or other sender
+        setAlignment(holder, myMsg);
+        holder.txtMessage.setText(chatMessage.getMessage());
+        holder.txtInfo.setText(chatMessage.getDate());
 
         return convertView;
     }
@@ -124,16 +124,16 @@ public class ChatAdapter extends BaseAdapter {
         }
     }
 
-//    private ViewHolder createViewHolder(View v) {
-//        ViewHolder holder = new ViewHolder();
-//        holder.content = GameScene.content;
-//        holder.txtMessage =(TextView) v.findViewById(R.id.txtMessage);
-//        holder.content = (LinearLayout) v.findViewById(R.id.content);
-//        holder.contentWithBG = (LinearLayout) v.findViewById(R.id.contentWithBackground);
-//        holder.txtInfo = (TextView) v.findViewById(R.id.txtInfo);
-//
-//        return holder;
-//    }
+    private ViewHolder createViewHolder(View v) {
+        ViewHolder holder = new ViewHolder();
+        holder.content = MainActivity.content;
+        holder.txtMessage =(TextView) v.findViewById(R.id.txtMessage);
+        holder.content = (LinearLayout) v.findViewById(R.id.content);
+        holder.contentWithBG = (LinearLayout) v.findViewById(R.id.contentWithBackground);
+        holder.txtInfo = (TextView) v.findViewById(R.id.txtInfo);
+
+        return holder;
+    }
 
     private static class ViewHolder {
         public TextView txtMessage;

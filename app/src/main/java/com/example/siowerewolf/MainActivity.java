@@ -100,20 +100,22 @@ public class MainActivity extends Activity {
 	public static boolean isFirstNight;
     public static boolean isWaiting;
 
-	// list_item
-	public static LinearLayout content;
-	public static TextView txtInfo;
-	public static LinearLayout contentWithBackground;
-	public static TextView txtMessage;
 
     public static int signalId;
 
     //Chat用
+    public static View chat;
     private EditText messageET;
     private ListView messagesContainer;
     private Button sendBtn;
     private ChatAdapter chatadapter;
     private ArrayList<ChatMessage> chatHistory;
+
+    // list_item
+    public static LinearLayout content;
+    public static TextView txtInfo;
+    public static LinearLayout contentWithBackground;
+    public static TextView txtMessage;
 
 
     @Override
@@ -145,9 +147,6 @@ public class MainActivity extends Activity {
         lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
         selectedPlayerId = -2;
 
-        //        listInfoDicArray = new ArrayList<Map<String,String>>();
-//        simpleAdapter = new SimpleAdapter(this,listInfoDicArray,android.R.layout.simple_list_item_2,new String[]{"name","listSecondInfo"},new int[]{android.R.id.text1,android.R.id.text2});
-
         listView.setAdapter(adapter);
         listView.setLayoutParams(lp);
 //        listView.setBackgroundColor(Color.WHITE);
@@ -160,13 +159,13 @@ public class MainActivity extends Activity {
 //                } else {
 //                    selectedPlayerId = listPlayerIdArray.get(position);
 //                }
-                if(settingPhase.equals("room_select")){
+                if (settingPhase.equals("room_select")) {
                     selectedRoomId = position;
                     fixedGameInfo.put("gameId", roomInfoDicArray.get(selectedRoomId).get("gameId"));
                     fixedGameInfo.put("periId", roomInfoDicArray.get(selectedRoomId).get("periId"));
                     fixedGameInfo.put("periName", roomInfoDicArray.get(selectedRoomId).get("periName"));
-                    String participateRequest = String.format("participateRequest:%s/%s/%s/%s/0",fixedGameInfo.get("gameId"),myId,myName,fixedGameInfo.get("periId"));
-                    sendEvent(fixedGameInfo.get("periId"),participateRequest);
+                    String participateRequest = String.format("participateRequest:%s/%s/%s/%s/0", fixedGameInfo.get("gameId"), myId, myName, fixedGameInfo.get("periId"));
+                    sendEvent(fixedGameInfo.get("periId"), participateRequest);
                     drawListView(false);
                 }
 //                if (phase.equals("player_setting")) {
@@ -201,6 +200,17 @@ public class MainActivity extends Activity {
         drawListView(false);
 
         /** ListViewの追加終了 **/
+
+        chat = getLayoutInflater().inflate(R.layout.activity_chat,null);
+        FrameLayout.LayoutParams chatLp = new FrameLayout.LayoutParams(customView.width * 90 /100,customView.height * 80 / 100);
+        chatLp.gravity = Gravity.BOTTOM | Gravity.CENTER;
+        chatLp.bottomMargin = 100;
+
+        addContentView(chat, chatLp);
+        drawChat(true);
+        Log.d("initControls", "initControls=");
+        initControls();
+        Log.d("initControl", "initControl=");
 
         editText = new EditText(this);
         FrameLayout.LayoutParams editLP = new FrameLayout.LayoutParams(customView.width,customView.height/10);
@@ -606,6 +616,7 @@ public class MainActivity extends Activity {
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
 
         companionLabel.setText("");// Hard Coded
+//        meLabel.setText("melbl");
         loadDummyHistory();
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
@@ -657,11 +668,19 @@ public class MainActivity extends Activity {
         chatHistory.add(msg1);
 
         chatadapter = new ChatAdapter(MainActivity.this, new ArrayList<ChatMessage>());
-        messagesContainer.setAdapter(adapter);
+        messagesContainer.setAdapter(chatadapter);
 
         for(int i=0; i<chatHistory.size(); i++) {
             ChatMessage message = chatHistory.get(i);
             displayMessage(message);
+        }
+    }
+
+    public static void drawChat(boolean visible){
+        if(visible) {
+            chat.setVisibility(View.VISIBLE);
+        }else if(!visible){
+            chat.setVisibility(View.INVISIBLE);
         }
     }
 
