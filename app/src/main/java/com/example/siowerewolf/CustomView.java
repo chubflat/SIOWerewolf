@@ -243,7 +243,6 @@ public class CustomView extends View {
                     canvas.drawBitmap(backCard, null, rotateCardRect, paint);
                     //timer実装
 
-//                    canvas.drawText((String)Utility.getRoleInfo(MainActivity.getRole((int)MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("name"), width * 25 / 100, height * 5 / 100, paint);
                     canvas.drawText(getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 //                    canvas.drawText("test", width * 25 / 100, height * 5 / 100, paint);
 
@@ -267,6 +266,19 @@ public class CustomView extends View {
                     canvas.drawBitmap(frameImg, null, topFrameRect, paint);
                     String roleText = String.format("あなたの役職は「%s」です。%s",getPlayerInfo(myPlayerId,"roleId","name"),getPlayerInfo(myPlayerId,"roleId","explain"));
 
+                    canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
+                    canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
+                    // confirm button
+
+                    String text2 = "";
+                    if(!(MainActivity.isWaiting)){
+                        canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                        text2 = "初日夜へ";
+                    }else{
+                        text2 = "全員の確認待ち";
+                    }
+                    canvas.drawText(text2,width * 25/100,height * 85/100,paint);
+
                     TextPaint mTextPaint = new TextPaint();
                     mTextPaint.setTextSize(30);
                     StaticLayout mTextLayout = new StaticLayout(roleText,mTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
@@ -274,20 +286,6 @@ public class CustomView extends View {
 
                     mTextLayout.draw(canvas);
                     canvas.restore();
-
-                    canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
-                    canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
-                    // confirm button
-
-                    String text1 = "";
-                    if(!(MainActivity.isWaiting)){
-                        canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                        text1 = "初日夜へ";
-                    }else{
-                        text1 = "全員の確認待ち";
-                    }
-                    canvas.drawText(text1,width * 25/100,height * 85/100,paint);
-
 
                     break;
 
@@ -452,6 +450,7 @@ public class CustomView extends View {
                         case "roleRotate":
                             if(getTouchButton(buttonRect1)){
                                 MainActivity.gamePhase = "roleCheck";
+                                MainActivity.isWaiting = false;
                             }
                             break;
                         case "roleCheck":

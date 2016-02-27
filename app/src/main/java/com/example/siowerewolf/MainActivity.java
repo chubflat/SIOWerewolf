@@ -1,10 +1,12 @@
 package com.example.siowerewolf;
 
 import java.net.MalformedURLException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -39,6 +42,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -104,13 +108,20 @@ public class MainActivity extends Activity {
 
     public static int signalId;
 
+    //Chat用
+    private EditText messageET;
+    private ListView messagesContainer;
+    private Button sendBtn;
+    private ChatAdapter chatadapter;
+    private ArrayList<ChatMessage> chatHistory;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setUserId();
         initBackground();
 		super.onCreate(savedInstanceState);
-//		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// FrameLayout作成
 		FrameLayout mFrameLayout = new FrameLayout(this);
@@ -390,7 +401,7 @@ public class MainActivity extends Activity {
                             receivedmsg = message.getString("message");
                             String [] msgInfo = receivedmsg.split(":",0);
                             getCommand(msgInfo);
-                            isWaiting = false;
+
 
                             // command,receivedCommandMessage,receivedCommandMessageArray
 
@@ -431,6 +442,7 @@ public class MainActivity extends Activity {
                                     // 参加登録しめきり
                                     break;
                                 case "mes":
+                                    isWaiting = false;
                                     if((msgInfo[2].equals(myId) || msgInfo[2].equals("centrals")) && msgInfo[3].equals(fixedGameInfo.get("periId"))){
                                         if(msgInfo[4].equals("participateAllow")){
                                             settingPhase = "info_check";
@@ -582,6 +594,76 @@ public class MainActivity extends Activity {
 		    socketIOException.printStackTrace();
 		}
     };
+
+    private void initControls() {
+
+        messagesContainer = (ListView) findViewById(R.id.messagesContainer);
+        messageET = (EditText) findViewById(R.id.messageEdit);
+        sendBtn = (Button) findViewById(R.id.chatSendButton);
+
+        TextView meLabel = (TextView) findViewById(R.id.meLbl);
+        TextView companionLabel = (TextView) findViewById(R.id.friendLabel);
+        RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
+
+        companionLabel.setText("");// Hard Coded
+        loadDummyHistory();
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String messageText = messageET.getText().toString();
+                if (TextUtils.isEmpty(messageText)) {
+                    return;
+                }
+
+                ChatMessage chatMessage = new ChatMessage();
+                chatMessage.setId(122);//dummy
+                chatMessage.setMessage(messageText);
+                chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+                chatMessage.setMe(true);
+
+                messageET.setText("");
+
+                displayMessage(chatMessage);
+            }
+        });
+    }
+
+    public void displayMessage(ChatMessage message) {
+        chatadapter.add(message);
+        chatadapter.notifyDataSetChanged();
+        scroll();
+    }
+
+    private void scroll() {
+        messagesContainer.setSelection(messagesContainer.getCount() - 1);
+    }
+
+    private void loadDummyHistory(){
+
+        chatHistory = new ArrayList<ChatMessage>();
+
+        ChatMessage msg = new ChatMessage();
+        msg.setId(1);
+        msg.setMe(false);
+        msg.setMessage("Hi");
+        msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+        chatHistory.add(msg);
+        ChatMessage msg1 = new ChatMessage();
+        msg1.setId(2);
+        msg1.setMe(false);
+        msg1.setMessage("How r u doing???");
+        msg1.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+        chatHistory.add(msg1);
+
+        chatadapter = new ChatAdapter(MainActivity.this, new ArrayList<ChatMessage>());
+        messagesContainer.setAdapter(adapter);
+
+        for(int i=0; i<chatHistory.size(); i++) {
+            ChatMessage message = chatHistory.get(i);
+            displayMessage(message);
+        }
+    }
 
     public static Utility.Role getRole(int i){
         Utility.Role[] values = Utility.Role.values();
@@ -741,6 +823,8 @@ public class MainActivity extends Activity {
                     break;
 
             }
+
+
 
 //                builder.setMessage(dialogText)
 //                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
