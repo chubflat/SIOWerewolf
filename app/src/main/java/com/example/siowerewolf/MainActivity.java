@@ -207,10 +207,8 @@ public class MainActivity extends Activity {
         chatLp.bottomMargin = 100;
 
         addContentView(chat, chatLp);
-        drawChat(true);
-        Log.d("initControls", "initControls=");
+        drawChat(false);
         initControls();
-        Log.d("initControl", "initControl=");
 
         editText = new EditText(this);
         FrameLayout.LayoutParams editLP = new FrameLayout.LayoutParams(customView.width,customView.height/10);
@@ -575,6 +573,29 @@ public class MainActivity extends Activity {
 
                                             case "firstNight":
                                                 gamePhase = "night_action";
+                                                drawChat(true);
+                                                break;
+
+                                            case "chatreceive":
+                                                ChatMessage chatMessage = new ChatMessage();
+                                                if(receivedCommandMessageArray[0].equals("aaaaaa")){
+                                                    // centID  == receivedCommandMessageArray[0]
+
+                                                    String receivedMessage = receivedCommandMessageArray[2];
+                                                    chatMessage.setId(1);//dummy
+                                                    chatMessage.setMessage(receivedMessage);
+                                                    chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+                                                    chatMessage.setMe(false);
+
+                                                }else{
+                                                    String receivedMessage = receivedCommandMessageArray[1];
+                                                    chatMessage.setId(1);//dummy
+                                                    chatMessage.setMessage(receivedMessage);
+                                                    chatMessage.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+                                                    chatMessage.setMe(false);
+                                                }
+                                                displayMessage(chatMessage);
+
                                                 break;
 
                                             default:
@@ -617,7 +638,7 @@ public class MainActivity extends Activity {
 
         companionLabel.setText("");// Hard Coded
 //        meLabel.setText("melbl");
-        loadDummyHistory();
+        loadHistory();
 
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -650,22 +671,22 @@ public class MainActivity extends Activity {
         messagesContainer.setSelection(messagesContainer.getCount() - 1);
     }
 
-    private void loadDummyHistory(){
+    private void loadHistory(){
 
         chatHistory = new ArrayList<ChatMessage>();
 
-        ChatMessage msg = new ChatMessage();
-        msg.setId(1);
-        msg.setMe(false);
-        msg.setMessage("Hi");
-        msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
-        chatHistory.add(msg);
-        ChatMessage msg1 = new ChatMessage();
-        msg1.setId(2);
-        msg1.setMe(false);
-        msg1.setMessage("How r u doing???");
-        msg1.setDate(DateFormat.getDateTimeInstance().format(new Date()));
-        chatHistory.add(msg1);
+//        ChatMessage msg = new ChatMessage();
+//        msg.setId(1);
+//        msg.setMe(false);
+//        msg.setMessage("Hi");
+//        msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+//        chatHistory.add(msg);
+//        ChatMessage msg1 = new ChatMessage();
+//        msg1.setId(2);
+//        msg1.setMe(false);
+//        msg1.setMessage("How r u doing???");
+//        msg1.setDate(DateFormat.getDateTimeInstance().format(new Date()));
+//        chatHistory.add(msg1);
 
         chatadapter = new ChatAdapter(MainActivity.this, new ArrayList<ChatMessage>());
         messagesContainer.setAdapter(chatadapter);
