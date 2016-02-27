@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
         setUserId();
         initBackground();
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// FrameLayout作成
 		FrameLayout mFrameLayout = new FrameLayout(this);

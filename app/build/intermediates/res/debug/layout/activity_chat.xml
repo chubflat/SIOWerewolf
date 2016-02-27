@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@color/white"
+            android:background="@color/background_floating_material_dark"
             android:text="Send MSG"
-            android:textColor="@color/black"/>
+            android:textColor="@color/background_material_light"/>
 
         <ListView
             android:id="@+id/messagesContainer"
@@ -67,3 +67,4 @@
 
 
 </LinearLayout>
+<!-- From: file:/C:/GitHub/SIOWerewolf/app/src/main/res/layout/activity_chat.xml -->
