@@ -139,7 +139,8 @@ public class MainActivity extends Activity {
 
         listView.setAdapter(adapter);
         listView.setLayoutParams(lp);
-        listView.setBackgroundColor(Color.WHITE);
+//        listView.setBackgroundColor(Color.WHITE);
+        listView.setBackgroundResource(R.drawable.frame);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -388,9 +389,8 @@ public class MainActivity extends Activity {
 						try {
                             receivedmsg = message.getString("message");
                             String [] msgInfo = receivedmsg.split(":",0);
-                            if(!(receivedCommand.equals("firstNight"))){
-                                getCommand(msgInfo);
-                            }
+                            getCommand(msgInfo);
+                            isWaiting = false;
 
                             // command,receivedCommandMessage,receivedCommandMessageArray
 
@@ -592,7 +592,7 @@ public class MainActivity extends Activity {
     public static void goGameScene(){
         isSettingScene = false;
         isGameScene = true;
-        gamePhase = "night_roleRotate";
+        gamePhase = "roleRotate";
     }
 
     public static String receivedCommand;
@@ -601,8 +601,11 @@ public class MainActivity extends Activity {
     public static void getCommand(String[] message){
         if(message[0].equals("mes")){
             receivedCommand = message[4];
-            String receivedCommandMessage = message[5];
-            receivedCommandMessageArray = receivedCommandMessage.split("/",0);
+            if(message.length<6){
+            }else{
+                String receivedCommandMessage = message[5];
+                receivedCommandMessageArray = receivedCommandMessage.split("/",0);
+            }
         }else{
             receivedCommand = "";
         }
@@ -808,5 +811,7 @@ public class MainActivity extends Activity {
 //                   }
         return true;
     }
+
+
 
 }

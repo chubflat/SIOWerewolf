@@ -18,6 +18,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.StringTokenizer;
+
 /**
  * Created by Kazuaki on 2016/02/17.
  */
@@ -60,7 +62,8 @@ public class CustomView extends View {
     public static String gamePhase;
     public static Boolean isSettingScene;
     public static Boolean isGameScene;
-    public static Boolean isWaiting;
+//    public static Boolean isWaiting;
+    public static int myPlayerId;
 
     //TODO Canvasに新要素追加時
 
@@ -214,7 +217,7 @@ public class CustomView extends View {
                     //confirmButton
 
                     String text1 = "";
-                    if(!(isWaiting)){
+                    if(!(MainActivity.isWaiting)){
                         canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                         text1 = "確認";
                     }else{
@@ -231,7 +234,7 @@ public class CustomView extends View {
             canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
             switch (gamePhase){
-                case "night_roleRotate":
+                case "roleRotate":
                     // rotateImg 表示
                     Rect rotateCardRect = new Rect(width * 15 /100,height * 20 / 100 ,width * 85 / 100 ,height *20 /100 + width * 70 / 100  * 1125 /938 );
                     //TODO cardRotate
@@ -241,7 +244,7 @@ public class CustomView extends View {
                     //timer実装
 
 //                    canvas.drawText((String)Utility.getRoleInfo(MainActivity.getRole((int)MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("name"), width * 25 / 100, height * 5 / 100, paint);
-                    canvas.drawText((String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("name"), width * 25 / 100, height * 5 / 100, paint);
+                    canvas.drawText(getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 //                    canvas.drawText("test", width * 25 / 100, height * 5 / 100, paint);
 
 
@@ -252,7 +255,7 @@ public class CustomView extends View {
 
                     break;
 
-                case "night_roleCheck":
+                case "roleCheck":
 
                     //Rect宣言
                     Rect topFrameRect = new Rect(width * 5 /100,height * 5 / 100 ,width * 95 / 100 ,height * 50 /100);
@@ -261,8 +264,8 @@ public class CustomView extends View {
 
                     // canvasDraw
                     // 画面上部のテキスト情報
-                    canvas.drawBitmap(frameImg,null,topFrameRect,paint);
-                    String roleText = String.format("あなたの役職は「%s」です。%s",(String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("name"),(String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(MainActivity.myPlayerId).get("roleId"))).get("explain"));
+                    canvas.drawBitmap(frameImg, null, topFrameRect, paint);
+                    String roleText = String.format("あなたの役職は「%s」です。%s",getPlayerInfo(myPlayerId,"roleId","name"),getPlayerInfo(myPlayerId,"roleId","explain"));
 
                     TextPaint mTextPaint = new TextPaint();
                     mTextPaint.setTextSize(30);
@@ -277,7 +280,7 @@ public class CustomView extends View {
                     // confirm button
 
                     String text1 = "";
-                    if(!(isWaiting)){
+                    if(!(MainActivity.isWaiting)){
                         canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                         text1 = "初日夜へ";
                     }else{
@@ -290,11 +293,11 @@ public class CustomView extends View {
 
                 case "night_action":
 //                    MainActivity.drawChat(true);
-//                    canvas.drawBitmap(roleImg,null,roleCardRect,paint);
-//                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
-//                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
+                    canvas.drawBitmap(roleImg,null,roleCardRect,paint);
+                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
+                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
 
-//                    String action = "占う";
+                    String action = "占う";
 //                    // TODO 役職ごとに文字を変えるswitch文
 //                    canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
 
@@ -430,7 +433,7 @@ public class CustomView extends View {
                             }
                             break;
                         case "rule_confirm":
-                            if(getTouchButton(buttonRect1)&& !(isWaiting)){
+                            if(getTouchButton(buttonRect1)&& !(MainActivity.isWaiting)){
                                 MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"settingCheck:" + MainActivity.myId);
                                 MainActivity.isWaiting = true;
 //                                MainActivity.isSettingScene = true;
@@ -446,13 +449,13 @@ public class CustomView extends View {
                 }else if(!isSettingScene && isGameScene){
                     if(getTouchButton(buttonRect1)){
                         switch (gamePhase){
-                        case "night_roleRotate":
+                        case "roleRotate":
                             if(getTouchButton(buttonRect1)){
-                                MainActivity.gamePhase = "night_roleCheck";
+                                MainActivity.gamePhase = "roleCheck";
                             }
                             break;
-                        case "night_roleCheck":
-                            if(getTouchButton(buttonRect1) && !(isWaiting)){
+                        case "roleCheck":
+                            if(getTouchButton(buttonRect1) && !(MainActivity.isWaiting)){
                                 MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"roleCheck:" + MainActivity.myId);
                                 MainActivity.isWaiting = true;
                             }
@@ -488,8 +491,14 @@ public class CustomView extends View {
         isFirstNight = MainActivity.isFirstNight;
         settingPhase = MainActivity.settingPhase;
         gamePhase = MainActivity.gamePhase;
-        isWaiting = MainActivity.isWaiting;
+        myPlayerId = MainActivity.myPlayerId;
 
+    }
+
+    public static String getPlayerInfo(int arrayId,String playerInfoKey,String roleInfoKey){
+        String playerInfo = (String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(arrayId).get(playerInfoKey))).get(roleInfoKey);
+
+        return playerInfo;
     }
 
 
