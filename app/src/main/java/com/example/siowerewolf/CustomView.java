@@ -71,13 +71,6 @@ public class CustomView extends View {
         super(context);
         setFocusable(true);
 
-//        //WindowsManager取得
-//        WindowManager wm = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-//        //Displayインスタンス生成
-//        Display dp = wm.getDefaultDisplay();
-//        //Displayサイズ取得
-//        width = dp.getWidth();
-//        height = dp.getHeight();
 
         DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();
         width = dm.widthPixels;
@@ -368,7 +361,9 @@ public class CustomView extends View {
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
-                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",2,"いません");
+                    String victim = "";
+
+                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",MainActivity.day,victim);
 
                     TextPaint morningTextPaint = new TextPaint();
                     morningTextPaint.setTextSize(width * 7/100);

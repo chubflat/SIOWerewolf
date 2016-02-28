@@ -65,10 +65,11 @@ public class MainActivity extends Activity {
     private Handler handler = new Handler();
     public static String receivedmsg = "";
     public static String sendmsg = "";
+    public static int signalId;
 
     // List
 	public static ListView listView;
-	public static SimpleAdapter simpleAdapter;
+//	public static SimpleAdapter simpleAdapter;
 	//    public static Adapter adapter;
 	public static CustomView customView = null;
 	public static String dialogPattern = "default";
@@ -101,9 +102,8 @@ public class MainActivity extends Activity {
 	public static String gamePhase;
 	public static boolean isFirstNight;
     public static boolean isWaiting;
+    public static int day;
 
-
-    public static int signalId;
 
     //Chat用
     public static View chat;
@@ -241,6 +241,7 @@ public class MainActivity extends Activity {
     public static void initBackground(){
         isSettingScene = true;
         settingPhase = "setting_menu";
+        day = 1;
 
         listPlayerIdArray = new ArrayList<>();
         roomInfoDicArray = new ArrayList<>();
@@ -628,6 +629,7 @@ public class MainActivity extends Activity {
                                                 break;
                                             case "afternoonStart":
                                                 gamePhase = "morning";
+                                                day++;
 
                                                 break;
                                             default:
