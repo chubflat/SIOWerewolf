@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
     public static Map<String,Object> ruleDic;
     public static ArrayList<Integer> roleArray;
     public static Map<String,Object> infoDic;
-    public static Map<String,String> userNameDic;//chat表示用
+    public static Map<String,String> userDic;//chat表示用
 
 	public static int selectedPlayerId;//リストで選択されたプレイヤーのId
     public static int selectedRoomId;
@@ -258,7 +258,7 @@ public class MainActivity extends Activity {
         roleArray = new ArrayList<>();
         infoDic = new HashMap<>();
 
-        userNameDic = new HashMap<>();
+        userDic = new HashMap<>();
 
         signalId = (int)(Math.random()*999999);
 
@@ -469,14 +469,17 @@ public class MainActivity extends Activity {
                                         switch (receivedCommand){
                                             case "member":
                                                 Map<String,Object> member = new HashMap<String, Object>();
-                                                member.put("playerId",Integer.valueOf(receivedCommandMessageArray[0]));
-                                                member.put("userId",receivedCommandMessageArray[1]);
-                                                member.put("userName",receivedCommandMessageArray[2]);
+                                                int playerId = Integer.valueOf(receivedCommandMessageArray[0]);
+                                                String userId = receivedCommandMessageArray[1];
+                                                String userName = receivedCommandMessageArray[2];
+                                                member.put("playerId",playerId);
+                                                member.put("userId",userId);
+                                                member.put("userName",userName);
                                                 playerInfoDicArray.add(member);
-                                                if(receivedCommandMessageArray[1].equals(myId)){
-                                                    myPlayerId = Integer.valueOf(receivedCommandMessageArray[0]);
+                                                if(userId.equals(myId)){
+                                                    myPlayerId = playerId;
                                                 }
-                                                userNameDic.put(receivedCommandMessageArray[1],receivedCommandMessageArray[2]);
+                                                userDic.put(userId,receivedCommandMessageArray[2]);
 
 //                                            Collections.sort(playerInfoDicArray, new Comparator<Map<String, Object>>() {
 //                                                public int compare(Map<String, Object> member1, Map<String, Object> member2) {
@@ -600,7 +603,9 @@ public class MainActivity extends Activity {
 
                                                 ChatMessage chatMessage = new ChatMessage();
                                                 String receivedMessage = "";
-                                                if(receivedCommandMessageArray[0].equals("aaaaaa")){
+                                                if(receivedCommandMessageArray[0].equals(myId)){
+
+                                                }else if(receivedCommandMessageArray[0].equals("aaaaaa")){
                                                     // centID  == receivedCommandMessageArray[0]
 
                                                     receivedMessage = receivedCommandMessageArray[2];
@@ -611,7 +616,7 @@ public class MainActivity extends Activity {
 
                                                 }else{
                                                     receivedMessage = receivedCommandMessageArray[1];//userId
-                                                    String name = userNameDic.get(receivedCommandMessageArray[0]);
+                                                    String name = userDic.get(receivedCommandMessageArray[0]);
                                                     chatMessage.setId(1);//dummy
                                                     chatMessage.setMessage(receivedMessage);
                                                     chatMessage.setName(name);
