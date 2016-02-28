@@ -613,6 +613,7 @@ public class MainActivity extends Activity {
                                                     chatMessage.setMessage(receivedMessage);
                                                     chatMessage.setName("GM");
                                                     chatMessage.setMe(false);
+                                                    displayMessage(chatMessage);
 
                                                 }else{
                                                     receivedMessage = receivedCommandMessageArray[1];//userId
@@ -621,8 +622,9 @@ public class MainActivity extends Activity {
                                                     chatMessage.setMessage(receivedMessage);
                                                     chatMessage.setName(name);
                                                     chatMessage.setMe(false);
+                                                    displayMessage(chatMessage);
                                                 }
-                                                displayMessage(chatMessage);
+
 
                                                 break;
 
@@ -682,9 +684,13 @@ public class MainActivity extends Activity {
                 chatMessage.setName(myName);
                 chatMessage.setMe(true);
 
-                messageET.setText("");
+                // send to Periferal
+                String sendMessage = String.format("chatsend:%s/%s",myId,messageText);
+                sendEvent(fixedGameInfo.get("periId"),sendMessage);
 
+                messageET.setText("");
                 displayMessage(chatMessage);
+
             }
         });
     }

@@ -98,7 +98,7 @@ public class CustomView extends View {
     protected void onDraw(Canvas canvas){
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
         Paint paint = new Paint();
-        paint.setTextSize(50);
+        paint.setTextSize(width * 8/100);
         paint.setColor(Color.BLACK);
 
 
@@ -110,7 +110,7 @@ public class CustomView extends View {
         //TODO 画像サイズ修正時になおす
         timerFrameImg = decodeSampledBitmapFromResource(getResources(),R.drawable.frame,bitmapWidth,bitmapHeight);
         buttonImg = decodeSampledBitmapFromResource(getResources(),R.drawable.button,bitmapWidth,bitmapHeight);
-        roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.card0,bitmapWidth,bitmapHeight);
+        roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
         backCard = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
 
         //SettingScene用Rect初期化
@@ -186,6 +186,7 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.night,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     paint.setColor(Color.WHITE);
+                    paint.setTextSize(width * 10/100);
                     canvas.drawText("待機中", width * 30 / 100, height * 50 / 100, paint);
 
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
@@ -293,56 +294,55 @@ public class CustomView extends View {
 //                    MainActivity.drawChat(true);
                     canvas.drawBitmap(roleImg,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
-                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
+//                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
 
-                    if(MainActivity.isFirstNight){
-                        if((Boolean)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","hasActionFirst")){
-                            String action = "";
-                            switch ((String)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","name")){
+//                    if(MainActivity.isFirstNight){
+//                        if((Boolean)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","hasActionFirst")){
+//                            String action = "";
+//                            switch ((String)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","name")){
+////                                case "人狼":
+////                                    action = "噛み";
+////                                    break;
+//                                case "占い師":
+//                                    action = "占い";
+//                                    break;
+////                                case "狩人":
+////                                    action = "護衛";
+////                                    break;
+////                                case "霊媒師":
+////                                    action = "霊媒";
+////                                    break;
+//                                default:
+//                                    break;
+//                            }
+//                            canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
+//                        }
+//                    }else{
+//                        if((Boolean)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","hasAction")){
+//                            String action = "";
+//                            switch ((String)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","name")){
 //                                case "人狼":
 //                                    action = "噛み";
 //                                    break;
-                                case "占い師":
-                                    action = "占い";
-                                    break;
+//                                case "占い師":
+//                                    action = "占い";
+//                                    break;
 //                                case "狩人":
 //                                    action = "護衛";
 //                                    break;
 //                                case "霊媒師":
 //                                    action = "霊媒";
 //                                    break;
-                                default:
-                                    break;
-                            }
-                            canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
-                        }
-                    }else{
-                        if((Boolean)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","hasAction")){
-                            String action = "";
-                            switch ((String)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","name")){
-                                case "人狼":
-                                    action = "噛み";
-                                    break;
-                                case "占い師":
-                                    action = "占い";
-                                    break;
-                                case "狩人":
-                                    action = "護衛";
-                                    break;
-                                case "霊媒師":
-                                    action = "霊媒";
-                                    break;
-                                default:
-                                    break;
-                            }
-                            canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
-
-                        }
-                    }
+//                                default:
+//                                    break;
+//                            }
+//                            canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
+//                        }
+//                    }
 
                     // confirm button
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
+//                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+//                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
 
