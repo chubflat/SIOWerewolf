@@ -47,8 +47,10 @@ public class Utility {
         Map<String, Object> infoDic = new HashMap<String, Object>();
         String name = "";
         String token = "";
-        Boolean hasTable = false;
+//        Boolean hasTable = false;
         Boolean hasTableFirst = false;
+        Boolean hasAction = false;
+        Boolean hasActionFirst = false;
         String explain = "";
         int seerResult = 1; //人狼判定
         int mediumResult = 1;//人狼判定
@@ -60,7 +62,8 @@ public class Utility {
             case Villager:
                 name = "村人";
                 token = "村";
-                hasTable = false;
+                hasAction = false;
+                hasActionFirst = false;
                 hasTableFirst = false;
                 explain = "村人は特殊な能力を持たないただの一般人ですが、このゲームの主人公でもあります。他の村人や特殊能力を持った仲間たちと協力して人狼を処刑し、全滅させましょう。";
                 seerResult = 1;
@@ -72,7 +75,8 @@ public class Utility {
             case Werewolf:
                 name = "人狼";
                 token = "狼";
-                hasTable = true;
+                hasAction = true;
+                hasActionFirst = true;
                 hasTableFirst = true;
                 explain = "人狼は毎晩目を覚まし、村の人間を一人ずつ選んで喰い殺していきます。人狼同士で協力して人間を喰い尽くし、村を全滅させてしまいましょう。";
                 // 判定
@@ -87,8 +91,9 @@ public class Utility {
             case Seer:
                 name = "占い師";
                 token = "占";
-                hasTable = true;
-                hasTableFirst = true;
+                hasAction = true;
+                hasActionFirst = true;
+                hasTableFirst = false;
                 explain = "占い師は毎晩目を覚まし、自分が人狼だと疑っている人物を１人指定してその人物が人狼かそうでないかを知ることができます。";
                 //判定
                 seerResult = 1;
@@ -100,7 +105,8 @@ public class Utility {
             case Medium:
                 name = "霊媒師";
                 token = "霊";
-                hasTable = false;
+                hasAction = false;
+                hasActionFirst = false;
                 hasTableFirst = false;
                 explain = "霊媒師は毎晩目を覚まし、その日の昼のターンに処刑された人が人狼だったのかそうでなかったのかを知ることができます。";
                 //判定
@@ -113,7 +119,8 @@ public class Utility {
             case Minion:
                 name = "狂人";
                 token = "狂";
-                hasTable = false;
+                hasAction = false;
+                hasActionFirst = false;
                 hasTableFirst = false;
                 explain = "狂人は何も能力を持っていませんが、人狼側の人間です。人狼が勝利した時、自らも勝者となります。予言者に見られてもただの人間と判定されます。積極的に役職を騙り村を混乱させましょう。";
                 seerResult = 1;
@@ -125,7 +132,8 @@ public class Utility {
             case Bodyguard:
                 name = "狩人";
                 token = "狩";
-                hasTable = true;
+                hasAction = true;
+                hasActionFirst = false;
                 hasTableFirst = false;
                 explain = "狩人は毎晩目を覚まし、誰かを一人指定してその人物を人狼の襲撃から守ります。ただし、自分自身を守ることはできません。";
                 seerResult = 1;
@@ -137,8 +145,9 @@ public class Utility {
             case Fox:
                 name = "妖狐//未実装";
                 token = "狐";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
+                hasTableFirst = true;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -149,8 +158,8 @@ public class Utility {
 
             case Lycan:
                 name = "狼憑き//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = -1;
@@ -161,8 +170,8 @@ public class Utility {
 
             case ToughGuy:
                 name = "タフガイ//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -172,8 +181,8 @@ public class Utility {
                 break;
             case ApprenticeSeer:
                 name = "見習い予言者//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -184,8 +193,8 @@ public class Utility {
 
 //            case Wolfboy:
 //                name = "狼少年//未実装";
-//                hasTable = true;
-//                hasTableFirst = false;
+//                hasAction = true;
+//                hasActionFirst = false;
 //                explain = "";
 //                //判定
 //                seerResult = 1;
@@ -196,8 +205,8 @@ public class Utility {
 
 //            case Trapmaker:
 //                name = "罠師//未実装";
-//                hasTable = false;
-//                hasTableFirst = false;
+//                hasAction = false;
+//                hasActionFirst = false;
 //                explain = "";
 //                //判定
 //                seerResult = 1;
@@ -208,8 +217,8 @@ public class Utility {
 
             case Cursed:
                 name = "呪われた者//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -220,8 +229,8 @@ public class Utility {
 
 //            case King:
 //                name = "王様//未実装";
-//                hasTable = false;
-//                hasTableFirst = false;
+//                hasAction = false;
+//                hasActionFirst = false;
 //                explain = "";
 //                //判定
 //                seerResult = 1;
@@ -232,8 +241,8 @@ public class Utility {
 
 //            case Dictator:
 //                name = "独裁者//未実装";
-//                hasTable = false;
-//                hasTableFirst = false;
+//                hasAction = false;
+//                hasActionFirst = false;
 //                explain = "";
 //                //判定
 //                seerResult = 1;
@@ -244,8 +253,8 @@ public class Utility {
 
             case Beholder:
                 name = "予言者のママ//未実装";
-                hasTable = false;
-                hasTableFirst = true;
+                hasAction = false;
+                hasActionFirst = true;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -256,8 +265,8 @@ public class Utility {
 
             case Hunter:
                 name = "ハンター//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -268,8 +277,8 @@ public class Utility {
 
 //            case Mimic:
 //                name = "ものまね師//未実装";
-//                hasTable = false;
-//                hasTableFirst = false;
+//                hasAction = false;
+//                hasActionFirst = false;
 //                explain = "";
 //                //判定
 //                seerResult = 1;
@@ -281,7 +290,8 @@ public class Utility {
             case Fanatic:
                 name = "狂信者//未実装";
                 token = "信";
-                hasTable = false;
+                hasAction = false;
+                hasActionFirst = true;
                 hasTableFirst = true;
                 explain = "";
                 //判定
@@ -293,7 +303,8 @@ public class Utility {
 
             case Immoralist:
                 name = "背徳者//未実装";
-                hasTable = false;
+                hasAction = false;
+                hasActionFirst = true;
                 hasTableFirst = true;
                 explain = "";
                 //判定
@@ -305,8 +316,8 @@ public class Utility {
 
             case Cat:
                 name = "猫又//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -317,8 +328,8 @@ public class Utility {
 
             case Baker:
                 name = "パン屋//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -329,8 +340,8 @@ public class Utility {
 
             case Noble:
                 name = "貴族//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -341,8 +352,8 @@ public class Utility {
 
             case Slave:
                 name = "奴隷//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -353,8 +364,8 @@ public class Utility {
 
 //            case Sorcerer:
 //                name = "人狼占い//未実装";
-//                hasTable = false;
-//                hasTableFirst = false;
+//                hasAction = false;
+//                hasActionFirst = false;
 //                explain = "";
 //                //判定
 //                seerResult = 1;
@@ -365,8 +376,8 @@ public class Utility {
 
             default:
                 name = "//未実装";
-                hasTable = false;
-                hasTableFirst = false;
+                hasAction = false;
+                hasActionFirst = false;
                 explain = "";
                 //判定
                 seerResult = 1;
@@ -378,8 +389,9 @@ public class Utility {
         infoDic.put("name", name);
         infoDic.put("token",token);
         infoDic.put("explain", explain);
-        infoDic.put("hasTable", hasTable);
-        infoDic.put("hasTableFirst", hasTableFirst);
+        infoDic.put("hasAction", hasAction);
+        infoDic.put("hasActionFirst", hasActionFirst);
+        infoDic.put("hasTableFirst",hasTableFirst);
         infoDic.put("seerResult",seerResult);
         infoDic.put("mediumResult",mediumResult);
         infoDic.put("isFinishCount",isFinishCount);

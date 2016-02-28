@@ -120,10 +120,10 @@ public class CustomView extends View {
 
         //GameScene用Rect初期化
         buttonRect1 = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
-        actionButtonRect = new Rect (width * 75 / 100 ,height * 5 / 100,width * 95 / 100 ,height * 20 / 100);
+        actionButtonRect = new Rect (width * 75 / 100 ,height * 5 / 100,width * 95 / 100 ,height * 15 / 100);
         topTextRect = new Rect(width * 20 / 100 ,height * 5 / 100,width * 80 / 100 ,height * 15 / 100);
         roleCardRect = new Rect(width * 5 / 100, height * 5/100 ,width * 20 / 100 ,height * 20 / 100);
-        timerRect = new Rect(width * 22 / 100, height * 5/100 ,width * 70 / 100 ,height * 20 / 100);
+        timerRect = new Rect(width * 22 / 100, height * 5/100 ,width * 70 / 100 ,height * 15 / 100);
 
         //TODO GameSceneとの共有変数の初期化
         setSameVariable();
@@ -243,7 +243,7 @@ public class CustomView extends View {
                     canvas.drawBitmap(backCard, null, rotateCardRect, paint);
                     //timer実装
 
-                    canvas.drawText(MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
+                    canvas.drawText((String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 //                    canvas.drawText("test", width * 25 / 100, height * 5 / 100, paint);
 
 
@@ -264,7 +264,7 @@ public class CustomView extends View {
                     // canvasDraw
                     // 画面上部のテキスト情報
                     canvas.drawBitmap(frameImg, null, topFrameRect, paint);
-                    String roleText = String.format("あなたの役職は「%s」です。%s",MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"),MainActivity.getPlayerInfo(myPlayerId, "roleId", "explain"));
+                    String roleText = String.format("あなたの役職は「%s」です。%s",(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"),(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "explain"));
 
                     canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
                     canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
@@ -295,11 +295,51 @@ public class CustomView extends View {
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
                     canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
 
-                    String action = "占う";
-//                    // TODO 役職ごとに文字を変えるswitch文
-//                    canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
+                    if(MainActivity.isFirstNight){
+                        if((Boolean)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","hasActionFirst")){
+                            String action = "";
+                            switch ((String)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","name")){
+//                                case "人狼":
+//                                    action = "噛み";
+//                                    break;
+                                case "占い師":
+                                    action = "占い";
+                                    break;
+//                                case "狩人":
+//                                    action = "護衛";
+//                                    break;
+//                                case "霊媒師":
+//                                    action = "霊媒";
+//                                    break;
+                                default:
+                                    break;
+                            }
+                            canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
+                        }
+                    }else{
+                        if((Boolean)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","hasAction")){
+                            String action = "";
+                            switch ((String)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","name")){
+                                case "人狼":
+                                    action = "噛み";
+                                    break;
+                                case "占い師":
+                                    action = "占い";
+                                    break;
+                                case "狩人":
+                                    action = "護衛";
+                                    break;
+                                case "霊媒師":
+                                    action = "霊媒";
+                                    break;
+                                default:
+                                    break;
+                            }
+                            canvas.drawText(action, width * 75 / 100, height * 10 / 100, paint);
 
-                    // TODO Chat実装
+                        }
+                    }
+
                     // confirm button
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);

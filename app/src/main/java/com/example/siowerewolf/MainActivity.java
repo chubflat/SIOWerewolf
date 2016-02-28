@@ -3,7 +3,6 @@ package com.example.siowerewolf;
 import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -83,6 +82,8 @@ public class MainActivity extends Activity {
     public static Map<String,String> fixedGameInfo;
     public static Map<String,Object> ruleDic;
     public static ArrayList<Integer> roleArray;
+    public static Map<String,Object> infoDic;
+    public static Map<String,String> userNameDic;//chat表示用
 
 	public static int selectedPlayerId;//リストで選択されたプレイヤーのId
     public static int selectedRoomId;
@@ -202,7 +203,7 @@ public class MainActivity extends Activity {
         /** ListViewの追加終了 **/
 
         chat = getLayoutInflater().inflate(R.layout.activity_chat,null);
-        FrameLayout.LayoutParams chatLp = new FrameLayout.LayoutParams(customView.width * 90 /100,customView.height * 80 / 100);
+        FrameLayout.LayoutParams chatLp = new FrameLayout.LayoutParams(customView.width * 90 /100,customView.height * 70 / 100);
         chatLp.gravity = Gravity.BOTTOM | Gravity.CENTER;
         chatLp.bottomMargin = 100;
 
@@ -255,6 +256,9 @@ public class MainActivity extends Activity {
         fixedGameInfo = new HashMap<>();
         playerInfoDicArray = new ArrayList<>();
         roleArray = new ArrayList<>();
+        infoDic = new HashMap<>();
+
+        userNameDic = new HashMap<>();
 
         signalId = (int)(Math.random()*999999);
 
@@ -347,7 +351,7 @@ public class MainActivity extends Activity {
 //        listView.invalidateViews();
     }
 
-    public static String getPlayerInfo(int arrayId,String playerInfoKey,String roleInfoKey){
+    public static Object getPlayerInfo(int arrayId,String playerInfoKey,String roleInfoKey){
         String playerInfo = (String) Utility.getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(arrayId).get(playerInfoKey))).get(roleInfoKey);
 
         return playerInfo;
@@ -472,6 +476,7 @@ public class MainActivity extends Activity {
                                                 if(receivedCommandMessageArray[1].equals(myId)){
                                                     myPlayerId = Integer.valueOf(receivedCommandMessageArray[0]);
                                                 }
+                                                userNameDic.put(receivedCommandMessageArray[1],receivedCommandMessageArray[2]);
 
 //                                            Collections.sort(playerInfoDicArray, new Comparator<Map<String, Object>>() {
 //                                                public int compare(Map<String, Object> member1, Map<String, Object> member2) {
@@ -487,6 +492,7 @@ public class MainActivity extends Activity {
                                                 if(playerInfoDicArray.size() == Integer.valueOf(receivedCommandMessageArray[3])){
                                                     // 参加人数分の配列取得
                                                     sendEvent(fixedGameInfo.get("periId"),"memberCheck:"+ myId);
+//                                                    infoDic.put("playerInfoDicArray",(ArrayList<String,Map<String,Object>>)playerInfoDicArray);
                                                 }
 
                                                 break;
@@ -513,6 +519,8 @@ public class MainActivity extends Activity {
                                                 ruleDic.put("seerMode",ruleSetting[2]);// 初日占い
                                                 ruleDic.put("canGuard",ruleSetting[3]);// 連続ガード
                                                 ruleDic.put("isLack", ruleSetting[4]);// 役欠け
+
+                                                infoDic.put("ruleDic",ruleDic);
 
                                                 for(int i =0;i<ruleSetting.length;i++){
                                                     String ruleString = "";
@@ -571,8 +579,10 @@ public class MainActivity extends Activity {
                                                 for(int i= 0;i<receivedCommandMessageArray.length;i++){
                                                     String[] playerRole = receivedCommandMessageArray[i].split(",",0);
                                                     int j = Integer.valueOf(playerRole[0]);
+//                                                    infoDic.get("ruleDic").get;
+//                                                    infoDic.get("playerInfoDicArray").get(j).put("roleId", Integer.valueOf(playerRole[1]));
                                                     playerInfoDicArray.get(j).put("roleId",Integer.valueOf(playerRole[1]));
-                                                    playerInfoDicArray.get(j).put("isLive",true);
+                                                    playerInfoDicArray.get(j).put("isLive", true);
                                                 }
 
                                                 break;
@@ -583,19 +593,25 @@ public class MainActivity extends Activity {
                                                 break;
 
                                             case "chatreceive":
+
+                                                if(msgInfo[2].equals(myId)){
+
+                                                }
+
                                                 ChatMessage chatMessage = new ChatMessage();
+                                                String receivedMessage = "";
                                                 if(receivedCommandMessageArray[0].equals("aaaaaa")){
                                                     // centID  == receivedCommandMessageArray[0]
 
-                                                    String receivedMessage = receivedCommandMessageArray[2];
+                                                    receivedMessage = receivedCommandMessageArray[2];
                                                     chatMessage.setId(1);//dummy
                                                     chatMessage.setMessage(receivedMessage);
                                                     chatMessage.setName("GM");
                                                     chatMessage.setMe(false);
 
                                                 }else{
-                                                    String receivedMessage = receivedCommandMessageArray[1];
-                                                    String name = "testtest";
+                                                    receivedMessage = receivedCommandMessageArray[1];//userId
+                                                    String name = userNameDic.get(receivedCommandMessageArray[0]);
                                                     chatMessage.setId(1);//dummy
                                                     chatMessage.setMessage(receivedMessage);
                                                     chatMessage.setName(name);
@@ -722,6 +738,7 @@ public class MainActivity extends Activity {
         isSettingScene = false;
         isGameScene = true;
         gamePhase = "roleRotate";
+        isFirstNight = true;
     }
 
     public static String receivedCommand;

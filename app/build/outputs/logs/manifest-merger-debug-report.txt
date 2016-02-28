@@ -53,11 +53,3 @@ category#android.intent.category.LAUNCHER
 ADDED from AndroidManifest.xml:23:17
 	android:name
 		ADDED from AndroidManifest.xml:23:27
-activity#com.example.siowerewolf.ChatActivity
-ADDED from AndroidManifest.xml:26:9
-	android:label
-		ADDED from AndroidManifest.xml:27:19
-	android:windowSoftInputMode
-		ADDED from AndroidManifest.xml:28:19
-	android:name
-		ADDED from AndroidManifest.xml:26:19
