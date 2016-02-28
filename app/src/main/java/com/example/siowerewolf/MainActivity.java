@@ -27,6 +27,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -119,6 +120,13 @@ public class MainActivity extends Activity {
     public static TextView txtMessage;
 
 
+    //Timer
+    public static LoopEngine loopEngine;
+    public static long startDate;
+    public static long stopDate;
+    public static String timer;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setUserId();
@@ -144,7 +152,7 @@ public class MainActivity extends Activity {
 //		ListView listView = (ListView)findViewById(R.id.listView1);
 //		listView.setAdapter(adapter);
         listView = new ListView(this);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(customView.width*90/100,customView.height*6/10);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(CustomView.width *90/100, CustomView.height *6/10);
         lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
         selectedPlayerId = -2;
 
@@ -203,7 +211,7 @@ public class MainActivity extends Activity {
         /** ListViewの追加終了 **/
 
         chat = getLayoutInflater().inflate(R.layout.activity_chat,null);
-        FrameLayout.LayoutParams chatLp = new FrameLayout.LayoutParams(customView.width * 90 /100,customView.height * 70 / 100);
+        FrameLayout.LayoutParams chatLp = new FrameLayout.LayoutParams(CustomView.width * 90 /100, CustomView.height * 70 / 100);
         chatLp.gravity = Gravity.BOTTOM | Gravity.CENTER;
         chatLp.bottomMargin = 100;
 
@@ -212,9 +220,9 @@ public class MainActivity extends Activity {
         initControls();
 
         editText = new EditText(this);
-        FrameLayout.LayoutParams editLP = new FrameLayout.LayoutParams(customView.width,customView.height/10);
+        FrameLayout.LayoutParams editLP = new FrameLayout.LayoutParams(CustomView.width, CustomView.height /10);
         editLP.gravity = Gravity.BOTTOM;
-        editLP.bottomMargin = customView.height*10/100;
+        editLP.bottomMargin = CustomView.height *10/100;
 
         editText.setLayoutParams(editLP);
         editText.setBackgroundColor(Color.WHITE);
@@ -227,23 +235,6 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 
-
-
-//        preference = getSharedPreferences("user_setting", MODE_PRIVATE);
-//        editor = preference.edit();
-//
-//        if(preference.getBoolean("Launched",false)){
-//            //初回起動時処理
-////            int id = (int)Math.random()*999999;
-////            myId = String.format("%1$06d",id);
-//            myName = "はせべ";
-//            /**preferenceの書き換え**/
-//            editor.putBoolean("Launched",true);
-//            editor.commit();
-//
-//        }else{
-//            /**2回目以降の処理**/
-//        }
     }
     /**onCreateここまで**/
 
@@ -264,6 +255,9 @@ public class MainActivity extends Activity {
 
         isWaiting = false;
         receivedCommand = "";
+
+        loopEngine = new LoopEngine();
+        timer = "";
 
     }
     public static void setListAdapter(String type){
@@ -425,7 +419,9 @@ public class MainActivity extends Activity {
 
                             switch (msgInfo[0]){
                                 case "advertiseMyDevice":
+//                                    loopEngine.start();
                                     Boolean isNew = true;
+
                                     for(int i=0;i<roomInfoDicArray.size();i++){
                                         if(roomInfoDicArray.get(i).get("gameId").equals(msgInfo[1])){
                                             isNew = false;
@@ -593,6 +589,9 @@ public class MainActivity extends Activity {
                                             case "firstNight":
                                                 gamePhase = "night_action";
                                                 drawChat(true);
+                                                startDate =System.currentTimeMillis()/1000;
+                                                stopDate = startDate + (int)ruleDic.get("night_timer")*20;
+                                                loopEngine.start();
                                                 break;
 
                                             case "chatreceive":
@@ -627,10 +626,23 @@ public class MainActivity extends Activity {
 
 
                                                 break;
+                                            case "afternoonStart":
+                                                gamePhase = "morning";
 
+                                                break;
                                             default:
                                                 break;
                                         }
+
+                                        switch (receivedCommand){// Timer
+                                            case "firstNight":
+                                                loopEngine.start();
+                                                break;
+                                            default:
+                                                break;
+
+                                        }
+
                                         customView.invalidate();
 
                                     }else{
@@ -709,19 +721,6 @@ public class MainActivity extends Activity {
 
         chatHistory = new ArrayList<ChatMessage>();
 
-//        ChatMessage msg = new ChatMessage();
-//        msg.setId(1);
-//        msg.setMe(false);
-//        msg.setMessage("Hi");
-//        msg.setDate(DateFormat.getDateTimeInstance().format(new Date()));
-//        chatHistory.add(msg);
-//        ChatMessage msg1 = new ChatMessage();
-//        msg1.setId(2);
-//        msg1.setMe(false);
-//        msg1.setMessage("How r u doing???");
-//        msg1.setDate(DateFormat.getDateTimeInstance().format(new Date()));
-//        chatHistory.add(msg1);
-
         chatadapter = new ChatAdapter(MainActivity.this, new ArrayList<ChatMessage>());
         messagesContainer.setAdapter(chatadapter);
 
@@ -772,15 +771,6 @@ public class MainActivity extends Activity {
 
         String sendMessage = String.format("mes:%d:%s:%s:%s",signalId,yourId,myId,message);
 
-//                "mes:"
-//                + Integer.toString(signalId) + ":"
-//                + periId + ":"
-//                + centId + ":"
-//                + command + ":"
-//                + gameId + "/"
-//                + centId + "/"
-//                + centName + "/"
-//                + periId + "/0";
 		try {
 		// イベント送信
 			JSONObject json = new JSONObject();
@@ -971,6 +961,37 @@ public class MainActivity extends Activity {
         return true;
     }
 
+    public static void update(){
+        int timerSecond = (int)(stopDate - System.currentTimeMillis()/1000);
+        String minute = String.format("%1$02d",timerSecond/60);
+        String second = String.format("%1$02d",timerSecond%60);
+        timer = minute + ":" + second;
+        if(timer.equals("00:00")){
+            loopEngine.stop();
+            sendEvent(fixedGameInfo.get("periId"),"nightFinish:"+myId);
+            drawChat(false);
+        }
+        customView.invalidate();
+    }
 
+}
 
+//一定時間後にupdateを呼ぶためのオブジェクト
+class LoopEngine extends Handler {
+    private boolean isUpdate;
+    public void start(){
+        this.isUpdate = true;
+        handleMessage(new Message());
+    }
+    public void stop(){
+        this.isUpdate = false;
+    }
+    @Override
+    public void handleMessage(Message msg) {
+        this.removeMessages(0);//既存のメッセージは削除
+        if(this.isUpdate){
+            MainActivity.update();//自信が発したメッセージを取得してupdateを実行
+            sendMessageDelayed(obtainMessage(0),100);//100ミリ秒後にメッセージを出力
+        }
+    }
 }

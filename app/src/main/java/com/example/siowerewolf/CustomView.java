@@ -110,7 +110,7 @@ public class CustomView extends View {
         //TODO 画像サイズ修正時になおす
         timerFrameImg = decodeSampledBitmapFromResource(getResources(),R.drawable.frame,bitmapWidth,bitmapHeight);
         buttonImg = decodeSampledBitmapFromResource(getResources(),R.drawable.button,bitmapWidth,bitmapHeight);
-        roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+        roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.card0,bitmapWidth,bitmapHeight);
         backCard = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
 
         //SettingScene用Rect初期化
@@ -240,6 +240,8 @@ public class CustomView extends View {
                     Rect rotateCardRect = new Rect(width * 15 /100,height * 20 / 100 ,width * 85 / 100 ,height *20 /100 + width * 70 / 100  * 1125 /938 );
                     //TODO cardRotate
                     //TODO roleImgを取ってくる:デフォルトで村人
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+
 
                     canvas.drawBitmap(backCard, null, rotateCardRect, paint);
                     //timer実装
@@ -294,6 +296,7 @@ public class CustomView extends View {
 //                    MainActivity.drawChat(true);
                     canvas.drawBitmap(roleImg,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
+                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10/ 100, paint);
 //                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
 
 //                    if(MainActivity.isFirstNight){
@@ -344,6 +347,9 @@ public class CustomView extends View {
 //                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
 //                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
+                    canvas.drawText("確認中", width * 20 / 100, height * 50 / 100, paint);
+
+
                     break;
 
                 case "morning":
@@ -361,6 +367,16 @@ public class CustomView extends View {
                     // confirm button
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
+
+                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",2,"いません");
+
+                    TextPaint morningTextPaint = new TextPaint();
+                    morningTextPaint.setTextSize(width * 7/100);
+                    StaticLayout morningTextLayout = new StaticLayout(morningText,morningTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+                    canvas.translate(width * 2 / 10, height * 25 / 100);//text の左上座標の指定
+
+                    morningTextLayout.draw(canvas);
+                    canvas.restore();
 
 
                     break;
