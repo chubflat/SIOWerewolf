@@ -584,6 +584,9 @@ public class MainActivity extends Activity {
                                                     playerInfoDicArray.get(j).put("roleId",Integer.valueOf(playerRole[1]));
                                                     playerInfoDicArray.get(j).put("isLive", true);
                                                 }
+                                                startDate =System.currentTimeMillis()/1000;
+                                                stopDate = startDate + 3;
+                                                loopEngine.rotateStart();
 
                                                 break;
 
@@ -630,20 +633,15 @@ public class MainActivity extends Activity {
                                             case "afternoonStart":
                                                 gamePhase = "morning";
                                                 day++;
-
-                                                break;
-                                            default:
-                                                break;
-                                        }
-
-                                        switch (receivedCommand){// Timer
-                                            case "firstNight":
+                                                startDate =System.currentTimeMillis()/1000;
+                                                stopDate = startDate + (int)ruleDic.get("timer")*20;
                                                 loopEngine.start();
+
                                                 break;
                                             default:
                                                 break;
-
                                         }
+
 
                                         customView.invalidate();
 
@@ -970,10 +968,21 @@ public class MainActivity extends Activity {
         timer = minute + ":" + second;
         if(timer.equals("00:00")){
             loopEngine.stop();
-            sendEvent(fixedGameInfo.get("periId"),"nightFinish:"+myId);
-            drawChat(false);
+            if(gamePhase.equals("night_action")){
+                sendEvent(fixedGameInfo.get("periId"),"nightFinish:"+myId);
+                drawChat(false);
+            }else if(gamePhase.equals("afternoon_meeting")){
+                gamePhase = "evening_voting";
+
+            }
+
         }
         customView.invalidate();
+    }
+    public static void rotate(){
+        if(stopDate == System.currentTimeMillis() / 1000){
+            loopEngine.rotateStop();
+        }
     }
 
 }
@@ -981,6 +990,7 @@ public class MainActivity extends Activity {
 //一定時間後にupdateを呼ぶためのオブジェクト
 class LoopEngine extends Handler {
     private boolean isUpdate;
+    private boolean isRotate;
     public void start(){
         this.isUpdate = true;
         handleMessage(new Message());
@@ -988,12 +998,22 @@ class LoopEngine extends Handler {
     public void stop(){
         this.isUpdate = false;
     }
+    public void rotateStart(){
+        this.isRotate = true;
+        handleMessage(new Message());
+    }
+    public void rotateStop(){
+        this.isRotate = false;
+    }
     @Override
     public void handleMessage(Message msg) {
         this.removeMessages(0);//既存のメッセージは削除
         if(this.isUpdate){
             MainActivity.update();//自信が発したメッセージを取得してupdateを実行
             sendMessageDelayed(obtainMessage(0),100);//100ミリ秒後にメッセージを出力
+        }else if(isRotate){
+            MainActivity.rotate();
+            sendMessageDelayed(obtainMessage(0),100);
         }
     }
 }

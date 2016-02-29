@@ -390,6 +390,7 @@ public class CustomView extends View {
 
                     break;
                 case "evening_voting":
+                    MainActivity.drawListView(true);
                     // background
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
