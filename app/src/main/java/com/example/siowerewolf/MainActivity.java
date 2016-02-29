@@ -23,6 +23,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -125,6 +126,7 @@ public class MainActivity extends Activity {
     public static long startDate;
     public static long stopDate;
     public static String timer;
+    public static int roleImg;
 
 
     @Override
@@ -980,8 +982,12 @@ public class MainActivity extends Activity {
         customView.invalidate();
     }
     public static void rotate(){
+        int i = (int)(Math.random()*6);
+        roleImg = (int)Utility.getRoleInfo(getRole(i)).get("cardId");
         if(stopDate == System.currentTimeMillis() / 1000){
             loopEngine.rotateStop();
+//            roleImg = (int)Utility.getRoleInfo(getRole(myPlayerId)).get("cardId");
+            roleImg = R.drawable.card11;
         }
     }
 

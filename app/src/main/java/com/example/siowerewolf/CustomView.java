@@ -234,6 +234,7 @@ public class CustomView extends View {
                     //TODO cardRotate
                     //TODO roleImgを取ってくる:デフォルトで村人
 //                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
 
 
                     canvas.drawBitmap(backCard, null, rotateCardRect, paint);
