@@ -354,13 +354,9 @@ public class CustomView extends View {
                     canvas.drawBitmap(roleImg,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
                     Rect morningFrameRect = new Rect(width * 15 / 100,height * 40 / 100,width * 85 / 100 ,height * 60 / 100);
-                    canvas.drawBitmap(frameImg,null,morningFrameRect,paint);
+                    canvas.drawBitmap(frameImg, null, morningFrameRect, paint);
 
                     //TODO Text表示
-
-                    // confirm button
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
                     String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",MainActivity.day,MainActivity.victimString);
 
@@ -371,6 +367,20 @@ public class CustomView extends View {
 
                     morningTextLayout.draw(canvas);
                     canvas.restore();
+
+                    // confirm button
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
+
+                    String text3 = "";
+                    if(!(MainActivity.isWaiting)){
+                        canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                        text3 = "確認完了";
+                    }else{
+                        text3 = "全員の確認待ち";
+                    }
+                    canvas.drawText(text3,width * 25/100,height * 85/100,paint);
+
 
 
                     break;
@@ -511,6 +521,12 @@ public class CustomView extends View {
                             }
 
                             break;
+                            case "morning":
+                                if(getTouchButton(buttonRect1) && !(MainActivity.isWaiting)){
+                                    MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"checkVictim:" + MainActivity.myId);
+                                    MainActivity.isWaiting = true;
+                                }
+                                break;
                         default:
                             break;
                         }

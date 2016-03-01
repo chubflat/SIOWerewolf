@@ -272,6 +272,9 @@ public class MainActivity extends Activity {
             case "ruleCheck":
                 adapter.add("");
                 break;
+            case "evening_voting":
+
+                break;
             default:
                 break;
         }
@@ -439,8 +442,9 @@ public class MainActivity extends Activity {
                                         roomInfoDic.put("periName", msgInfo[3]);
 
                                         roomInfoDicArray.add(roomInfoDic);
+                                        String room = String.format("%s(%s)",roomInfoDic.get("periName"),roomInfoDic.get("gameId"));
                                         // メッセージが空でなければ追加
-                                        adapter.add(roomInfoDic.get("periName") + "(" + roomInfoDic.get("gameId") + ")");
+                                        adapter.add(room);
                                         /**受信メッセージを格納**/
 
                                         customView.invalidate();
@@ -650,6 +654,7 @@ public class MainActivity extends Activity {
 
                                                 break;
                                             case "victimCheckFinish":
+                                                isWaiting = false;
                                                 gamePhase = "afternoon_meeting";
                                                 startDate =System.currentTimeMillis()/1000;
                                                 stopDate = startDate + (int)ruleDic.get("timer")*20;
