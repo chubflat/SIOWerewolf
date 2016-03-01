@@ -234,7 +234,7 @@ public class CustomView extends View {
                     //TODO cardRotate
                     //TODO roleImgを取ってくる:デフォルトで村人
 //                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(MainActivity.myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
-                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
 
 
                     canvas.drawBitmap(backCard, null, rotateCardRect, paint);
@@ -358,20 +358,6 @@ public class CustomView extends View {
 
                     //TODO Text表示
 
-                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",MainActivity.day,MainActivity.victimString);
-
-                    TextPaint morningTextPaint = new TextPaint();
-                    morningTextPaint.setTextSize(width * 7/100);
-                    StaticLayout morningTextLayout = new StaticLayout(morningText,morningTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
-                    canvas.translate(width * 2 / 10, height * 25 / 100);//text の左上座標の指定
-
-                    morningTextLayout.draw(canvas);
-                    canvas.restore();
-
-                    // confirm button
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
-
                     String text3 = "";
                     if(!(MainActivity.isWaiting)){
                         canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
@@ -379,7 +365,19 @@ public class CustomView extends View {
                     }else{
                         text3 = "全員の確認待ち";
                     }
-                    canvas.drawText(text3,width * 25/100,height * 85/100,paint);
+                    canvas.drawText(text3, width * 25 / 100, height * 85 / 100, paint);
+
+                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",MainActivity.day,MainActivity.victimString);
+
+                    TextPaint morningTextPaint = new TextPaint();
+                    morningTextPaint.setTextSize(width * 5 / 100);
+                    StaticLayout morningTextLayout = new StaticLayout(morningText,morningTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+                    canvas.translate(width * 2 / 10, height * 40 / 100);//text の左上座標の指定
+
+                    morningTextLayout.draw(canvas);
+                    canvas.restore();
+
+
 
 
 
@@ -392,33 +390,34 @@ public class CustomView extends View {
                     roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(roleImg,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
+                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
 
-                    // confirm button
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
+
 
                     break;
                 case "evening_voting":
-                    MainActivity.drawListView(true);
                     // background
+                    MainActivity.drawListView(true);
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
-                    // TODO List表示
-
-                    // confirm button
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
+//                    // confirm button
+//                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+//                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
                     break;
                 case "excution":
                     // background
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(roleImg,null,roleCardRect,paint);
-                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
+                    canvas.drawBitmap(roleImg, null, roleCardRect, paint);
+                    canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
 
                     Rect excutionFrameRect = new Rect(width * 15 / 100,height * 20 / 100,width * 85 / 100 ,height * 80 / 100);
-                    canvas.drawBitmap(frameImg,null,excutionFrameRect,paint);
+                    canvas.drawBitmap(frameImg, null, excutionFrameRect, paint);
+
+                    String result = String.format("%d日目%s回目の投票の結果、\n %sが追放されました。",MainActivity.day,MainActivity.receivedCommandMessageArray[1],"aaa");
+                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
+
 
                     // confirm button
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);

@@ -177,6 +177,12 @@ public class MainActivity extends Activity {
                     String participateRequest = String.format("participateRequest:%s/%s/%s/%s/0", fixedGameInfo.get("gameId"), myId, myName, fixedGameInfo.get("periId"));
                     sendEvent(fixedGameInfo.get("periId"), participateRequest);
                     drawListView(false);
+
+                }else if(gamePhase.equals("evening_voting")){
+                    selectedPlayerId = listPlayerIdArray.get(position);
+                    String vote =String.format("action:-1/%d/%d",myPlayerId,selectedPlayerId);
+                    sendEvent(fixedGameInfo.get("periId"),vote);
+                    drawListView(false);
                 }
 //                if (phase.equals("player_setting")) {
 //
@@ -264,7 +270,7 @@ public class MainActivity extends Activity {
 
     }
     public static void setListAdapter(String type){
-        listInfoDicArray.clear();
+//        listInfoDicArray.clear();
         listPlayerIdArray.clear();
         adapter.clear();
 
@@ -272,8 +278,21 @@ public class MainActivity extends Activity {
             case "ruleCheck":
                 adapter.add("");
                 break;
-            case "evening_voting":
-
+            case "vote":
+                for(int i = 0;i<playerInfoDicArray.size();i++){
+                    if((Boolean)playerInfoDicArray.get(i).get("isLive") && i != myPlayerId){
+                        adapter.add((String)playerInfoDicArray.get(i).get("userName"));
+                        listPlayerIdArray.add(i);
+                    }
+                }
+                break;
+            case "voteResult":
+                ArrayList<String> resultArray = new ArrayList<>();
+                for(int i =2;i<receivedCommandMessageArray.length;i++){
+                    String[] result = receivedCommandMessageArray[i].split(",",0);
+                    String resultString = String.format("(%s) %s  →  %s",result[1],playerInfoDicArray.get(Integer.valueOf(result[0])).get("userName"),playerInfoDicArray.get(Integer.valueOf(result[2])).get("userName"));
+                    adapter.add(resultString);
+                }
                 break;
             default:
                 break;
@@ -997,6 +1016,7 @@ public class MainActivity extends Activity {
                 drawChat(false);
             }else if(gamePhase.equals("afternoon_meeting")){
                 gamePhase = "evening_voting";
+                setListAdapter("vote");
 
             }
 
