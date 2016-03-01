@@ -104,6 +104,7 @@ public class MainActivity extends Activity {
 	public static boolean isFirstNight;
     public static boolean isWaiting;
     public static int day;
+    public static String victimString;
 
 
     //Chat用
@@ -139,8 +140,6 @@ public class MainActivity extends Activity {
 		// FrameLayout作成
 		FrameLayout mFrameLayout = new FrameLayout(this);
 		setContentView(mFrameLayout);
-
-		// TODO initBackground
 
 		//TODO FrameLayoutに追加
 		customView = new CustomView(this);
@@ -244,6 +243,7 @@ public class MainActivity extends Activity {
         isSettingScene = true;
         settingPhase = "setting_menu";
         day = 1;
+        victimString = "いません";
 
         listPlayerIdArray = new ArrayList<>();
         roomInfoDicArray = new ArrayList<>();
@@ -586,13 +586,14 @@ public class MainActivity extends Activity {
                                                     playerInfoDicArray.get(j).put("roleId",Integer.valueOf(playerRole[1]));
                                                     playerInfoDicArray.get(j).put("isLive", true);
                                                 }
-                                                startDate =System.currentTimeMillis()/1000;
-                                                stopDate = startDate + 3;
-                                                loopEngine.rotateStart();
+//                                                startDate =System.currentTimeMillis()/1000;
+//                                                stopDate = startDate + 3;
+//                                                loopEngine.rotateStart();
 
                                                 break;
 
                                             case "firstNight":
+                                            case "nightStart":
                                                 gamePhase = "night_action";
                                                 drawChat(true);
                                                 startDate =System.currentTimeMillis()/1000;
@@ -635,10 +636,26 @@ public class MainActivity extends Activity {
                                             case "afternoonStart":
                                                 gamePhase = "morning";
                                                 day++;
+                                                if(msgInfo.length < 6 ){
+                                                    victimString = "いません";
+                                                }else{
+                                                    String [] nightVictim = receivedCommandMessageArray[0].split(",",0);
+                                                    for(int i = 0;i<nightVictim.length;i++){
+                                                        int victimId = Integer.valueOf(nightVictim[i]);
+                                                        playerInfoDicArray.get(victimId).put("isLive",false);
+                                                        victimString = String.format("「%s」さん、",playerInfoDicArray.get(victimId).get("name"));
+
+                                                    }
+                                                }
+
+                                                break;
+                                            case "victimCheckFinish":
+                                                gamePhase = "afternoon_meeting";
                                                 startDate =System.currentTimeMillis()/1000;
                                                 stopDate = startDate + (int)ruleDic.get("timer")*20;
                                                 loopEngine.start();
-
+                                                break;
+                                            case "voteResult":
                                                 break;
                                             default:
                                                 break;

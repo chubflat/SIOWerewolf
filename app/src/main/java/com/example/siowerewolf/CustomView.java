@@ -362,9 +362,7 @@ public class CustomView extends View {
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
 
-                    String victim = "";
-
-                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",MainActivity.day,victim);
+                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",MainActivity.day,MainActivity.victimString);
 
                     TextPaint morningTextPaint = new TextPaint();
                     morningTextPaint.setTextSize(width * 7/100);
