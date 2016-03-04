@@ -629,9 +629,14 @@ public class MainActivity extends Activity {
 //                                                startDate =System.currentTimeMillis()/1000;
 //                                                stopDate = startDate + 3;
 //                                                loopEngine.rotateStart();
-
                                                 break;
+                                            default:
+                                                break;
+                                        }
 
+                                        /**after gameStart**/
+                                    if((Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
+                                        switch (receivedCommand){
                                             case "firstNight":
                                             case "nightStart":
                                                 drawListView(false);
@@ -672,7 +677,6 @@ public class MainActivity extends Activity {
                                                     displayMessage(chatMessage);
                                                 }
 
-
                                                 break;
                                             case "afternoonStart":
                                                 gamePhase = "morning";
@@ -704,7 +708,7 @@ public class MainActivity extends Activity {
                                             default:
                                                 break;
                                         }
-
+                                    }
 
                                         customView.invalidate();
 

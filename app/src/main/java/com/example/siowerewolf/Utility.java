@@ -9,7 +9,9 @@ import java.util.Map;
 public class Utility {
 
     public static enum seerMode{
-
+        SeerModeNone, // なし
+        SeerModeFree, // あり
+        SeerModerevelation, //お告げ
     }
 
     public static enum Role{
@@ -22,6 +24,7 @@ public class Utility {
         Bodyguard,
         Mason,
         Fox,
+        Cat,
         Lycan,
         ToughGuy,
         ApprenticeSeer,
@@ -35,7 +38,6 @@ public class Utility {
         //        Mimic,
         Fanatic,
         Immoralist,
-        Cat,
         Baker,
         Noble,
         Slave,

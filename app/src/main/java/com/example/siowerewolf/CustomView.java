@@ -299,6 +299,8 @@ public class CustomView extends View {
 //                                    break;
                                 case "占い師":
                                     action = "占う";
+                                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
+                                    canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
                                     break;
 //                                case "狩人":
 //                                    action = "護衛";
@@ -309,8 +311,7 @@ public class CustomView extends View {
                                 default:
                                     break;
                             }
-                            canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
-                            canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
+
                         }
                     }else{
                         Rect historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *97 /100);
@@ -328,9 +329,6 @@ public class CustomView extends View {
                                 case "狩人":
                                     action = "護衛";
                                     break;
-                                case "霊媒師":
-                                    action = "霊媒";
-                                    break;
                                 default:
                                     break;
                             }
@@ -344,6 +342,23 @@ public class CustomView extends View {
                 case "night_action":
                     MainActivity.setListAdapter("night_action");
                     MainActivity.drawListView(true);
+
+                    String actionString = "";
+
+                    switch ((String)MainActivity.getPlayerInfo(myPlayerId,"roleId","name")){
+                        case "人狼":
+                            actionString = "噛む";
+                            break;
+                        case "占い師":
+                            actionString = "占う";
+                            break;
+                        case "狩人":
+                            actionString = "護衛";
+                            break;
+                        default:
+                            break;
+                    }
+                    canvas.drawText(actionString + "先を指定してください", width * 30 / 100, height * 10 / 100, paint);
 
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
@@ -387,10 +402,6 @@ public class CustomView extends View {
 
                     morningTextLayout.draw(canvas);
                     canvas.restore();
-
-
-
-
 
                     break;
                 case "afternoon_meeting":
