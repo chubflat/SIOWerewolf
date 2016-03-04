@@ -51,12 +51,13 @@ public class CustomView extends View {
     public static Rect topTextRect;
     public static Rect roleCardRect;
     public static Rect timerRect;
+    public static Rect historyRect;
 
     // TODO GameSceneと共通の変数
     public static int day = 0;
     public static int selectedPlayerId;
     public static int mediumId;
-    public static boolean isFirstNight;
+//    public static boolean isFirstNight;
     //    public static String scene;
     public static String settingPhase;
     public static String gamePhase;
@@ -285,13 +286,17 @@ public class CustomView extends View {
 
                     MainActivity.drawChat(true);
                     canvas.drawBitmap(roleImg, null, roleCardRect, paint);
-                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
-                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10/ 100, paint);
+                    canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
+                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
+
+                    historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *97 /100);
+                    canvas.drawBitmap(buttonImg,null,historyRect,paint);
+                    canvas.drawText("履歴",width * 7/100,height * 92 / 100,paint);
 
 //                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
 
                     String action = "";
-                    if(MainActivity.isFirstNight){
+                    if(MainActivity.day == 1){
                         if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasActionFirst")){
                             switch ((String)MainActivity.getPlayerInfo(myPlayerId,"roleId","name")){
 //                                case "人狼":
@@ -314,9 +319,6 @@ public class CustomView extends View {
 
                         }
                     }else{
-                        Rect historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *97 /100);
-                        canvas.drawBitmap(buttonImg,null,historyRect,paint);
-                        canvas.drawText("履歴",width * 7/100,height * 90 / 100,paint);
 
                         if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasAction")){
                             switch ((String)MainActivity.getPlayerInfo(myPlayerId,"roleId","name")){
@@ -458,6 +460,9 @@ public class CustomView extends View {
                     canvas.drawText(text4, width * 25 / 100, height * 85 / 100, paint);
 
                     break;
+                case "heaven":
+
+                    break;
                 case "gameover":
                     // confirm button
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
@@ -557,6 +562,13 @@ public class CustomView extends View {
                             case "night_chat":
                                 if(getTouchButton(actionButtonRect)){
                                     MainActivity.gamePhase = "night_action";
+                                }else if(getTouchButton(historyRect)){
+                                    MainActivity.gamePhase = "night_history";
+                                }
+                                break;
+                            case "night_action":
+                                if(getTouchButton(buttonRect1)){
+                                    MainActivity.gamePhase = "night_chat";
                                 }
                                 break;
                             case "night_history":
@@ -604,7 +616,7 @@ public class CustomView extends View {
         isSettingScene = MainActivity.isSettingScene;
         isGameScene = MainActivity.isGameScene;
 //        selectedPlayerId = MainActivity.selectedPlayerId;
-        isFirstNight = MainActivity.isFirstNight;
+//        isFirstNight = MainActivity.isFirstNight;
         settingPhase = MainActivity.settingPhase;
         gamePhase = MainActivity.gamePhase;
         myPlayerId = MainActivity.myPlayerId;

@@ -36,8 +36,8 @@
       <file leaf-file-name="CustomView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="360" column="109" selection-start-line="360" selection-start-column="109" selection-end-line="360" selection-end-column="109" />
+            <state vertical-scroll-proportion="-5.3448277">
+              <caret line="60" column="22" selection-start-line="60" selection-start-column="22" selection-end-line="60" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -56,12 +56,24 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.14691943">
-              <caret line="714" column="36" selection-start-line="714" selection-start-column="36" selection-end-line="714" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.36729857">
+              <caret line="107" column="22" selection-start-line="107" selection-start-column="22" selection-end-line="107" selection-end-column="22" />
               <folding>
-                <element signature="e#5245#7157#0" expanded="true" />
-                <element signature="e#7156#7157#0" expanded="true" />
-                <element signature="e#20072#20088#0" expanded="true" />
+                <element signature="e#5244#7156#0" expanded="true" />
+                <element signature="e#7155#7156#0" expanded="true" />
+                <element signature="e#16684#35460#0" expanded="true" />
+                <element signature="e#16742#35447#0" expanded="true" />
+                <element signature="e#20099#20115#0" expanded="true" />
+                <element signature="e#35446#35447#0" expanded="true" />
+                <element signature="e#35459#35460#0" expanded="true" />
+                <element signature="e#36248#37060#0" expanded="true" />
+                <element signature="e#37059#37060#0" expanded="true" />
+                <element signature="e#37253#37254#0" expanded="true" />
+                <element signature="e#37333#37334#0" expanded="true" />
+                <element signature="e#40445#41251#0" expanded="true" />
+                <element signature="e#41250#41251#0" expanded="true" />
+                <element signature="e#41964#42775#0" expanded="true" />
+                <element signature="e#42774#42775#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1794,7 +1806,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java</url>
-          <line>261</line>
+          <line>262</line>
           <properties />
         </line-breakpoint>
       </breakpoints>
@@ -1840,20 +1852,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="360" column="109" selection-start-line="360" selection-start-column="109" selection-end-line="360" selection-end-column="109" />
+        <state vertical-scroll-proportion="-5.3448277">
+          <caret line="60" column="22" selection-start-line="60" selection-start-column="22" selection-end-line="60" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14691943">
-          <caret line="714" column="36" selection-start-line="714" selection-start-column="36" selection-end-line="714" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.36729857">
+          <caret line="107" column="22" selection-start-line="107" selection-start-column="22" selection-end-line="107" selection-end-column="22" />
           <folding>
-            <element signature="e#5245#7157#0" expanded="true" />
-            <element signature="e#7156#7157#0" expanded="true" />
-            <element signature="e#20072#20088#0" expanded="true" />
+            <element signature="e#5244#7156#0" expanded="true" />
+            <element signature="e#7155#7156#0" expanded="true" />
+            <element signature="e#16684#35460#0" expanded="true" />
+            <element signature="e#16742#35447#0" expanded="true" />
+            <element signature="e#20099#20115#0" expanded="true" />
+            <element signature="e#35446#35447#0" expanded="true" />
+            <element signature="e#35459#35460#0" expanded="true" />
+            <element signature="e#36248#37060#0" expanded="true" />
+            <element signature="e#37059#37060#0" expanded="true" />
+            <element signature="e#37253#37254#0" expanded="true" />
+            <element signature="e#37333#37334#0" expanded="true" />
+            <element signature="e#40445#41251#0" expanded="true" />
+            <element signature="e#41250#41251#0" expanded="true" />
+            <element signature="e#41964#42775#0" expanded="true" />
+            <element signature="e#42774#42775#0" expanded="true" />
           </folding>
         </state>
       </provider>

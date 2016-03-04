@@ -104,8 +104,9 @@ public class MainActivity extends Activity {
 	public static Boolean isGameScene;
 	public static String settingPhase;
 	public static String gamePhase;
-	public static boolean isFirstNight;
+//	public static boolean isFirstNight;
     public static boolean isWaiting;
+    public static boolean actionDone;
     public static int day;
     public static String victimString;
 
@@ -131,7 +132,6 @@ public class MainActivity extends Activity {
     public static long stopDate;
     public static String timer;
     public static int roleImg;
-    public static Boolean isTimerFinish;
 
 
     @Override
@@ -256,6 +256,7 @@ public class MainActivity extends Activity {
         signalId = (int)(Math.random()*999999);
 
         isWaiting = false;
+        actionDone = false;
         receivedCommand = "";
 
         loopEngine = new LoopEngine();
@@ -639,6 +640,7 @@ public class MainActivity extends Activity {
                                         switch (receivedCommand){
                                             case "firstNight":
                                             case "nightStart":
+
                                                 drawListView(false);
                                                 gamePhase = "night_chat";
                                                 drawChat(true);
@@ -708,6 +710,8 @@ public class MainActivity extends Activity {
                                             default:
                                                 break;
                                         }
+                                    }else{
+                                        gamePhase = "heaven";
                                     }
 
                                         customView.invalidate();
@@ -815,7 +819,7 @@ public class MainActivity extends Activity {
         isSettingScene = false;
         isGameScene = true;
         gamePhase = "roleRotate";
-        isFirstNight = true;
+        day = 1;
     }
 
     public static String receivedCommand;
