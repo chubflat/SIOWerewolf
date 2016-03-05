@@ -36,11 +36,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CustomView.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CustomView.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="570" column="23" selection-start-line="570" selection-start-column="23" selection-end-line="570" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.38938054">
+              <caret line="519" column="69" selection-start-line="519" selection-start-column="69" selection-end-line="519" selection-end-column="69" />
               <folding />
             </state>
           </provider>
@@ -56,33 +56,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5106383">
-              <caret line="391" column="73" selection-start-line="391" selection-start-column="73" selection-end-line="391" selection-end-column="73" />
+            <state vertical-scroll-proportion="-8.5172415">
+              <caret line="863" column="67" selection-start-line="863" selection-start-column="67" selection-end-line="863" selection-end-column="67" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5282#7443#0" expanded="true" />
-                <element signature="e#7442#7443#0" expanded="true" />
-                <element signature="e#11039#11806#0" expanded="true" />
-                <element signature="e#11805#11806#0" expanded="true" />
-                <element signature="class#11864:12079" expanded="false" />
-                <element signature="e#12420#13360#0" expanded="true" />
-                <element signature="e#13359#13360#0" expanded="true" />
-                <element signature="e#13970#14480#0" expanded="true" />
-                <element signature="e#14479#14480#0" expanded="true" />
-                <element signature="e#15002#15850#0" expanded="true" />
-                <element signature="e#15849#15850#0" expanded="true" />
-                <element signature="e#24477#43544#0" expanded="true" />
-                <element signature="e#24535#43531#0" expanded="true" />
-                <element signature="e#27892#27908#0" expanded="true" />
-                <element signature="e#43530#43531#0" expanded="true" />
-                <element signature="e#43543#43544#0" expanded="true" />
-                <element signature="e#44332#45144#0" expanded="true" />
-                <element signature="e#45143#45144#0" expanded="true" />
-                <element signature="e#45337#45338#0" expanded="true" />
-                <element signature="e#45417#45418#0" expanded="true" />
+                <element signature="e#5282#7448#0" expanded="true" />
+                <element signature="e#7447#7448#0" expanded="true" />
+                <element signature="e#11044#11811#0" expanded="true" />
+                <element signature="e#11810#11811#0" expanded="true" />
+                <element signature="class#11869:12084" expanded="false" />
+                <element signature="e#12425#13365#0" expanded="true" />
+                <element signature="e#13364#13365#0" expanded="true" />
+                <element signature="e#13975#14485#0" expanded="true" />
+                <element signature="e#14484#14485#0" expanded="true" />
+                <element signature="e#15007#15855#0" expanded="true" />
+                <element signature="e#15854#15855#0" expanded="true" />
+                <element signature="e#24482#43623#0" expanded="true" />
+                <element signature="e#24540#43610#0" expanded="true" />
+                <element signature="e#27897#27913#0" expanded="true" />
+                <element signature="e#43609#43610#0" expanded="true" />
+                <element signature="e#43622#43623#0" expanded="true" />
+                <element signature="e#44411#45223#0" expanded="true" />
+                <element signature="e#45222#45223#0" expanded="true" />
+                <element signature="e#45416#45417#0" expanded="true" />
+                <element signature="e#45496#45497#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1403,8 +1403,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/color.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/Utility.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java" />
       </list>
     </option>
   </component>
@@ -1849,41 +1849,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="570" column="23" selection-start-line="570" selection-start-column="23" selection-end-line="570" selection-end-column="23" />
-          <folding />
+        <state vertical-scroll-proportion="-8.5172415">
+          <caret line="863" column="67" selection-start-line="863" selection-start-column="67" selection-end-line="863" selection-end-column="67" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5282#7448#0" expanded="true" />
+            <element signature="e#7447#7448#0" expanded="true" />
+            <element signature="e#11044#11811#0" expanded="true" />
+            <element signature="e#11810#11811#0" expanded="true" />
+            <element signature="class#11869:12084" expanded="false" />
+            <element signature="e#12425#13365#0" expanded="true" />
+            <element signature="e#13364#13365#0" expanded="true" />
+            <element signature="e#13975#14485#0" expanded="true" />
+            <element signature="e#14484#14485#0" expanded="true" />
+            <element signature="e#15007#15855#0" expanded="true" />
+            <element signature="e#15854#15855#0" expanded="true" />
+            <element signature="e#24482#43623#0" expanded="true" />
+            <element signature="e#24540#43610#0" expanded="true" />
+            <element signature="e#27897#27913#0" expanded="true" />
+            <element signature="e#43609#43610#0" expanded="true" />
+            <element signature="e#43622#43623#0" expanded="true" />
+            <element signature="e#44411#45223#0" expanded="true" />
+            <element signature="e#45222#45223#0" expanded="true" />
+            <element signature="e#45416#45417#0" expanded="true" />
+            <element signature="e#45496#45497#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5106383">
-          <caret line="391" column="73" selection-start-line="391" selection-start-column="73" selection-end-line="391" selection-end-column="73" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5282#7443#0" expanded="true" />
-            <element signature="e#7442#7443#0" expanded="true" />
-            <element signature="e#11039#11806#0" expanded="true" />
-            <element signature="e#11805#11806#0" expanded="true" />
-            <element signature="class#11864:12079" expanded="false" />
-            <element signature="e#12420#13360#0" expanded="true" />
-            <element signature="e#13359#13360#0" expanded="true" />
-            <element signature="e#13970#14480#0" expanded="true" />
-            <element signature="e#14479#14480#0" expanded="true" />
-            <element signature="e#15002#15850#0" expanded="true" />
-            <element signature="e#15849#15850#0" expanded="true" />
-            <element signature="e#24477#43544#0" expanded="true" />
-            <element signature="e#24535#43531#0" expanded="true" />
-            <element signature="e#27892#27908#0" expanded="true" />
-            <element signature="e#43530#43531#0" expanded="true" />
-            <element signature="e#43543#43544#0" expanded="true" />
-            <element signature="e#44332#45144#0" expanded="true" />
-            <element signature="e#45143#45144#0" expanded="true" />
-            <element signature="e#45337#45338#0" expanded="true" />
-            <element signature="e#45417#45418#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.38938054">
+          <caret line="519" column="69" selection-start-line="519" selection-start-column="69" selection-end-line="519" selection-end-column="69" />
+          <folding />
         </state>
       </provider>
     </entry>

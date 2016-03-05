@@ -195,7 +195,7 @@ public class CustomView extends View {
                 case "info_check":
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     paint.setColor(Color.WHITE);
-                    canvas.drawText("プレイヤー情報確認中", width * 20 / 100, height * 50 / 100, paint);
+                    canvas.drawText("プレイヤー情報受信中", width * 10 / 100, height * 50 / 100, paint);
 
 //                    canvas.drawText("test1", width * 20 / 100, height * 70 / 100, paint);
 //                    canvas.drawText("test2", width * 20 / 100, height * 80 / 100, paint);
@@ -208,7 +208,7 @@ public class CustomView extends View {
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     //topText
                     canvas.drawBitmap(timerFrameImg,null,topTextRect,paint);
-                    canvas.drawText("ルール", width * 30 / 100, height * 10 / 100, paint);
+                    canvas.drawText("ルール確認", width * 30 / 100, height * 10 / 100, paint);
 
                     //confirmButton
 
@@ -298,7 +298,7 @@ public class CustomView extends View {
 
                     String action = "";
                     if(MainActivity.day == 1){
-                        if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasActionFirst") && MainActivity.ruleDic.get("SeerMode") == Utility.SeerMode.SeerModeFree.ordinal()){
+                        if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasActionFirst") && (int)MainActivity.ruleDic.get("SeerMode") == Utility.SeerMode.SeerModeFree.ordinal()){
                                 if(!MainActivity.actionDone){
                                     action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
                                     canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
@@ -380,6 +380,10 @@ public class CustomView extends View {
                     canvas.drawBitmap(roleImg,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
                     canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
+
+                    historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *95 /100);
+                    canvas.drawBitmap(buttonImg,null,historyRect,paint);
+                    canvas.drawText("履歴",width * 7/100,height * 92 / 100,paint);
 
 
 
@@ -513,7 +517,7 @@ public class CustomView extends View {
 
                                 break;
                             case "night_chat":
-                                if(actionButtonRect.contains((int) pointX, (int) pointY)){
+                                if(getTouchButton(buttonRect1) && !(MainActivity.actionDone)){
                                     MainActivity.gamePhase = "night_action";
                                 }else if(getTouchButton(historyRect)){
                                     MainActivity.gamePhase = "night_history";

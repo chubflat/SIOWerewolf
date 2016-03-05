@@ -183,7 +183,7 @@ public class MainActivity extends Activity {
                             setDialog(vote);
                             break;
                         case "night_action":
-                            if(ruleDic.get("canContinuousGuard") == 0 && selectedPlayerId == lastGuardPlayerId){
+                            if((int)ruleDic.get("canContinuousGuard") == 0 && selectedPlayerId == lastGuardPlayerId){
                                 dialogPattern = "continuousGuardError";
                                 setDialog("連続護衛はできません");
                             }else{
@@ -862,6 +862,7 @@ public class MainActivity extends Activity {
                                             case "voteResult":
                                                 setListAdapter("voteResult");
                                                 drawListView(true);
+                                                gamePhase = "voteFinish";
                                                 break;
                                             default:
                                                 break;
