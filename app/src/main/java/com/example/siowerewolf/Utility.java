@@ -49,6 +49,8 @@ public class Utility {
         Map<String, Object> infoDic = new HashMap<String, Object>();
         String name = "";
         String token = "";
+        String actionButtonText = "";
+        String actionDialogText = "";
 //        Boolean hasTable = false;
         Boolean hasTableFirst = false;
         Boolean hasAction = false;
@@ -78,8 +80,10 @@ public class Utility {
                 name = "人狼";
                 token = "狼";
                 hasAction = true;
-                hasActionFirst = true;
+                hasActionFirst = false;
                 hasTableFirst = true;
+                actionDialogText = "噛みます";
+                actionButtonText = "噛む";
                 explain = "人狼は毎晩目を覚まし、村の人間を一人ずつ選んで喰い殺していきます。人狼同士で協力して人間を喰い尽くし、村を全滅させてしまいましょう。";
                 // 判定
                 seerResult = -1;
@@ -96,6 +100,8 @@ public class Utility {
                 hasAction = true;
                 hasActionFirst = true;
                 hasTableFirst = false;
+                actionDialogText = "占います";
+                actionButtonText = "占う";
                 explain = "占い師は毎晩目を覚まし、自分が人狼だと疑っている人物を１人指定してその人物が人狼かそうでないかを知ることができます。";
                 //判定
                 seerResult = 1;
@@ -137,6 +143,8 @@ public class Utility {
                 hasAction = true;
                 hasActionFirst = false;
                 hasTableFirst = false;
+                actionDialogText = "護衛します";
+                actionButtonText = "護衛";
                 explain = "狩人は毎晩目を覚まし、誰かを一人指定してその人物を人狼の襲撃から守ります。ただし、自分自身を守ることはできません。";
                 seerResult = 1;
                 mediumResult = 1;
@@ -394,6 +402,8 @@ public class Utility {
         infoDic.put("hasAction", hasAction);
         infoDic.put("hasActionFirst", hasActionFirst);
         infoDic.put("hasTableFirst",hasTableFirst);
+        infoDic.put("actionButtonText",actionButtonText);
+        infoDic.put("actionDialogText",actionDialogText);
         infoDic.put("seerResult",seerResult);
         infoDic.put("mediumResult",mediumResult);
         infoDic.put("isFinishCount",isFinishCount);

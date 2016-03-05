@@ -151,7 +151,6 @@ public class MainActivity extends Activity {
 //		setContentView(R.layout.activity_main);
 
 
-//
         /**ListViewの追加**/
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
 //		ListView listView = (ListView)findViewById(R.id.listView1);
@@ -170,28 +169,25 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (settingPhase.equals("room_select")) {
                     selectedRoomId = position;
-                    fixedGameInfo.put("gameId", roomInfoDicArray.get(selectedRoomId).get("gameId"));
-                    fixedGameInfo.put("periId", roomInfoDicArray.get(selectedRoomId).get("periId"));
-                    fixedGameInfo.put("periName", roomInfoDicArray.get(selectedRoomId).get("periName"));
-                    String participateRequest = String.format("participateRequest:%s/%s/%s/%s/0", fixedGameInfo.get("gameId"), myId, myName, fixedGameInfo.get("periId"));
-                    sendEvent(fixedGameInfo.get("periId"), participateRequest);
-                    drawListView(false);
+                    String roomDialogText =String.format("%s(%s)に参加します",roomInfoDicArray.get(selectedRoomId).get("periName"),roomInfoDicArray.get(selectedRoomId).get("gameId"));
+                    dialogPattern = "room_select";
+                    setDialog(roomDialogText);
 
                 } else {
                     selectedPlayerId = listPlayerIdArray.get(position);
+                    dialogPattern = gamePhase;
                     switch (gamePhase) {
-
                         case "evening_voting":
-                            String vote = String.format("action:-1/%d/%d", myPlayerId, selectedPlayerId);
-                            sendEvent(fixedGameInfo.get("periId"), vote);
-                            drawListView(false);
+                            String vote = String.format("「%s」さんに投票します",(String)playerInfoDicArray.get(selectedPlayerId).get("userName"));
+                            setDialog(vote);
                             break;
                         case "night_action":
-                            String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
-                            sendEvent(fixedGameInfo.get("periId"), action);
-                            gamePhase = "night_chat";
-                            drawListView(false);
-
+                            String action = String.format("「%s」さんを%s",(String)playerInfoDicArray.get(selectedPlayerId).get("userName"), (String)getPlayerInfo(myPlayerId, "roleId", "actionDialogText"));
+                            setDialog(action);
+//                            String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
+//                            sendEvent(fixedGameInfo.get("periId"), action);
+//                            gamePhase = "night_chat";
+//                            drawListView(false);
                             break;
                         default:
                             break;
@@ -206,7 +202,8 @@ public class MainActivity extends Activity {
         mFrameLayout.addView(listView);
         drawListView(false);
 
-        /** ListViewの追加終了 **/
+        /** ListViewの追加終了
+         * historyListViewの追加**/
 
         historyAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         historyListView = new ListView(this);
@@ -215,7 +212,7 @@ public class MainActivity extends Activity {
 
         historyListView.setAdapter(historyAdapter);
         historyListView.setLayoutParams(lp);
-//        listView.setBackgroundColor(Color.WHITE);
+        historyListView.setBackgroundColor(Color.WHITE);
 
         mFrameLayout.addView(historyListView);
         historyListView.setVisibility(View.INVISIBLE);
@@ -240,6 +237,7 @@ public class MainActivity extends Activity {
 
     public static void initBackground(){
         isSettingScene = true;
+        isGameScene = false;
         settingPhase = "setting_menu";
         day = 1;
         victimString = "いません";
@@ -262,6 +260,136 @@ public class MainActivity extends Activity {
         loopEngine = new LoopEngine();
         timer = "";
 
+
+
+    }
+    public void setDialog(String dialogText){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        switch (dialogPattern){
+            case "editUserName":
+                final EditText editUserName = new EditText(this);
+                builder.setTitle("名前を変更してください")
+                        //setViewにてビューを設定
+                        .setView(editUserName)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String text = editUserName.getText().toString();
+                                if(!(text.equals(""))){
+                                    editor.putString("userName",text);
+                                    /**preferenceの書き換え**/
+                                    editor.commit();
+                                    myName = text;
+                                }
+                            }
+                        })
+                        .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                dialogPattern = "";
+                break;
+            case "editIpAddress":
+                final EditText editIpAddress = new EditText(this);
+                builder.setTitle("接続先を入力してください")
+                        //setViewにてビューを設定
+                        .setView(editIpAddress)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                       Toast.makeText(SettingScene.this, addPlayerView.getText().toString(), Toast.LENGTH_LONG).show();
+
+                                String text = editIpAddress.getText().toString();
+                                if(!(text.equals(""))){
+                                    editor.putString("ipAddress",text);
+                                    /**preferenceの書き換え**/
+                                    editor.commit();
+                                    ipAddress = text;
+
+                                }
+                            }
+                        })
+                        .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+                dialogPattern = "";
+                break;
+            case "room_select":
+                builder.setTitle(dialogText)
+                        //setViewにてビューを設定
+//                        .setView(editUserName)
+                        .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                fixedGameInfo.put("gameId", roomInfoDicArray.get(selectedRoomId).get("gameId"));
+                                fixedGameInfo.put("periId", roomInfoDicArray.get(selectedRoomId).get("periId"));
+                                fixedGameInfo.put("periName", roomInfoDicArray.get(selectedRoomId).get("periName"));
+                                String participateRequest = String.format("participateRequest:%s/%s/%s/%s/0", fixedGameInfo.get("gameId"), myId, myName, fixedGameInfo.get("periId"));
+                                sendEvent(fixedGameInfo.get("periId"), participateRequest);
+                                drawListView(false);
+                            }
+                        })
+                        .setNegativeButton("いいえ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                dialogPattern = "";
+                break;
+            case "evening_voting":
+
+                builder.setTitle(dialogText)
+                        //setViewにてビューを設定
+//                        .setView(editUserName)
+                        .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String vote = String.format("action:-1/%d/%d", myPlayerId, selectedPlayerId);
+                                sendEvent(fixedGameInfo.get("periId"), vote);
+                                drawListView(false);
+                            }
+                        })
+                        .setNegativeButton("いいえ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                dialogPattern = "";
+                break;
+
+            case "night_action":
+                builder.setTitle(dialogText)
+                        //setViewにてビューを設定
+//                        .setView(editUserName)
+                        .setPositiveButton("はい", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
+                                sendEvent(fixedGameInfo.get("periId"), action);
+                                gamePhase = "night_chat";
+                                drawListView(false);
+                            }
+                        })
+                        .setNegativeButton("いいえ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                dialogPattern = "";
+                break;
+            default:
+                break;
+
+        }
     }
     public static void setListAdapter(String type){
 //        listInfoDicArray.clear();
@@ -627,16 +755,19 @@ public class MainActivity extends Activity {
                                                     playerInfoDicArray.get(j).put("roleId",Integer.valueOf(playerRole[1]));
                                                     playerInfoDicArray.get(j).put("isLive", true);
                                                 }
-//                                                startDate =System.currentTimeMillis()/1000;
-//                                                stopDate = startDate + 3;
-//                                                loopEngine.rotateStart();
+                                                startDate =System.currentTimeMillis()/1000;
+                                                stopDate = startDate + 3;
+                                                loopEngine.rotateStart();
+                                                break;
+                                            case "gameEnd":
+                                                gamePhase = "gameover";
                                                 break;
                                             default:
                                                 break;
                                         }
 
                                         /**after gameStart**/
-                                    if((Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
+                                    if(isGameScene && (Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
                                         switch (receivedCommand){
                                             case "firstNight":
                                             case "nightStart":
@@ -876,84 +1007,14 @@ public class MainActivity extends Activity {
         return super.dispatchKeyEvent(event);
     }
 
+
+
     @Override
     public boolean onTouchEvent(MotionEvent event){
         int actionId = event.getAction();
 
-
-        String dialogText = "dialogText";
-
         if(event.getAction() == MotionEvent.ACTION_DOWN && onDialog == true ){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-            switch (dialogPattern){
-                case "editUserName":
-                    final EditText editUserName = new EditText(this);
-                    builder.setTitle("プレイヤー名変更")
-                            //setViewにてビューを設定
-                            .setView(editUserName)
-                            .setPositiveButton("変更", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-//                                       Toast.makeText(SettingScene.this, addPlayerView.getText().toString(), Toast.LENGTH_LONG).show();
-
-                                    String text = editUserName.getText().toString();
-                                    if(!(text.equals(""))){
-                                        editor.putString("userName",text);
-                                        /**preferenceの書き換え**/
-                                        editor.commit();
-                                        myName = text;
-
-                                    }
-                                }
-                            })
-                            .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            })
-                            .show();
-
-                    dialogPattern = "";
-                    break;
-                case "editIpAddress":
-                    final EditText editIpAddress = new EditText(this);
-                    builder.setTitle("接続先を入力してください")
-                            //setViewにてビューを設定
-                            .setView(editIpAddress)
-                            .setPositiveButton("設定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-//                                       Toast.makeText(SettingScene.this, addPlayerView.getText().toString(), Toast.LENGTH_LONG).show();
-
-                                    String text = editIpAddress.getText().toString();
-                                    if(!(text.equals(""))){
-                                        editor.putString("ipAddress",text);
-                                        /**preferenceの書き換え**/
-                                        editor.commit();
-                                        ipAddress = text;
-
-                                    }
-                                }
-                            })
-                            .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            })
-                            .show();
-
-                    dialogPattern = "";
-
-                    break;
-                default:
-                    break;
-
-            }
-
-
+            setDialog(dialogPattern);
 
 //                builder.setMessage(dialogText)
 //                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1032,8 +1093,9 @@ public class MainActivity extends Activity {
         timer = minute + ":" + second;
         if(timer.equals("00:00")){
             loopEngine.stop();
-            if(gamePhase.equals("night_chat") || gamePhase.equals("night_action")){
+            if(gamePhase.equals("night_chat") || gamePhase.equals("night_action") || gamePhase.equals("night_history")){
                 sendEvent(fixedGameInfo.get("periId"),"nightFinish:"+myId);
+                gamePhase = "night_chat";
                 drawChat(false);
             }else if(gamePhase.equals("afternoon_meeting")){
                 gamePhase = "evening_voting";
@@ -1049,9 +1111,10 @@ public class MainActivity extends Activity {
         roleImg = (int) getRoleInfo(getRole(i)).get("cardId");
         if(stopDate == System.currentTimeMillis() / 1000){
             loopEngine.rotateStop();
-//            roleImg = (int)Utility.getRoleInfo(getRole(myPlayerId)).get("cardId");
-            roleImg = R.drawable.card11;
+            roleImg = (int)getPlayerInfo(myPlayerId, "roleId", "cardId");
+//            roleImg = R.drawable.card11;
         }
+        customView.invalidate();
     }
 
 }
@@ -1082,7 +1145,7 @@ class LoopEngine extends Handler {
             sendMessageDelayed(obtainMessage(0),500);//100ミリ秒後にメッセージを出力
         }else if(isRotate){
             MainActivity.rotate();
-            sendMessageDelayed(obtainMessage(0),100);
+            sendMessageDelayed(obtainMessage(0),50);
         }
     }
 }

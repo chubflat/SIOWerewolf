@@ -114,7 +114,7 @@ public class CustomView extends View {
 
         //GameScene用Rect初期化
         buttonRect1 = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
-        actionButtonRect = new Rect (width * 75 / 100 ,height * 87 / 100,width * 95 / 100 ,height * 97 / 100);
+        actionButtonRect = new Rect (width * 75 / 100 ,height * 87 / 100,width * 95 / 100 ,height * 95 / 100);
         topTextRect = new Rect(width * 20 / 100 ,height * 5 / 100,width * 80 / 100 ,height * 15 / 100);
         roleCardRect = new Rect(width * 5 / 100, height * 5/100 ,width * 20 / 100 ,height * 20 / 100);
         timerRect = new Rect(width * 22 / 100, height * 5/100 ,width * 70 / 100 ,height * 15 / 100);
@@ -235,10 +235,10 @@ public class CustomView extends View {
                     Rect rotateCardRect = new Rect(width * 15 /100,height * 20 / 100 ,width * 85 / 100 ,height *20 /100 + width * 70 / 100  * 1125 /938 );
                     //TODO cardRotate
                     //TODO roleImgを取ってくる:デフォルトで村人
-                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(roleImg, null, rotateCardRect, paint);
 
-                    canvas.drawText((String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
+//                    canvas.drawText((String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 
                     // confirm button
                     canvas.drawBitmap(buttonImg,null,buttonRect1,paint);
@@ -273,7 +273,7 @@ public class CustomView extends View {
                     canvas.drawText(text2,width * 25/100,height * 85/100,paint);
 
                     TextPaint mTextPaint = new TextPaint();
-                    mTextPaint.setTextSize(30);
+                    mTextPaint.setTextSize(width * 5/100);
                     StaticLayout mTextLayout = new StaticLayout(roleText,mTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
                     canvas.translate(width * 2 / 10, height * 25 / 100);//text の左上座標の指定
 
@@ -285,11 +285,12 @@ public class CustomView extends View {
                 case "night_chat":
 
                     MainActivity.drawChat(true);
+                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(roleImg, null, roleCardRect, paint);
                     canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
                     canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
 
-                    historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *97 /100);
+                    historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *95 /100);
                     canvas.drawBitmap(buttonImg,null,historyRect,paint);
                     canvas.drawText("履歴",width * 7/100,height * 92 / 100,paint);
 
@@ -298,42 +299,13 @@ public class CustomView extends View {
                     String action = "";
                     if(MainActivity.day == 1){
                         if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasActionFirst")){
-                            switch ((String)MainActivity.getPlayerInfo(myPlayerId,"roleId","name")){
-//                                case "人狼":
-//                                    action = "噛み";
-//                                    break;
-                                case "占い師":
-                                    action = "占う";
-                                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
-                                    canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
-                                    break;
-//                                case "狩人":
-//                                    action = "護衛";
-//                                    break;
-//                                case "霊媒師":
-//                                    action = "霊媒";
-//                                    break;
-                                default:
-                                    break;
-                            }
-
+                            action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
+                            canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
+                            canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
                         }
                     }else{
-
                         if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasAction")){
-                            switch ((String)MainActivity.getPlayerInfo(myPlayerId,"roleId","name")){
-                                case "人狼":
-                                    action = "噛む";
-                                    break;
-                                case "占い師":
-                                    action = "占う";
-                                    break;
-                                case "狩人":
-                                    action = "護衛";
-                                    break;
-                                default:
-                                    break;
-                            }
+                            action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
                             canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
                             canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
                         }
@@ -345,22 +317,8 @@ public class CustomView extends View {
                     MainActivity.setListAdapter("night_action");
                     MainActivity.drawListView(true);
 
-                    String actionString = "";
-
-                    switch ((String)MainActivity.getPlayerInfo(myPlayerId,"roleId","name")){
-                        case "人狼":
-                            actionString = "噛む";
-                            break;
-                        case "占い師":
-                            actionString = "占う";
-                            break;
-                        case "狩人":
-                            actionString = "護衛";
-                            break;
-                        default:
-                            break;
-                    }
-                    canvas.drawText(actionString + "先を指定してください", width * 30 / 100, height * 10 / 100, paint);
+                    String actionString = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
+                    canvas.drawText(actionString + "先を指定してください", width * 10 / 100, height * 10 / 100, paint);
 
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
@@ -379,6 +337,7 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.morning,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
+                    roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(roleImg,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
                     Rect morningFrameRect = new Rect(width * 15 / 100,height * 40 / 100,width * 85 / 100 ,height * 60 / 100);
@@ -466,8 +425,7 @@ public class CustomView extends View {
                 case "gameover":
                     // confirm button
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
-
+                    canvas.drawText("終了する", width * 25 / 100, height * 85 / 100, paint);
                     break;
                 default:
                     break;
@@ -503,24 +461,15 @@ public class CustomView extends View {
 //                                MainActivity.sendEvent(this);
                             }else if(getTouchButton(buttonRect2)){
                                 MainActivity.settingPhase = "user_setting";
-//                                MainActivity.sendEvent(this);
-//                                MainActivity.drawListView(true);
-//                                MainActivity.sendEvent(this);
                             }
                             break;
                         case "room_select":
                             if(getTouchButton(buttonRect1)){
-//                                MainActivity.settingPhase = "rule_confirm";
-//                                MainActivity.scene = "game_scene";
-                                //コメントアウト
                                 MainActivity.settingPhase = "setting_menu";
                             }
                             break;
                         case "user_setting":
                             if(getTouchButton(buttonRect1)){
-//                                MainActivity.settingPhase = "rule_confirm";
-//                                MainActivity.scene = "game_scene";
-                                //コメントアウト
                                 MainActivity.settingPhase = "setting_menu";
                             }else if(getTouchButton(buttonRect3)){
                                 setDialog("editIpAddress");
@@ -533,8 +482,6 @@ public class CustomView extends View {
                             if(getTouchButton(buttonRect1)&& !(MainActivity.isWaiting)){
                                 MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"settingCheck:" + MainActivity.myId);
                                 MainActivity.isWaiting = true;
-//                                MainActivity.isSettingScene = true;
-//                                MainActivity.isGameScene = true;
                             }
 
                             break;
@@ -560,7 +507,7 @@ public class CustomView extends View {
 
                                 break;
                             case "night_chat":
-                                if(getTouchButton(actionButtonRect)){
+                                if(actionButtonRect.contains((int) pointX, (int) pointY)){
                                     MainActivity.gamePhase = "night_action";
                                 }else if(getTouchButton(historyRect)){
                                     MainActivity.gamePhase = "night_history";
@@ -589,11 +536,15 @@ public class CustomView extends View {
                                     MainActivity.isWaiting = true;
                                 }
                                 break;
+                            case "gameover":
+                                if(getTouchButton(buttonRect1) && !(MainActivity.isWaiting)){
+                                    MainActivity.initBackground();
+                                }
+                                break;
                             default:
                                 break;
                         }
                     }
-
                 }
                 break;
 
@@ -601,9 +552,13 @@ public class CustomView extends View {
                 return true;
         }
         invalidate();
-
-        return false;
-
+        Boolean touchFinish = true;
+        if(MainActivity.onDialog){
+            touchFinish = false;
+        }else{
+            touchFinish = true;
+        }
+        return touchFinish;
     }
 
 
