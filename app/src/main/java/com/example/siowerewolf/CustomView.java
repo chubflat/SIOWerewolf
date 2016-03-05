@@ -298,16 +298,22 @@ public class CustomView extends View {
 
                     String action = "";
                     if(MainActivity.day == 1){
-                        if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasActionFirst")){
-                            action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
-                            canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
-                            canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
+                        if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasActionFirst") && MainActivity.ruleDic.get("SeerMode") == Utility.SeerMode.SeerModeFree.ordinal()){
+                                if(!MainActivity.actionDone){
+                                    action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
+                                    canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
+                                    canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
+                                }
+
                         }
                     }else{
                         if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasAction")){
-                            action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
-                            canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
-                            canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
+                            if(!MainActivity.actionDone){
+                                action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
+                                canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
+                                canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
+                            }
+
                         }
                     }
 

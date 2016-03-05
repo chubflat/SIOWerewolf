@@ -109,6 +109,7 @@ public class MainActivity extends Activity {
     public static boolean actionDone;
     public static int day;
     public static String victimString;
+    public static int lastGuardPlayerId;
 
 
     //Chat用
@@ -182,12 +183,18 @@ public class MainActivity extends Activity {
                             setDialog(vote);
                             break;
                         case "night_action":
-                            String action = String.format("「%s」さんを%s",(String)playerInfoDicArray.get(selectedPlayerId).get("userName"), (String)getPlayerInfo(myPlayerId, "roleId", "actionDialogText"));
-                            setDialog(action);
+                            if(ruleDic.get("canContinuousGuard") == 0 && selectedPlayerId == lastGuardPlayerId){
+                                dialogPattern = "continuousGuardError";
+                                setDialog("連続護衛はできません");
+                            }else{
+                                String action = String.format("「%s」さんを%s",(String)playerInfoDicArray.get(selectedPlayerId).get("userName"), (String)getPlayerInfo(myPlayerId, "roleId", "actionDialogText"));
+                                setDialog(action);
 //                            String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
 //                            sendEvent(fixedGameInfo.get("periId"), action);
 //                            gamePhase = "night_chat";
 //                            drawListView(false);
+                            }
+
                             break;
                         default:
                             break;
@@ -241,6 +248,7 @@ public class MainActivity extends Activity {
         settingPhase = "setting_menu";
         day = 1;
         victimString = "いません";
+        lastGuardPlayerId = 100000;
 
         listPlayerIdArray = new ArrayList<>();
         roomInfoDicArray = new ArrayList<>();
@@ -321,6 +329,7 @@ public class MainActivity extends Activity {
                 dialogPattern = "";
                 break;
             case "room_select":
+                /**ゲーム部屋選択**/
                 builder.setTitle(dialogText)
                         //setViewにてビューを設定
 //                        .setView(editUserName)
@@ -333,6 +342,7 @@ public class MainActivity extends Activity {
                                 String participateRequest = String.format("participateRequest:%s/%s/%s/%s/0", fixedGameInfo.get("gameId"), myId, myName, fixedGameInfo.get("periId"));
                                 sendEvent(fixedGameInfo.get("periId"), participateRequest);
                                 drawListView(false);
+                                actionDone = true;
                             }
                         })
                         .setNegativeButton("いいえ", new DialogInterface.OnClickListener() {
@@ -344,6 +354,7 @@ public class MainActivity extends Activity {
                 dialogPattern = "";
                 break;
             case "evening_voting":
+                /**投票**/
 
                 builder.setTitle(dialogText)
                         //setViewにてビューを設定
@@ -354,6 +365,7 @@ public class MainActivity extends Activity {
                                 String vote = String.format("action:-1/%d/%d", myPlayerId, selectedPlayerId);
                                 sendEvent(fixedGameInfo.get("periId"), vote);
                                 drawListView(false);
+                                actionDone = true;
                             }
                         })
                         .setNegativeButton("いいえ", new DialogInterface.OnClickListener() {
@@ -366,9 +378,8 @@ public class MainActivity extends Activity {
                 break;
 
             case "night_action":
+                /**夜のアクション**/
                 builder.setTitle(dialogText)
-                        //setViewにてビューを設定
-//                        .setView(editUserName)
                         .setPositiveButton("はい", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -376,9 +387,23 @@ public class MainActivity extends Activity {
                                 sendEvent(fixedGameInfo.get("periId"), action);
                                 gamePhase = "night_chat";
                                 drawListView(false);
+                                actionDone = true;
+                                if(playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Bodyguard){
+                                    lastGuardPlayerId = selectedPlayerId;
+                                }
                             }
                         })
                         .setNegativeButton("いいえ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                dialogPattern = "";
+                break;
+            case "continuousGuardError":
+                builder.setTitle(dialogText)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }
@@ -684,13 +709,13 @@ public class MainActivity extends Activity {
                                                 /**rule_setting**/
                                                 String [] ruleSetting = receivedCommandMessageArray[1].split(",",0);
                                                 ruleDic = new HashMap<String, Object>();
-                                                ruleDic.put("timer", ruleSetting[0]); // 昼時間
-                                                ruleDic.put("night_timer",ruleSetting[1]);// 夜時間
-                                                ruleDic.put("seerMode",ruleSetting[2]);// 初日占い
-                                                ruleDic.put("canGuard",ruleSetting[3]);// 連続ガード
-                                                ruleDic.put("isLack", ruleSetting[4]);// 役欠け
-
-                                                infoDic.put("ruleDic",ruleDic);
+//                                                ruleDic.put("timer", ruleSetting[0]); // 昼時間
+//                                                ruleDic.put("night_timer",ruleSetting[1]);// 夜時間
+//                                                ruleDic.put("seerMode",ruleSetting[2]);// 初日占い
+//                                                ruleDic.put("canGuard",ruleSetting[3]);// 連続ガード
+//                                                ruleDic.put("isLack", ruleSetting[4]);// 役欠け
+//
+//                                                infoDic.put("ruleDic",ruleDic);
 
                                                 for(int i =0;i<ruleSetting.length;i++){
                                                     String ruleString = "";
@@ -755,8 +780,8 @@ public class MainActivity extends Activity {
                                                     playerInfoDicArray.get(j).put("roleId",Integer.valueOf(playerRole[1]));
                                                     playerInfoDicArray.get(j).put("isLive", true);
                                                 }
-                                                startDate =System.currentTimeMillis()/1000;
-                                                stopDate = startDate + 3;
+                                                startDate =(int)(System.currentTimeMillis()/1000);
+                                                stopDate = startDate + 4;
                                                 loopEngine.rotateStart();
                                                 break;
                                             case "gameEnd":
@@ -771,11 +796,11 @@ public class MainActivity extends Activity {
                                         switch (receivedCommand){
                                             case "firstNight":
                                             case "nightStart":
-
+                                                actionDone = false;
                                                 drawListView(false);
                                                 gamePhase = "night_chat";
                                                 drawChat(true);
-                                                startDate =System.currentTimeMillis()/1000;
+                                                startDate =(int)(System.currentTimeMillis()/1000);
                                                 stopDate = startDate + (int)ruleDic.get("night_timer")*20;
                                                 loopEngine.start();
                                                 break;
@@ -1109,7 +1134,7 @@ public class MainActivity extends Activity {
     public static void rotate(){
         int i = (int)(Math.random()*6);
         roleImg = (int) getRoleInfo(getRole(i)).get("cardId");
-        if(stopDate == System.currentTimeMillis() / 1000){
+        if(System.currentTimeMillis() / 1000 == stopDate){
             loopEngine.rotateStop();
             roleImg = (int)getPlayerInfo(myPlayerId, "roleId", "cardId");
 //            roleImg = R.drawable.card11;
@@ -1142,10 +1167,10 @@ class LoopEngine extends Handler {
         this.removeMessages(0);//既存のメッセージは削除
         if(this.isUpdate){
             MainActivity.update();//自信が発したメッセージを取得してupdateを実行
-            sendMessageDelayed(obtainMessage(0),500);//100ミリ秒後にメッセージを出力
+            sendMessageDelayed(obtainMessage(0),500);//50ミリ秒後にメッセージを出力
         }else if(isRotate){
             MainActivity.rotate();
-            sendMessageDelayed(obtainMessage(0),50);
+            sendMessageDelayed(obtainMessage(0),100);
         }
     }
 }

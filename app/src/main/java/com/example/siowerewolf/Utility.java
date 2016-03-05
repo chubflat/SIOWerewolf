@@ -8,10 +8,10 @@ import java.util.Map;
  */
 public class Utility {
 
-    public static enum seerMode{
+    public static enum SeerMode{
         SeerModeNone, // なし
         SeerModeFree, // あり
-        SeerModerevelation, //お告げ
+        SeerModeRevelation, //お告げ
     }
 
     public static enum Role{
