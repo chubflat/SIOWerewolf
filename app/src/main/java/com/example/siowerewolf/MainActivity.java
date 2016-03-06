@@ -570,7 +570,9 @@ public class MainActivity extends Activity {
 						try {
                             receivedmsg = message.getString("message");
                             String [] msgInfo = receivedmsg.split(":",0);
+                            Log.d("before","before=");
                             getCommand(msgInfo);
+                            Log.d("after","after=");
 
 
                             // command,receivedCommandMessage,receivedCommandMessageArray
@@ -763,7 +765,14 @@ public class MainActivity extends Activity {
                                     if(isGameScene && (Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
                                         switch (receivedCommand){
                                             case "firstNight":
+                                                actionDone = false;
+                                                gamePhase = "night_chat";
+                                                startDate =(int)(System.currentTimeMillis()/1000);
+                                                stopDate = startDate + (int)ruleDic.get("night_timer")*20;
+                                                loopEngine.start();
+                                                break;
                                             case "nightStart":
+                                                Log.d("day_2","day_2=");
                                                 actionDone = false;
                                                 gamePhase = "night_chat";
                                                 startDate =(int)(System.currentTimeMillis()/1000);
@@ -783,6 +792,7 @@ public class MainActivity extends Activity {
 
                                                 }else if(receivedCommandMessageArray[0].equals("aaaaaa")){
                                                     // centID  == receivedCommandMessageArray[0]
+                                                    /**GMからのメッセージ**/
 
                                                     receivedMessage = receivedCommandMessageArray[2];
                                                     chatMessage.setId(1);//dummy
@@ -829,6 +839,10 @@ public class MainActivity extends Activity {
                                                 setListAdapter("voteResult");
                                                 drawListView(true);
                                                 gamePhase = "voteFinish";
+                                                int victimId = Integer.valueOf(receivedCommandMessageArray[1]);
+                                                if(victimId != -1){
+                                                    playerInfoDicArray.get(victimId).put("isLive",false);
+                                                }
                                                 break;
                                             default:
                                                 break;
@@ -1006,6 +1020,8 @@ public class MainActivity extends Activity {
 
         if(event.getAction() == MotionEvent.ACTION_DOWN && onDialog == true ){
             setDialog(dialogPattern);
+        }else{
+
         }
 
         return true;

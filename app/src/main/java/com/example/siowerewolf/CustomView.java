@@ -314,6 +314,7 @@ public class CustomView extends View {
 
                         }
                     }else{
+                        Log.d("day2","day2=");
                         if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasAction")){
                             if(!MainActivity.actionDone){
                                 action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
@@ -419,6 +420,7 @@ public class CustomView extends View {
                 case "voteFinish":
                     // background
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     canvas.drawBitmap(roleImg, null, roleCardRect, paint);
 //                    canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
 //                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
@@ -548,15 +550,16 @@ public class CustomView extends View {
                             case "night_chat":
                                 if(MainActivity.surfaceView.equals("night_action")||MainActivity.surfaceView.equals("history")){
                                     MainActivity.surfaceView = "invisible";
+                                    MainActivity.historyListView.setVisibility(View.INVISIBLE);
                                 }
                                 break;
-                            case "night_action":
-                                    MainActivity.gamePhase = "night_chat";
-                                break;
-                            case "history":
-                                    MainActivity.gamePhase = "night_chat";
-                                    MainActivity.historyListView.setVisibility(View.INVISIBLE);
-                                break;
+//                            case "night_action":
+//                                    MainActivity.gamePhase = "night_chat";
+//                                break;
+//                            case "history":
+//                                    MainActivity.gamePhase = "night_chat";
+//                                    MainActivity.historyListView.setVisibility(View.INVISIBLE);
+//                                break;
                             case "morning":
                                 if(!MainActivity.isWaiting){
                                     MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"checkVictim:" + MainActivity.myId);
@@ -565,7 +568,8 @@ public class CustomView extends View {
 
                                 break;
                             case "afternoon_meeting":
-                                    MainActivity.gamePhase = "history";
+                                MainActivity.surfaceView = "invisible";
+//                                    MainActivity.gamePhase = "history";
                                 break;
                             case "voteFinish":
                                 if(!(MainActivity.isWaiting)){
