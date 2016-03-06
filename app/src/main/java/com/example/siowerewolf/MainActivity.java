@@ -111,6 +111,7 @@ public class MainActivity extends Activity {
     public static String victimString;
     public static int lastGuardPlayerId;
 
+    public static String surfaceView;
 
     //Chat用
     public static View chat;
@@ -151,6 +152,15 @@ public class MainActivity extends Activity {
 		mFrameLayout.addView(customView);
 //		setContentView(R.layout.activity_main);
 
+        /**chat 追加**/
+
+        chat = getLayoutInflater().inflate(R.layout.activity_chat,null);
+        FrameLayout.LayoutParams chatLp = new FrameLayout.LayoutParams(customView.width * 95 /100, customView.height * 60 / 100);
+        chatLp.gravity = Gravity.BOTTOM | Gravity.CENTER;
+        chatLp.bottomMargin = customView.height * 15 /100;
+        chat.setLayoutParams(chatLp);
+        mFrameLayout.addView(chat);
+
 
         /**ListViewの追加**/
 		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
@@ -170,24 +180,32 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (settingPhase.equals("room_select")) {
                     selectedRoomId = position;
-                    String roomDialogText =String.format("%s(%s)に参加します",roomInfoDicArray.get(selectedRoomId).get("periName"),roomInfoDicArray.get(selectedRoomId).get("gameId"));
-                    dialogPattern = "room_select";
-                    setDialog(roomDialogText);
+                    fixedGameInfo.put("gameId", roomInfoDicArray.get(selectedRoomId).get("gameId"));
+                    fixedGameInfo.put("periId", roomInfoDicArray.get(selectedRoomId).get("periId"));
+                    fixedGameInfo.put("periName", roomInfoDicArray.get(selectedRoomId).get("periName"));
+                    String participateRequest = String.format("participateRequest:%s/%s/%s/%s/0", fixedGameInfo.get("gameId"), myId, myName, fixedGameInfo.get("periId"));
+                    sendEvent(fixedGameInfo.get("periId"), participateRequest);
+                    drawListView(false);
+                    actionDone = true;
+//                    String roomDialogText = String.format("%s(%s)に参加します", roomInfoDicArray.get(selectedRoomId).get("periName"), roomInfoDicArray.get(selectedRoomId).get("gameId"));
+//                    dialogPattern = "room_select";
+//                    setDialog(roomDialogText);
 
                 } else {
                     selectedPlayerId = listPlayerIdArray.get(position);
-                    dialogPattern = gamePhase;
                     switch (gamePhase) {
                         case "evening_voting":
-                            String vote = String.format("「%s」さんに投票します",(String)playerInfoDicArray.get(selectedPlayerId).get("userName"));
+                            dialogPattern = "evening_voting";
+                            String vote = String.format("「%s」さんに投票します", (String) playerInfoDicArray.get(selectedPlayerId).get("userName"));
                             setDialog(vote);
                             break;
-                        case "night_action":
-                            if((int)ruleDic.get("canContinuousGuard") == 0 && selectedPlayerId == lastGuardPlayerId){
+                        case "night_chat":
+                            dialogPattern = "night_action";
+                            if ((int) ruleDic.get("canContinuousGuard") == 0 && selectedPlayerId == lastGuardPlayerId) {
                                 dialogPattern = "continuousGuardError";
                                 setDialog("連続護衛はできません");
-                            }else{
-                                String action = String.format("「%s」さんを%s",(String)playerInfoDicArray.get(selectedPlayerId).get("userName"), (String)getPlayerInfo(myPlayerId, "roleId", "actionDialogText"));
+                            } else {
+                                String action = String.format("「%s」さんを%s", (String) playerInfoDicArray.get(selectedPlayerId).get("userName"), (String) getPlayerInfo(myPlayerId, "roleId", "actionDialogText"));
                                 setDialog(action);
 //                            String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
 //                            sendEvent(fixedGameInfo.get("periId"), action);
@@ -206,8 +224,8 @@ public class MainActivity extends Activity {
 
         });
 
-        mFrameLayout.addView(listView);
-        drawListView(false);
+//        mFrameLayout.addView(listView);
+//        drawListView(false);
 
         /** ListViewの追加終了
          * historyListViewの追加**/
@@ -223,13 +241,12 @@ public class MainActivity extends Activity {
 
         mFrameLayout.addView(historyListView);
         historyListView.setVisibility(View.INVISIBLE);
+        /**historyListView 追加終了**/
+        /**chat 追加**/
 
-        chat = getLayoutInflater().inflate(R.layout.activity_chat,null);
-        FrameLayout.LayoutParams chatLp = new FrameLayout.LayoutParams(customView.width * 95 /100, customView.height * 60 / 100);
-        chatLp.gravity = Gravity.BOTTOM | Gravity.CENTER;
-        chatLp.bottomMargin = customView.height * 15 /100;
-
-        addContentView(chat, chatLp);
+        mFrameLayout.addView(listView);
+        drawListView(false);
+//        addContentView(chat, chatLp);
         drawChat(false);
         initControls();
 
@@ -267,9 +284,7 @@ public class MainActivity extends Activity {
 
         loopEngine = new LoopEngine();
         timer = "";
-
-
-
+        surfaceView = "invisible";
     }
     public void setDialog(String dialogText){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -434,12 +449,34 @@ public class MainActivity extends Activity {
                 }
                 break;
             case "voteResult":
-                ArrayList<String> resultArray = new ArrayList<>();
-                for(int i =2;i<receivedCommandMessageArray.length;i++){
+//                ArrayList<Integer> resultArray = new ArrayList<>();
+//                for(int i =2;i<receivedCommandMessageArray.length;i++){
+//                    String[] result = receivedCommandMessageArray[i].split(",",0);
+//                    int voteNum = Integer.valueOf(result[2]);
+//                    resultArray.add(voteNum);
+//                }
+//                int max = Collections.max(resultArray);
+//
+//                for(int i = max;i>=0;i--){
+//                    for(int j = 0;j<resultArray.size();j++){
+//                        if(resultArray.get(j) == i){
+//                            String[] result = receivedCommandMessageArray[j+2].split(",", 0);
+//                            int voteNum = Integer.valueOf(result[2]);
+//                            resultArray.add(voteNum);
+//                            String voteFrom = (String)playerInfoDicArray.get(Integer.valueOf(result[0])).get("userName");
+//                            String voteTo = (String)playerInfoDicArray.get(Integer.valueOf(result[1])).get("userName");
+//                            String resultString = String.format("(%d票) %s  →  %s", voteNum, voteFrom, voteTo);
+//                            adapter.add(resultString);
+//                        }
+//                    }
+//                }
+                for(int i = 2;i<receivedCommandMessageArray.length;i++){
                     String[] result = receivedCommandMessageArray[i].split(",",0);
-                    String resultString = String.format("(%s票) %s  →  %s",result[2],playerInfoDicArray.get(Integer.valueOf(result[0])).get("userName"),playerInfoDicArray.get(Integer.valueOf(result[1])).get("userName"));
+                    int voteNum = Integer.valueOf(result[2]);
+                    String voteFrom = (String)playerInfoDicArray.get(Integer.valueOf(result[0])).get("userName");
+                    String voteTo = (String)playerInfoDicArray.get(Integer.valueOf(result[1])).get("userName");
+                    String resultString = String.format("(%d票) %s  →  %s", voteNum, voteFrom, voteTo);
                     adapter.add(resultString);
-                    resultArray.add(resultString);
                 }
                 break;
             case "night_action":
@@ -464,77 +501,6 @@ public class MainActivity extends Activity {
             default:
                 break;
         }
-//        if(type == -1) { //処刑用
-//            for (int i = 0; i < playerArray.size(); i++) {
-//                if ((boolean) playerArray.get(i).get("isLive") == true) {
-//                    listPlayerIdArray.add(i);
-//
-//                    Map<String,String> conMap = new HashMap<>();
-//                    conMap.put("name",(String)playerArray.get(i).get("name"));
-//                    conMap.put("listSecondInfo","");
-//                    listInfoDicArray.add(conMap);
-//                }
-//            }
-//        }else if(type == 1){//人狼用
-//            if(isFirstNight){//仲間確認用
-//                for (int i = 0; i < playerArray.size(); i++) {
-//                    if (playerArray.get(i).get("roleId") == Utility.Role.Werewolf && nowPlayer != i) {
-//                        listPlayerIdArray.add(i);
-//
-//                        Map<String,String> conMap = new HashMap<>();
-//                        conMap.put("name",(String)playerArray.get(i).get("name"));
-//                        conMap.put("listSecondInfo","");
-//                        listInfoDicArray.add(conMap);
-//                    }
-//                }
-//                Map<String,String> confirm = new HashMap<>();
-//                confirm.put("name","確認したらここをタップ");
-//                confirm.put("listSecondInfo", "");
-//                listInfoDicArray.add(confirm);
-//                listPlayerIdArray.add(-1);
-//
-//            }else{ // 噛み用
-//                for (int i = 0; i < playerArray.size(); i++) {
-//                    if ((boolean) playerArray.get(i).get("isLive") == true && playerArray.get(i).get("roleId") != Utility.Role.Werewolf) {
-//                        listPlayerIdArray.add(i);
-//
-//                        Map<String,String> conMap = new HashMap<>();
-//                        conMap.put("name", (String) playerArray.get(i).get("name"));
-//
-//                        String listSecondInfo = String.format("feel: %d ,should: %d ,must: %d ",wolfkillArray.get(i).get(0),wolfkillArray.get(i).get(1),wolfkillArray.get(i).get(2));
-//                        if((wolfkillArray.get(i).get(0) + wolfkillArray.get(i).get(1) + wolfkillArray.get(i).get(2) >  0)){
-//                            conMap.put("listSecondInfo",listSecondInfo);
-//                        }else{
-//                            conMap.put("listSecondInfo","");
-//                        }
-//                        listInfoDicArray.add(conMap);
-//                    }
-//                }
-//            }
-//        }else if(type == 2){//予言者用
-//            for(int i=0;i < playerArray.size();i++){
-//                if((boolean) playerArray.get(i).get("isLive") == true && playerArray.get(i).get("roleId") != Utility.Role.Seer){
-//                    listPlayerIdArray.add(i);
-//
-//                    Map<String,String> conMap = new HashMap<>();
-//                    conMap.put("name",(String)playerArray.get(i).get("name"));
-//                    conMap.put("listSecondInfo","");
-//                    listInfoDicArray.add(conMap);
-//                }
-//            }
-//        }else if(type == 3){
-//            for(int i=0;i < playerArray.size();i++){
-//                if((boolean) playerArray.get(i).get("isLive") == true && playerArray.get(i).get("roleId") != Utility.Role.Bodyguard){
-//                    listPlayerIdArray.add(i);
-//
-//                    Map<String,String> conMap = new HashMap<>();
-//                    conMap.put("name",(String)playerArray.get(i).get("name"));
-//                    conMap.put("listSecondInfo","");
-//                    listInfoDicArray.add(conMap);
-//                }
-//            }
-//        }
-//        listView.invalidateViews();
     }
 
     public static Object getPlayerInfo(int arrayId,String playerInfoKey,String roleInfoKey){
@@ -645,6 +611,7 @@ public class MainActivity extends Activity {
                                         }
 
                                     }
+                                    MainActivity.isWaiting = true;
                                     customView.invalidate();
                                     // 参加登録しめきり
                                     break;
@@ -690,7 +657,7 @@ public class MainActivity extends Activity {
                                                 break;
                                             case "setting":
                                                 adapter.clear();
-                                                historyAdapter.add("----------ルール設定----------");
+                                                historyAdapter.add("--------------ルール設定--------------");
 
                                                 /**role_setting**/
                                                 String[] roleSetting = receivedCommandMessageArray[0].split(",",0);
@@ -782,6 +749,7 @@ public class MainActivity extends Activity {
                                                 }
                                                 startDate =(int)(System.currentTimeMillis()/1000);
                                                 stopDate = startDate + 4;
+                                                isWaiting = true;
                                                 loopEngine.rotateStart();
                                                 break;
                                             case "gameEnd":
@@ -797,9 +765,7 @@ public class MainActivity extends Activity {
                                             case "firstNight":
                                             case "nightStart":
                                                 actionDone = false;
-                                                drawListView(false);
                                                 gamePhase = "night_chat";
-                                                drawChat(true);
                                                 startDate =(int)(System.currentTimeMillis()/1000);
                                                 stopDate = startDate + (int)ruleDic.get("night_timer")*20;
                                                 loopEngine.start();
@@ -870,7 +836,6 @@ public class MainActivity extends Activity {
                                     }else{
                                         gamePhase = "heaven";
                                     }
-
                                         customView.invalidate();
 
                                     }else{
@@ -1041,74 +1006,8 @@ public class MainActivity extends Activity {
 
         if(event.getAction() == MotionEvent.ACTION_DOWN && onDialog == true ){
             setDialog(dialogPattern);
+        }
 
-//                builder.setMessage(dialogText)
-//                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                // ボタンをクリックしたときの動作
-//                                // dialog 表示しない
-//                                onDialog = false;
-//                                SettingScene.isSettingScene = false;
-//                                SettingScene.isGameScene = true;
-//                                // Activity遷移
-//                                Intent intent = new Intent(SettingScene.this,GameScene.class);
-//                                startActivity(intent);
-////                                                   customView.invalidate();
-//
-//                            }
-//                        });
-//                builder.setMessage(dialogText)
-//                        .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int id) {
-//                                // ボタンをクリックしたときの動作
-//                            }
-//                        });
-//                builder.show();
-            }
-//                   else if(dialogPattern.equals("roleVolume")){
-//                       ArrayList<Integer> roleVolume = new ArrayList<>();
-//                       for(int i = 0;i<playerNameArray.size();i++){
-//                           roleVolume.add(i);
-//                       }
-//                       builder.setTitle("人数を選択してください")
-//                               //setViewにてビューを設定
-//                               .setSingleChoiceItems(roleVolume,0,mClickListerner)
-//                               .setPositiveButton("追加", new DialogInterface.OnClickListener() {
-//                                   @Override
-//                                   public void onClick(DialogInterface dialog, int which) {
-////                                       Toast.makeText(SettingScene.this, addPlayerView.getText().toString(), Toast.LENGTH_LONG).show();
-//
-//                                       String text = addPlayerView.getText().toString();
-//                                       if (!(text.equals(""))) {
-//                                           playerNameArray.add(text);
-//                                       }
-//
-//                                       listInfoDicArray.clear();
-//
-//                                       for (int i = 0; i < playerNameArray.size(); i++) {
-//
-//                                           Map<String, String> conMap = new HashMap<>();
-//                                           conMap.put("name", playerNameArray.get(i));
-//                                           conMap.put("listSecondInfo", "");
-//                                           listInfoDicArray.add(conMap);
-//                                       }
-//
-//                                       playerListView.invalidateViews();
-////                                       // 中身クリア
-////                                       GameScene.editText.getEditableText().clear();
-//                                   }
-//                               })
-//                               .setNegativeButton("キャンセル", new DialogInterface.OnClickListener() {
-//                                   @Override
-//                                   public void onClick(DialogInterface dialog, int which) {
-//
-//                                   }
-//                               })
-//                               .show();
-//
-//                       dialogPattern = "";
-//
-//                   }
         return true;
     }
 
@@ -1119,9 +1018,10 @@ public class MainActivity extends Activity {
         timer = minute + ":" + second;
         if(timer.equals("00:00")){
             loopEngine.stop();
-            if(gamePhase.equals("night_chat") || gamePhase.equals("night_action") || gamePhase.equals("night_history")){
+            if(gamePhase.equals("night_chat") || gamePhase.equals("night_action") || gamePhase.equals("history")){
                 sendEvent(fixedGameInfo.get("periId"),"nightFinish:"+myId);
                 gamePhase = "night_chat";
+                surfaceView = "invisible";
                 drawChat(false);
             }else if(gamePhase.equals("afternoon_meeting")){
                 gamePhase = "evening_voting";
@@ -1138,6 +1038,7 @@ public class MainActivity extends Activity {
         if(System.currentTimeMillis() / 1000 == stopDate){
             loopEngine.rotateStop();
             roleImg = (int)getPlayerInfo(myPlayerId, "roleId", "cardId");
+            isWaiting = false;
 //            roleImg = R.drawable.card11;
         }
         customView.invalidate();
@@ -1171,7 +1072,7 @@ class LoopEngine extends Handler {
             sendMessageDelayed(obtainMessage(0),500);//50ミリ秒後にメッセージを出力
         }else if(isRotate){
             MainActivity.rotate();
-            sendMessageDelayed(obtainMessage(0),100);
+            sendMessageDelayed(obtainMessage(0),50);
         }
     }
 }

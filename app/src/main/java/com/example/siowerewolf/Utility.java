@@ -82,7 +82,7 @@ public class Utility {
                 hasAction = true;
                 hasActionFirst = false;
                 hasTableFirst = true;
-                actionDialogText = "噛みます";
+                actionDialogText = "噛みますか？";
                 actionButtonText = "噛む";
                 explain = "人狼は毎晩目を覚まし、村の人間を一人ずつ選んで喰い殺していきます。人狼同士で協力して人間を喰い尽くし、村を全滅させてしまいましょう。";
                 // 判定
@@ -100,7 +100,7 @@ public class Utility {
                 hasAction = true;
                 hasActionFirst = true;
                 hasTableFirst = false;
-                actionDialogText = "占います";
+                actionDialogText = "占いますか？";
                 actionButtonText = "占う";
                 explain = "占い師は毎晩目を覚まし、自分が人狼だと疑っている人物を１人指定してその人物が人狼かそうでないかを知ることができます。";
                 //判定
@@ -143,7 +143,7 @@ public class Utility {
                 hasAction = true;
                 hasActionFirst = false;
                 hasTableFirst = false;
-                actionDialogText = "護衛します";
+                actionDialogText = "護衛しますか？";
                 actionButtonText = "護衛";
                 explain = "狩人は毎晩目を覚まし、誰かを一人指定してその人物を人狼の襲撃から守ります。ただし、自分自身を守ることはできません。";
                 seerResult = 1;

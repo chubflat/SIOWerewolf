@@ -5,9 +5,6 @@
       <config />
     </shared>
   </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="9bf91307-18df-436f-959c-e0734a5485e9" name="Default" comment="" />
     <ignored path="SIOWerewolf.iws" />
@@ -36,11 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CustomView.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CustomView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38938054">
-              <caret line="519" column="69" selection-start-line="519" selection-start-column="69" selection-end-line="519" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="460" column="52" selection-start-line="460" selection-start-column="52" selection-end-line="460" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -50,39 +47,39 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/Utility.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+              <caret line="145" column="43" selection-start-line="145" selection-start-column="43" selection-end-line="145" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.5172415">
-              <caret line="863" column="67" selection-start-line="863" selection-start-column="67" selection-end-line="863" selection-end-column="67" />
+            <state vertical-scroll-proportion="0.68085104">
+              <caret line="412" column="38" selection-start-line="412" selection-start-column="38" selection-end-line="412" selection-end-column="38" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5282#7448#0" expanded="true" />
-                <element signature="e#7447#7448#0" expanded="true" />
-                <element signature="e#11044#11811#0" expanded="true" />
-                <element signature="e#11810#11811#0" expanded="true" />
-                <element signature="class#11869:12084" expanded="false" />
-                <element signature="e#12425#13365#0" expanded="true" />
-                <element signature="e#13364#13365#0" expanded="true" />
-                <element signature="e#13975#14485#0" expanded="true" />
-                <element signature="e#14484#14485#0" expanded="true" />
-                <element signature="e#15007#15855#0" expanded="true" />
-                <element signature="e#15854#15855#0" expanded="true" />
-                <element signature="e#24482#43623#0" expanded="true" />
-                <element signature="e#24540#43610#0" expanded="true" />
-                <element signature="e#27897#27913#0" expanded="true" />
-                <element signature="e#43609#43610#0" expanded="true" />
-                <element signature="e#43622#43623#0" expanded="true" />
-                <element signature="e#44411#45223#0" expanded="true" />
-                <element signature="e#45222#45223#0" expanded="true" />
-                <element signature="e#45416#45417#0" expanded="true" />
-                <element signature="e#45496#45497#0" expanded="true" />
+                <element signature="e#5738#8634#0" expanded="true" />
+                <element signature="e#8633#8634#0" expanded="true" />
+                <element signature="e#12073#12840#0" expanded="true" />
+                <element signature="e#12839#12840#0" expanded="true" />
+                <element signature="class#12898:13113" expanded="false" />
+                <element signature="e#13454#14394#0" expanded="true" />
+                <element signature="e#14393#14394#0" expanded="true" />
+                <element signature="e#15004#15514#0" expanded="true" />
+                <element signature="e#15513#15514#0" expanded="true" />
+                <element signature="e#16036#16884#0" expanded="true" />
+                <element signature="e#16883#16884#0" expanded="true" />
+                <element signature="e#23214#42362#0" expanded="true" />
+                <element signature="e#23272#42349#0" expanded="true" />
+                <element signature="e#26696#26712#0" expanded="true" />
+                <element signature="e#42348#42349#0" expanded="true" />
+                <element signature="e#42361#42362#0" expanded="true" />
+                <element signature="e#43150#43962#0" expanded="true" />
+                <element signature="e#43961#43962#0" expanded="true" />
+                <element signature="e#44155#44156#0" expanded="true" />
+                <element signature="e#44235#44236#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1403,8 +1400,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/color.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/Utility.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java" />
       </list>
     </option>
   </component>
@@ -1711,7 +1708,7 @@
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="true" />
+      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
       <option name="USE_COMMAND_LINE" value="true" />
       <option name="COMMAND_LINE" value="" />
@@ -1769,13 +1766,13 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32924962" sideWeight="0.49679488" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3280757" sideWeight="0.49679488" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26493108" sideWeight="0.49679488" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.52" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -1805,7 +1802,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java</url>
-          <line>262</line>
+          <line>268</line>
           <properties />
         </line-breakpoint>
       </breakpoints>
@@ -1844,46 +1841,46 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/Utility.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="24" selection-start-line="10" selection-start-column="24" selection-end-line="10" selection-end-column="24" />
+          <caret line="145" column="43" selection-start-line="145" selection-start-column="43" selection-end-line="145" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="460" column="52" selection-start-line="460" selection-start-column="52" selection-end-line="460" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.5172415">
-          <caret line="863" column="67" selection-start-line="863" selection-start-column="67" selection-end-line="863" selection-end-column="67" />
+        <state vertical-scroll-proportion="0.68085104">
+          <caret line="412" column="38" selection-start-line="412" selection-start-column="38" selection-end-line="412" selection-end-column="38" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5282#7448#0" expanded="true" />
-            <element signature="e#7447#7448#0" expanded="true" />
-            <element signature="e#11044#11811#0" expanded="true" />
-            <element signature="e#11810#11811#0" expanded="true" />
-            <element signature="class#11869:12084" expanded="false" />
-            <element signature="e#12425#13365#0" expanded="true" />
-            <element signature="e#13364#13365#0" expanded="true" />
-            <element signature="e#13975#14485#0" expanded="true" />
-            <element signature="e#14484#14485#0" expanded="true" />
-            <element signature="e#15007#15855#0" expanded="true" />
-            <element signature="e#15854#15855#0" expanded="true" />
-            <element signature="e#24482#43623#0" expanded="true" />
-            <element signature="e#24540#43610#0" expanded="true" />
-            <element signature="e#27897#27913#0" expanded="true" />
-            <element signature="e#43609#43610#0" expanded="true" />
-            <element signature="e#43622#43623#0" expanded="true" />
-            <element signature="e#44411#45223#0" expanded="true" />
-            <element signature="e#45222#45223#0" expanded="true" />
-            <element signature="e#45416#45417#0" expanded="true" />
-            <element signature="e#45496#45497#0" expanded="true" />
+            <element signature="e#5738#8634#0" expanded="true" />
+            <element signature="e#8633#8634#0" expanded="true" />
+            <element signature="e#12073#12840#0" expanded="true" />
+            <element signature="e#12839#12840#0" expanded="true" />
+            <element signature="class#12898:13113" expanded="false" />
+            <element signature="e#13454#14394#0" expanded="true" />
+            <element signature="e#14393#14394#0" expanded="true" />
+            <element signature="e#15004#15514#0" expanded="true" />
+            <element signature="e#15513#15514#0" expanded="true" />
+            <element signature="e#16036#16884#0" expanded="true" />
+            <element signature="e#16883#16884#0" expanded="true" />
+            <element signature="e#23214#42362#0" expanded="true" />
+            <element signature="e#23272#42349#0" expanded="true" />
+            <element signature="e#26696#26712#0" expanded="true" />
+            <element signature="e#42348#42349#0" expanded="true" />
+            <element signature="e#42361#42362#0" expanded="true" />
+            <element signature="e#43150#43962#0" expanded="true" />
+            <element signature="e#43961#43962#0" expanded="true" />
+            <element signature="e#44155#44156#0" expanded="true" />
+            <element signature="e#44235#44236#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/CustomView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38938054">
-          <caret line="519" column="69" selection-start-line="519" selection-start-column="69" selection-end-line="519" selection-end-column="69" />
-          <folding />
         </state>
       </provider>
     </entry>

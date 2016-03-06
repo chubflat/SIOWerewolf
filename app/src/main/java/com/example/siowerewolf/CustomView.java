@@ -72,7 +72,6 @@ public class CustomView extends View {
         super(context);
         setFocusable(true);
 
-
         DisplayMetrics dm = Resources.getSystem().getDisplayMetrics();
         width = dm.widthPixels;
         height = dm.heightPixels;
@@ -90,11 +89,12 @@ public class CustomView extends View {
     }
     @Override
     protected void onDraw(Canvas canvas){
-        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+
         Paint paint = new Paint();
         paint.setTextSize(width * 8 / 100);
         paint.setColor(Color.BLACK);
 
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
         // Bitmap初期化
         bitmapWidth = width;
@@ -123,7 +123,7 @@ public class CustomView extends View {
         setSameVariable();
 
         backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
-        canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
+//        canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
         // default List非表示
         MainActivity.drawListView(false);
@@ -135,13 +135,11 @@ public class CustomView extends View {
 
         if(isSettingScene){
             backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
-
+            canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
             switch (settingPhase){
                 case "setting_menu":
 
 
-                    /**background**/
-                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     /**room select**/
                     canvas.drawBitmap(buttonImg,null,buttonRect3,paint);
                     canvas.drawText("ルーム設定", width * 25 / 100, height * 55 / 100, paint);
@@ -153,8 +151,6 @@ public class CustomView extends View {
                 case "user_setting":
                     // TODO User設定画面描画
 
-                    /**background**/
-                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     /**user ID**/
                     canvas.drawText("ID   :\n" + MainActivity.myId,width * 5 / 100,height * 5/100,paint);
                     canvas.drawText("Name :\n" + MainActivity.myName,width * 5 / 100,height * 15/100,paint);
@@ -180,7 +176,6 @@ public class CustomView extends View {
 
                     buttonRect1 = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
 //                    backgroundImg = BitmapFactory.decodeResource(getResources(),R.drawable.night);
-                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
                     paint.setColor(Color.WHITE);
@@ -193,9 +188,15 @@ public class CustomView extends View {
 
                     break;
                 case "info_check":
-                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     paint.setColor(Color.WHITE);
-                    canvas.drawText("プレイヤー情報受信中", width * 10 / 100, height * 50 / 100, paint);
+                    String playerInfoReceive = "";
+                    if(!(MainActivity.isWaiting)){
+                        playerInfoReceive = "プレイヤー情報受信中";
+                    }else{
+                        playerInfoReceive = "ルール設定中";
+                    }
+
+                    canvas.drawText(playerInfoReceive, width * 10 / 100, height * 50 / 100, paint);
 
 //                    canvas.drawText("test1", width * 20 / 100, height * 70 / 100, paint);
 //                    canvas.drawText("test2", width * 20 / 100, height * 80 / 100, paint);
@@ -205,7 +206,7 @@ public class CustomView extends View {
                 case "rule_confirm":
                     MainActivity.drawListView(true);
                     // background
-                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
+//                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     //topText
                     canvas.drawBitmap(timerFrameImg,null,topTextRect,paint);
                     canvas.drawText("ルール確認", width * 30 / 100, height * 10 / 100, paint);
@@ -227,11 +228,12 @@ public class CustomView extends View {
         }else if(!isSettingScene && isGameScene){
             // background
             backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.night,bitmapWidth,bitmapHeight);
-            canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
             switch (gamePhase){
                 case "roleRotate":
                     // rotateImg 表示
+                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
+
                     Rect rotateCardRect = new Rect(width * 15 /100,height * 20 / 100 ,width * 85 / 100 ,height *20 /100 + width * 70 / 100  * 1125 /938 );
                     //TODO cardRotate
                     //TODO roleImgを取ってくる:デフォルトで村人
@@ -241,12 +243,16 @@ public class CustomView extends View {
 //                    canvas.drawText((String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 
                     // confirm button
-                    canvas.drawBitmap(buttonImg,null,buttonRect1,paint);
-                    canvas.drawText("詳細確認", width * 25 / 100, height * 85 / 100, paint);
+                    if(!MainActivity.isWaiting){
+                        canvas.drawBitmap(buttonImg,null,buttonRect1,paint);
+                        canvas.drawText("詳細確認", width * 25 / 100, height * 85 / 100, paint);
+                    }
+
 
                     break;
 
                 case "roleCheck":
+                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
                     //Rect宣言
                     Rect topFrameRect = new Rect(width * 5 /100,height * 5 / 100 ,width * 95 / 100 ,height * 50 /100);
@@ -283,6 +289,7 @@ public class CustomView extends View {
                     break;
 
                 case "night_chat":
+                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
                     MainActivity.drawChat(true);
                     roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
@@ -298,7 +305,7 @@ public class CustomView extends View {
 
                     String action = "";
                     if(MainActivity.day == 1){
-                        if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasActionFirst") && (int)MainActivity.ruleDic.get("SeerMode") == Utility.SeerMode.SeerModeFree.ordinal()){
+                        if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasActionFirst")&& (int)MainActivity.ruleDic.get("seerMode") == 1){
                                 if(!MainActivity.actionDone){
                                     action = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
                                     canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
@@ -319,24 +326,30 @@ public class CustomView extends View {
 
                     break;
 
-                case "night_action":
-                    MainActivity.setListAdapter("night_action");
-                    MainActivity.drawListView(true);
-
-                    String actionString = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
-                    canvas.drawText(actionString + "先を指定してください", width * 10 / 100, height * 10 / 100, paint);
-
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
-
-                    break;
-
-                case "night_history":
-                    MainActivity.historyListView.setVisibility(View.VISIBLE);
-                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
-                    canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
-
-                    break;
+//                case "night_action":
+////                    paint.setColor(Color.BLACK);
+////                    paint.setAlpha(56);
+////                    canvas.drawRect(backgroundRect,paint);
+//                    MainActivity.setListAdapter("night_action");
+//                    MainActivity.drawListView(true);
+//
+//                    String actionString = (String)MainActivity.getPlayerInfo(myPlayerId,"roleId","actionButtonText");
+//                    canvas.drawText(actionString + "先を指定してください", width * 10 / 100, height * 10 / 100, paint);
+//
+//                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+//                    canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
+//
+//                    break;
+//
+//                case "history":
+////                    paint.setColor(Color.BLACK);
+////                    paint.setAlpha(56);
+////                    canvas.drawRect(backgroundRect,paint);
+//                    MainActivity.historyListView.setVisibility(View.VISIBLE);
+//                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+//                    canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
+//
+//                    break;
 
                 case "morning":
                     // background
@@ -385,8 +398,6 @@ public class CustomView extends View {
                     canvas.drawBitmap(buttonImg,null,historyRect,paint);
                     canvas.drawText("履歴",width * 7/100,height * 92 / 100,paint);
 
-
-
                     break;
                 case "evening_voting":
                     // background
@@ -412,12 +423,12 @@ public class CustomView extends View {
 //                    canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
 //                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
 
-                    Rect voteFinishFrameRect = new Rect(width * 15 / 100,height * 10 / 100,width * 85 / 100 ,height * 80 / 100);
-                    canvas.drawBitmap(frameImg, null, voteFinishFrameRect, paint);
+//                    Rect voteFinishFrameRect = new Rect(width * 15 / 100,height * 10 / 100,width * 85 / 100 ,height * 80 / 100);
+//                    canvas.drawBitmap(frameImg, null, voteFinishFrameRect, paint);
 
                     String result = String.format("%d日目%s回目の投票の結果、\n %sが追放されました。",MainActivity.day,MainActivity.receivedCommandMessageArray[1],"aaa");
                     canvas.drawText(result,width * 15/100,height * 10/100,paint);
-
+                    MainActivity.drawListView(true);
 
                     String text4 = "";
                     if(!(MainActivity.isWaiting)){
@@ -440,8 +451,29 @@ public class CustomView extends View {
                 default:
                     break;
             }
-        }
 
+            Paint surfaceView = new Paint();
+            surfaceView.setColor(Color.BLACK);
+            surfaceView.setAlpha(200);
+            switch (MainActivity.surfaceView){
+                case "night_action":
+//                    MainActivity.setListAdapter("night_action");
+                    MainActivity.drawListView(true);
+                    canvas.drawRect(0,0,width,height,surfaceView);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                    canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
+                    break;
+                case "history":
+                    canvas.drawRect(0,0,width,height,surfaceView);
+                    MainActivity.historyListView.setVisibility(View.VISIBLE);
+                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                    canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
+//
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public static float pointX;
@@ -504,55 +536,64 @@ public class CustomView extends View {
                     if(getTouchButton(buttonRect1)){
                         switch (gamePhase){
                             case "roleRotate":
-                                if(getTouchButton(buttonRect1)){
                                     MainActivity.gamePhase = "roleCheck";
                                     MainActivity.isWaiting = false;
-                                }
                                 break;
                             case "roleCheck":
-                                if(getTouchButton(buttonRect1) && !(MainActivity.isWaiting)){
+                                if(!MainActivity.isWaiting){
                                     MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"roleCheck:" + MainActivity.myId);
+                                    MainActivity.isWaiting = true;
+                                }
+                                break;
+                            case "night_chat":
+                                if(MainActivity.surfaceView.equals("night_action")||MainActivity.surfaceView.equals("history")){
+                                    MainActivity.surfaceView = "invisible";
+                                }
+                                break;
+                            case "night_action":
+                                    MainActivity.gamePhase = "night_chat";
+                                break;
+                            case "history":
+                                    MainActivity.gamePhase = "night_chat";
+                                    MainActivity.historyListView.setVisibility(View.INVISIBLE);
+                                break;
+                            case "morning":
+                                if(!MainActivity.isWaiting){
+                                    MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"checkVictim:" + MainActivity.myId);
                                     MainActivity.isWaiting = true;
                                 }
 
                                 break;
-                            case "night_chat":
-                                if(getTouchButton(buttonRect1) && !(MainActivity.actionDone)){
-                                    MainActivity.gamePhase = "night_action";
-                                }else if(getTouchButton(historyRect)){
-                                    MainActivity.gamePhase = "night_history";
-                                }
-                                break;
-                            case "night_action":
-                                if(getTouchButton(buttonRect1)){
-                                    MainActivity.gamePhase = "night_chat";
-                                }
-                                break;
-                            case "night_history":
-                                if(getTouchButton(buttonRect1)){
-                                    MainActivity.gamePhase = "night_chat";
-                                    MainActivity.historyListView.setVisibility(View.INVISIBLE);
-                                }
-                                break;
-                            case "morning":
-                                if(getTouchButton(buttonRect1) && !(MainActivity.isWaiting)){
-                                    MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"checkVictim:" + MainActivity.myId);
-                                    MainActivity.isWaiting = true;
-                                }
+                            case "afternoon_meeting":
+                                    MainActivity.gamePhase = "history";
                                 break;
                             case "voteFinish":
-                                if(getTouchButton(buttonRect1) && !(MainActivity.isWaiting)){
+                                if(!(MainActivity.isWaiting)){
                                     MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"checkVoting:" + MainActivity.myId);
                                     MainActivity.isWaiting = true;
                                 }
                                 break;
                             case "gameover":
-                                if(getTouchButton(buttonRect1) && !(MainActivity.isWaiting)){
+                                if(!(MainActivity.isWaiting)){
                                     MainActivity.initBackground();
                                 }
                                 break;
                             default:
                                 break;
+                        }
+                    }else if(getTouchButton(historyRect) && MainActivity.surfaceView.equals("invisible")){
+                        switch (gamePhase){
+                            case "night_chat":
+                            case "afternoon_meeting":
+                                MainActivity.surfaceView = "history";
+                                break;
+                            default:
+                                break;
+                        }
+                    }else if(getTouchButton(actionButtonRect) && !(MainActivity.actionDone)){
+                        if(gamePhase.equals("night_chat")&&MainActivity.surfaceView.equals("invisible")){
+                            MainActivity.surfaceView = "night_action";
+                            MainActivity.setListAdapter("night_action");
                         }
                     }
                 }
@@ -562,13 +603,7 @@ public class CustomView extends View {
                 return true;
         }
         invalidate();
-        Boolean touchFinish = true;
-        if(MainActivity.onDialog){
-            touchFinish = false;
-        }else{
-            touchFinish = true;
-        }
-        return touchFinish;
+        return false;
     }
 
 
