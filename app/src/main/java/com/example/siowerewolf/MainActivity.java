@@ -506,6 +506,8 @@ public class MainActivity extends Activity {
 //                        }
 //                    }
 //                }
+                String voteHistory = String.format("-------%d日目%d回目投票結果-------",day,votetime);
+                historyAdapter.add(voteHistory);
                 for(int i = 2;i<receivedCommandMessageArray.length;i++){
                     String[] result = receivedCommandMessageArray[i].split(",",0);
                     int voteNum = Integer.valueOf(result[2]);
@@ -513,6 +515,7 @@ public class MainActivity extends Activity {
                     String voteTo = (String)playerInfoDicArray.get(Integer.valueOf(result[1])).get("userName");
                     String resultString = String.format("(%d票) %s  →  %s", voteNum, voteFrom, voteTo);
                     adapter.add(resultString);
+                    historyAdapter.add(resultString);
                 }
                 break;
             case "night_action":

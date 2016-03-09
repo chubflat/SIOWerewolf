@@ -182,6 +182,9 @@ public class CustomView extends View {
                     canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
                     paint.setTextSize(width * 10/100);
                     canvas.drawText("待機中", width * 30 / 100, height * 50 / 100, paint);
+                    canvas.drawBitmap(frameImg,null,topTextRect,paint);
+                    canvas.drawText("ゲーム部屋一覧", width * 30 / 100, height * 10 / 100, paint);
+
 
 
 
