@@ -143,8 +143,8 @@ public class Utility {
                 hasAction = true;
                 hasActionFirst = false;
                 hasTableFirst = false;
-                actionDialogText = "護衛します";
-                actionButtonText = "護衛";
+                actionDialogText = "守ります";
+                actionButtonText = "守る";
                 explain = "狩人は毎晩目を覚まし、誰かを一人指定してその人物を人狼の襲撃から守ります。ただし、自分自身を守ることはできません。";
                 seerResult = 1;
                 mediumResult = 1;

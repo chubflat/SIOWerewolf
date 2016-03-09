@@ -60,6 +60,8 @@ public class MainActivity extends Activity {
     public static String myId = "noId";
     public static String myName = "guest";
     public static int myPlayerId = 0;
+    public static int afternoonVictimId;
+    public static int votetime;
 
 
 	// socketIO
@@ -279,6 +281,8 @@ public class MainActivity extends Activity {
         day = 1;
         victimString = "いません";
         lastGuardPlayerId = 100000;
+        afternoonVictimId = -1;
+        votetime = 1;
 
         listPlayerIdArray = new ArrayList<>();
         roomInfoDicArray = new ArrayList<>();
@@ -423,7 +427,8 @@ public class MainActivity extends Activity {
                                 }else{
                                     String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
                                     sendEvent(fixedGameInfo.get("periId"), action);
-                                    gamePhase = "night_chat";
+//                                    gamePhase = "night_chat";
+                                    surfaceView = "invisible";
                                     drawListView(false);
                                     actionDone = true;
                                     if(playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Bodyguard){
@@ -599,13 +604,10 @@ public class MainActivity extends Activity {
 				handler.post(new Runnable() {
 					public void run() {
 						try {
-                            Log.d("msg1",",msg1=");
                             receivedmsg = message.getString("message");
-                            Log.d("msg2","msg2=");
                             String [] msgInfo = receivedmsg.split(":",0);
-                            Log.d("msg3","msg3=");
                             getCommand(msgInfo);
-                            Log.d("msg4","msg4=");
+                            surfaceView = "invisible";
 
 
                             // command,receivedCommandMessage,receivedCommandMessageArray
@@ -807,12 +809,19 @@ public class MainActivity extends Activity {
                                                 loopEngine.start();
                                                 break;
                                             case "nightStart":
-                                                Log.d("nightStart","nightStart");
-                                                actionDone = false;
-                                                gamePhase = "night_chat";
-                                                startDate =(int)(System.currentTimeMillis()/1000);
-                                                stopDate = startDate + (int)ruleDic.get("night_timer")*20;
-                                                loopEngine.start();
+
+                                                if(afternoonVictimId != -1){
+                                                    Log.d("nightStart","nightStart");
+                                                    actionDone = false;
+                                                    gamePhase = "night_chat";
+                                                    startDate =(int)(System.currentTimeMillis()/1000);
+                                                    stopDate = startDate + (int)ruleDic.get("night_timer")*20;
+                                                    loopEngine.start();
+                                                }else{
+                                                    gamePhase = "evening_voting";
+                                                    setListAdapter("vote");
+                                                }
+
                                                 break;
 
                                             case "chatreceive":
@@ -871,14 +880,16 @@ public class MainActivity extends Activity {
                                                 stopDate = startDate + (int)ruleDic.get("timer")*20;
                                                 loopEngine.start();
                                                 break;
+
                                             case "voteResult":
                                                 Log.d("voteResult","voteResult=");
                                                 setListAdapter("voteResult");
                                                 drawListView(true);
                                                 gamePhase = "voteFinish";
-                                                int victimId = Integer.valueOf(receivedCommandMessageArray[1]);
-                                                if(victimId != -1){
-                                                    playerInfoDicArray.get(victimId).put("isLive",false);
+                                                votetime = Integer.valueOf(receivedCommandMessageArray[0]);
+                                                afternoonVictimId = Integer.valueOf(receivedCommandMessageArray[1]);
+                                                if(afternoonVictimId != -1){
+                                                    playerInfoDicArray.get(afternoonVictimId).put("isLive",false);
                                                 }
                                                 Log.d("victimFinish","victimFinish=");
                                                 break;
