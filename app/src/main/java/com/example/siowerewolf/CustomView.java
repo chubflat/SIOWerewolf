@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
 public class CustomView extends View {
     //TODO Bitmap宣言
     private Bitmap backgroundImg = null;
-    private Bitmap roleImg = null;
+//    private Bitmap roleImg = null;
     private Bitmap frameImg = null;
     private Bitmap timerFrameImg = null;
     private Bitmap buttonImg = null;
@@ -138,7 +138,8 @@ public class CustomView extends View {
             canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
             switch (settingPhase){
                 case "setting_menu":
-
+                    canvas.drawBitmap(frameImg,null,topTextRect,paint);
+                    canvas.drawText("通信設定", width * 30 / 100, height * 10 / 100, paint);
 
                     /**room select**/
                     canvas.drawBitmap(buttonImg,null,buttonRect3,paint);
@@ -150,6 +151,7 @@ public class CustomView extends View {
                     break;
                 case "user_setting":
                     // TODO User設定画面描画
+                    paint.setTextSize(width * 5 / 100);
 
                     /**user ID**/
                     canvas.drawText("ID   :\n" + MainActivity.myId,width * 5 / 100,height * 5/100,paint);
@@ -178,7 +180,6 @@ public class CustomView extends View {
 //                    backgroundImg = BitmapFactory.decodeResource(getResources(),R.drawable.night);
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
-                    paint.setColor(Color.WHITE);
                     paint.setTextSize(width * 10/100);
                     canvas.drawText("待機中", width * 30 / 100, height * 50 / 100, paint);
 
@@ -188,7 +189,6 @@ public class CustomView extends View {
 
                     break;
                 case "info_check":
-                    paint.setColor(Color.WHITE);
                     String playerInfoReceive = "";
                     if(!(MainActivity.isWaiting)){
                         playerInfoReceive = "プレイヤー情報受信中";
@@ -237,8 +237,8 @@ public class CustomView extends View {
                     Rect rotateCardRect = new Rect(width * 15 /100,height * 20 / 100 ,width * 85 / 100 ,height *20 /100 + width * 70 / 100  * 1125 /938 );
                     //TODO cardRotate
                     //TODO roleImgを取ってくる:デフォルトで村人
-                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(roleImg, null, rotateCardRect, paint);
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(MainActivity.roleImg, null, rotateCardRect, paint);
 
 //                    canvas.drawText((String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 
@@ -265,8 +265,8 @@ public class CustomView extends View {
                     String roleText = String.format("あなたの役職は「%s」です。%s",(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"),(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "explain"));
 
                     canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
-                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(MainActivity.roleImg, null, roleCheckCardRect, paint);
                     // confirm button
 
                     String text2 = "";
@@ -292,8 +292,8 @@ public class CustomView extends View {
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
                     MainActivity.drawChat(true);
-                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(roleImg, null, roleCardRect, paint);
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(MainActivity.roleImg, null, roleCardRect, paint);
                     canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
                     canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
 
@@ -357,8 +357,8 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.morning,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
-                    roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(roleImg,null,roleCardRect,paint);
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(MainActivity.roleImg,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
                     Rect morningFrameRect = new Rect(width * 15 / 100,height * 40 / 100,width * 85 / 100 ,height * 60 / 100);
                     canvas.drawBitmap(frameImg, null, morningFrameRect, paint);
@@ -386,12 +386,13 @@ public class CustomView extends View {
 
                     break;
                 case "afternoon_meeting":
+                    Log.d("afternoon_meeting","afternoon_meeting=");
                     // background
                     backgroundImg = decodeSampledBitmapFromResource(getResources(), R.drawable.afternoon, width, height);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
-                    roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(roleImg,null,roleCardRect,paint);
+                    backCard = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backCard,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
                     canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
 
@@ -401,6 +402,7 @@ public class CustomView extends View {
 
                     break;
                 case "evening_voting":
+                    Log.d("evening_voting","evening_voting=");
                     // background
                     MainActivity.drawListView(true);
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
@@ -418,17 +420,19 @@ public class CustomView extends View {
 
                     break;
                 case "voteFinish":
+                    Log.d("voteFinishCanvas","voteFinishCanvas=");
                     // background
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
-                    canvas.drawBitmap(roleImg, null, roleCardRect, paint);
+                    canvas.drawBitmap(backCard, null, roleCardRect, paint);
 //                    canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
 //                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
 
 //                    Rect voteFinishFrameRect = new Rect(width * 15 / 100,height * 10 / 100,width * 85 / 100 ,height * 80 / 100);
 //                    canvas.drawBitmap(frameImg, null, voteFinishFrameRect, paint);
 
-                    String result = String.format("%d日目%s回目の投票の結果、\n %sが追放されました。",MainActivity.day,MainActivity.receivedCommandMessageArray[1],"aaa");
+//                    String result = String.format("%d日目%s回目の投票の結果、\n %sが追放されました。",MainActivity.day,MainActivity.receivedCommandMessageArray[0],"aaa");
+                    String result = String.format("%d日目%s回目の投票の結果、\n %sが追放されました。",MainActivity.day,MainActivity.receivedCommandMessageArray[0],"aaa");
                     canvas.drawText(result,width * 15/100,height * 10/100,paint);
                     MainActivity.drawListView(true);
 
@@ -460,12 +464,14 @@ public class CustomView extends View {
             switch (MainActivity.surfaceView){
                 case "night_action":
 //                    MainActivity.setListAdapter("night_action");
+                    Log.d("night_action","night_action=");
                     MainActivity.drawListView(true);
                     canvas.drawRect(0,0,width,height,surfaceView);
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
                     break;
                 case "history":
+                    Log.d("history","history=");
                     canvas.drawRect(0,0,width,height,surfaceView);
                     MainActivity.historyListView.setVisibility(View.VISIBLE);
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
@@ -574,7 +580,9 @@ public class CustomView extends View {
                             case "voteFinish":
                                 if(!(MainActivity.isWaiting)){
                                     MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"checkVoting:" + MainActivity.myId);
+                                    Log.d("sendCheckVote","sendCheckVote=");
                                     MainActivity.isWaiting = true;
+                                    Log.d("wait","wait=");
                                 }
                                 break;
                             case "gameover":
@@ -606,7 +614,9 @@ public class CustomView extends View {
             default:
                 return true;
         }
+        Log.d("beforei","beforei=");
         invalidate();
+        Log.d("afteri","afteri=");
         return false;
     }
 

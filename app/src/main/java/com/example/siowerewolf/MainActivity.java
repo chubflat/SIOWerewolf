@@ -90,6 +90,7 @@ public class MainActivity extends Activity {
     public static ArrayList<Integer> roleArray;
     public static Map<String,Object> infoDic;
     public static Map<String,String> userDic;//chat表示用
+    public static ArrayList<Bitmap> roleBitmapArray;
 
 	public static int selectedPlayerId;//リストで選択されたプレイヤーのId
     public static int selectedRoomId;
@@ -133,7 +134,7 @@ public class MainActivity extends Activity {
     public static long startDate;
     public static long stopDate;
     public static String timer;
-    public static int roleImg;
+    public static Bitmap roleImg;
 
 
     @Override
@@ -196,7 +197,7 @@ public class MainActivity extends Activity {
                     switch (gamePhase) {
                         case "evening_voting":
                             dialogPattern = "evening_voting";
-                            String vote = String.format("「%s」さんに投票します", (String) playerInfoDicArray.get(selectedPlayerId).get("userName"));
+                            String vote = String.format("「%s」さんに投票しますか？", (String) playerInfoDicArray.get(selectedPlayerId).get("userName"));
                             setDialog(vote);
                             break;
                         case "night_chat":
@@ -205,7 +206,7 @@ public class MainActivity extends Activity {
                                 dialogPattern = "continuousGuardError";
                                 setDialog("連続護衛はできません");
                             } else {
-                                String action = String.format("「%s」さんを%s", (String) playerInfoDicArray.get(selectedPlayerId).get("userName"), (String) getPlayerInfo(myPlayerId, "roleId", "actionDialogText"));
+                                String action = String.format("「%s」さんを%sか？", (String) playerInfoDicArray.get(selectedPlayerId).get("userName"), (String) getPlayerInfo(myPlayerId, "roleId", "actionDialogText"));
                                 setDialog(action);
 //                            String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
 //                            sendEvent(fixedGameInfo.get("periId"), action);
@@ -285,7 +286,20 @@ public class MainActivity extends Activity {
         loopEngine = new LoopEngine();
         timer = "";
         surfaceView = "invisible";
+
+        // 画像配列
+        roleBitmapArray = new ArrayList<>();
+        for(int i = 0;i<10;i++){
+            //TODO 役職追加時
+            int bitmapId = (int)Utility.getRoleInfo(getRole(i)).get("carId");
+            Bitmap roleBitmap = customView.decodeSampledBitmapFromResource(customView.getResources(),bitmapId,customView.bitmapWidth,customView.bitmapHeight);
+            roleBitmapArray.add(roleBitmap);
+
+        }
     }
+
+    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
     public void setDialog(String dialogText){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         switch (dialogPattern){
@@ -398,14 +412,19 @@ public class MainActivity extends Activity {
                         .setPositiveButton("はい", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
-                                sendEvent(fixedGameInfo.get("periId"), action);
-                                gamePhase = "night_chat";
-                                drawListView(false);
-                                actionDone = true;
-                                if(playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Bodyguard){
-                                    lastGuardPlayerId = selectedPlayerId;
+                                if(timer.equals("00:00")){
+
+                                }else{
+                                    String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
+                                    sendEvent(fixedGameInfo.get("periId"), action);
+                                    gamePhase = "night_chat";
+                                    drawListView(false);
+                                    actionDone = true;
+                                    if(playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Bodyguard){
+                                        lastGuardPlayerId = selectedPlayerId;
+                                    }
                                 }
+
                             }
                         })
                         .setNegativeButton("いいえ", new DialogInterface.OnClickListener() {
@@ -415,6 +434,12 @@ public class MainActivity extends Activity {
                         })
                         .show();
                 dialogPattern = "";
+                break;
+            case "dismissDialog":
+                AlertDialog dialog = builder.create();
+                if(timer.equals("00:00")){
+                    dialog.dismiss();
+                }
                 break;
             case "continuousGuardError":
                 builder.setTitle(dialogText)
@@ -568,11 +593,13 @@ public class MainActivity extends Activity {
 				handler.post(new Runnable() {
 					public void run() {
 						try {
+                            Log.d("msg1",",msg1=");
                             receivedmsg = message.getString("message");
+                            Log.d("msg2","msg2=");
                             String [] msgInfo = receivedmsg.split(":",0);
-                            Log.d("before","before=");
+                            Log.d("msg3","msg3=");
                             getCommand(msgInfo);
-                            Log.d("after","after=");
+                            Log.d("msg4","msg4=");
 
 
                             // command,receivedCommandMessage,receivedCommandMessageArray
@@ -765,6 +792,7 @@ public class MainActivity extends Activity {
                                     if(isGameScene && (Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
                                         switch (receivedCommand){
                                             case "firstNight":
+                                                Log.d("firstNight","firstNight=");
                                                 actionDone = false;
                                                 gamePhase = "night_chat";
                                                 startDate =(int)(System.currentTimeMillis()/1000);
@@ -772,7 +800,7 @@ public class MainActivity extends Activity {
                                                 loopEngine.start();
                                                 break;
                                             case "nightStart":
-                                                Log.d("day_2","day_2=");
+                                                Log.d("nightStart","nightStart");
                                                 actionDone = false;
                                                 gamePhase = "night_chat";
                                                 startDate =(int)(System.currentTimeMillis()/1000);
@@ -829,6 +857,7 @@ public class MainActivity extends Activity {
 
                                                 break;
                                             case "victimCheckFinish":
+                                                Log.d("victimCheckFinish","victimCheckFinish=");
                                                 isWaiting = false;
                                                 gamePhase = "afternoon_meeting";
                                                 startDate =System.currentTimeMillis()/1000;
@@ -836,6 +865,7 @@ public class MainActivity extends Activity {
                                                 loopEngine.start();
                                                 break;
                                             case "voteResult":
+                                                Log.d("voteResult","voteResult=");
                                                 setListAdapter("voteResult");
                                                 drawListView(true);
                                                 gamePhase = "voteFinish";
@@ -843,6 +873,7 @@ public class MainActivity extends Activity {
                                                 if(victimId != -1){
                                                     playerInfoDicArray.get(victimId).put("isLive",false);
                                                 }
+                                                Log.d("victimFinish","victimFinish=");
                                                 break;
                                             default:
                                                 break;
@@ -1049,11 +1080,11 @@ public class MainActivity extends Activity {
         customView.invalidate();
     }
     public static void rotate(){
-        int i = (int)(Math.random()*6);
-        roleImg = (int) getRoleInfo(getRole(i)).get("cardId");
+        int i = (int)(Math.random()*10);
+        roleImg = roleBitmapArray.get(i);
         if(System.currentTimeMillis() / 1000 == stopDate){
             loopEngine.rotateStop();
-            roleImg = (int)getPlayerInfo(myPlayerId, "roleId", "cardId");
+            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
             isWaiting = false;
 //            roleImg = R.drawable.card11;
         }
@@ -1088,7 +1119,7 @@ class LoopEngine extends Handler {
             sendMessageDelayed(obtainMessage(0),500);//50ミリ秒後にメッセージを出力
         }else if(isRotate){
             MainActivity.rotate();
-            sendMessageDelayed(obtainMessage(0),50);
+            sendMessageDelayed(obtainMessage(0),100);
         }
     }
 }
