@@ -193,7 +193,7 @@ public class CustomView extends View {
                     if(!(MainActivity.isWaiting)){
                         playerInfoReceive = "プレイヤー情報受信中";
                     }else{
-                        playerInfoReceive = "ルール設定中";
+                        playerInfoReceive = "ルール設定待ち";
                     }
 
                     canvas.drawText(playerInfoReceive, width * 10 / 100, height * 50 / 100, paint);

@@ -23,7 +23,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -257,6 +259,16 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 
+        Resources r = getResources();
+
+//        for(int i = 0;i<3;i++){
+//            //TODO 役職追加時
+//            int bitmapId = (int)Utility.getRoleInfo(getRole(0)).get("carId");
+            roleImg = BitmapFactory.decodeResource(r,R.drawable.card0);
+////            Bitmap roleBitmap = customView.decodeSampledBitmapFromResource(customView.getResources(),bitmapId,customView.bitmapWidth,customView.bitmapHeight);
+//            roleBitmapArray.add(roleBitmap);
+//        }
+
     }
     /**onCreateここまで**/
 
@@ -289,16 +301,10 @@ public class MainActivity extends Activity {
 
         // 画像配列
         roleBitmapArray = new ArrayList<>();
-        for(int i = 0;i<10;i++){
-            //TODO 役職追加時
-            int bitmapId = (int)Utility.getRoleInfo(getRole(i)).get("carId");
-            Bitmap roleBitmap = customView.decodeSampledBitmapFromResource(customView.getResources(),bitmapId,customView.bitmapWidth,customView.bitmapHeight);
-            roleBitmapArray.add(roleBitmap);
+//        roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),R.drawable.card0,customView.bitmapWidth,customView.bitmapHeight);
 
-        }
+
     }
-
-    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
     public void setDialog(String dialogText){
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -779,7 +785,8 @@ public class MainActivity extends Activity {
                                                 startDate =(int)(System.currentTimeMillis()/1000);
                                                 stopDate = startDate + 4;
                                                 isWaiting = true;
-                                                loopEngine.rotateStart();
+//                                                loopEngine.rotateStart();
+                                                roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
                                                 break;
                                             case "gameEnd":
                                                 gamePhase = "gameover";
@@ -1081,12 +1088,12 @@ public class MainActivity extends Activity {
     }
     public static void rotate(){
         int i = (int)(Math.random()*10);
-        roleImg = roleBitmapArray.get(i);
+//        roleImg = roleBitmapArray.get(i);
         if(System.currentTimeMillis() / 1000 == stopDate){
             loopEngine.rotateStop();
-            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
+//            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
             isWaiting = false;
-//            roleImg = R.drawable.card11;
+            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
         }
         customView.invalidate();
     }
