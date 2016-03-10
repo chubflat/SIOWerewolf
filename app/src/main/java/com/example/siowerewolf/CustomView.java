@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
 public class CustomView extends View {
     //TODO Bitmap宣言
     private Bitmap backgroundImg = null;
-//    private Bitmap roleImg = null;
+    private Bitmap roleImg = null;
     private Bitmap frameImg = null;
     private Bitmap timerFrameImg = null;
     private Bitmap buttonImg = null;
@@ -104,7 +104,7 @@ public class CustomView extends View {
         //TODO 画像サイズ修正時になおす
         timerFrameImg = decodeSampledBitmapFromResource(getResources(),R.drawable.frame,bitmapWidth,bitmapHeight);
         buttonImg = decodeSampledBitmapFromResource(getResources(),R.drawable.button,bitmapWidth,bitmapHeight);
-//        roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.card0,bitmapWidth,bitmapHeight);
+        roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.card0,bitmapWidth,bitmapHeight);
         backCard = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
 
         //SettingScene用Rect初期化
@@ -113,7 +113,7 @@ public class CustomView extends View {
         buttonRect2 = new Rect(width * 10 / 100 ,height * 65 / 100,width * 90 / 100 ,height * 75 / 100);
 
         //GameScene用Rect初期化
-        buttonRect1 = new Rect(width * 10 / 100 ,height * 80 / 100,width * 90 / 100 ,height * 90 / 100);
+        buttonRect1 = new Rect(width * 25 / 100 ,height * 80 / 100,width * 75 / 100 ,height * 90 / 100);
         actionButtonRect = new Rect (width * 75 / 100 ,height * 87 / 100,width * 95 / 100 ,height * 95 / 100);
         topTextRect = new Rect(width * 20 / 100 ,height * 5 / 100,width * 80 / 100 ,height * 15 / 100);
         roleCardRect = new Rect(width * 5 / 100, height * 5/100 ,width * 20 / 100 ,height * 20 / 100);
@@ -128,7 +128,7 @@ public class CustomView extends View {
         // default List非表示
         MainActivity.drawListView(false);
         MainActivity.drawChat(false);
-
+        MainActivity.companionListView.setVisibility(View.INVISIBLE);
 
         /**listview表示**/
 
@@ -180,13 +180,11 @@ public class CustomView extends View {
 //                    backgroundImg = BitmapFactory.decodeResource(getResources(),R.drawable.night);
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
-                    paint.setTextSize(width * 10/100);
+                    paint.setTextSize(width * 10 / 100);
                     canvas.drawText("待機中", width * 30 / 100, height * 50 / 100, paint);
-                    canvas.drawBitmap(frameImg,null,topTextRect,paint);
+                    canvas.drawBitmap(frameImg, null, topTextRect, paint);
+                    paint.setTextSize(width * 5 /100);
                     canvas.drawText("ゲーム部屋一覧", width * 30 / 100, height * 10 / 100, paint);
-
-
-
 
                     MainActivity.drawListView(true);
 
@@ -240,8 +238,8 @@ public class CustomView extends View {
                     Rect rotateCardRect = new Rect(width * 15 /100,height * 20 / 100 ,width * 85 / 100 ,height *20 /100 + width * 70 / 100  * 1125 /938 );
                     //TODO cardRotate
                     //TODO roleImgを取ってくる:デフォルトで村人
-//                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(MainActivity.roleImg, null, rotateCardRect, paint);
+                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(roleImg, null, rotateCardRect, paint);
 
 //                    canvas.drawText((String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 
@@ -265,11 +263,17 @@ public class CustomView extends View {
                     // canvasDraw
                     // 画面上部のテキスト情報
                     canvas.drawBitmap(frameImg, null, topFrameRect, paint);
-                    String roleText = String.format("あなたの役職は「%s」です。%s",(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"),(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "explain"));
+
+                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
+
+
+                    // 各役職の説明
 
                     canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
-//                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(MainActivity.roleImg, null, roleCheckCardRect, paint);
+                    if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasTableFirst")){
+                        MainActivity.companionListView.setVisibility(View.VISIBLE);
+                    }
                     // confirm button
 
                     String text2 = "";
@@ -281,6 +285,7 @@ public class CustomView extends View {
                     }
                     canvas.drawText(text2,width * 25/100,height * 85/100,paint);
 
+                    String roleText = String.format("あなたの役職は「%s」です。%s",(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"),(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "explain"));
                     TextPaint mTextPaint = new TextPaint();
                     mTextPaint.setTextSize(width * 5/100);
                     StaticLayout mTextLayout = new StaticLayout(roleText,mTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
@@ -295,8 +300,8 @@ public class CustomView extends View {
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
                     MainActivity.drawChat(true);
-//                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(MainActivity.roleImg, null, roleCardRect, paint);
+                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(roleImg, null, roleCardRect, paint);
                     canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
                     canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
 
@@ -412,8 +417,6 @@ public class CustomView extends View {
 
                     canvas.drawText("全員の投票待ち", width * 20 / 100, height * 50 / 100, paint);
 
-
-
 //                    // confirm button
 //                    canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
 //                    canvas.drawText("次へ", width * 25 / 100, height * 85 / 100, paint);
@@ -437,7 +440,7 @@ public class CustomView extends View {
                     }else{
                         afternoonVictim = "処刑者が決まりませんでした。再投票を行います。";
                     }
-                    String result = String.format("%d日目%d回目の投票の結果、\n %s",MainActivity.day,MainActivity.votetime,afternoonVictim);
+                    String result = String.format("%d日目%d回目の投票の結果、\n %s",MainActivity.day,MainActivity.voteTime,afternoonVictim);
                     canvas.drawText(result,width * 15/100,height * 10/100,paint);
                     MainActivity.drawListView(true);
 
@@ -456,8 +459,25 @@ public class CustomView extends View {
                     break;
                 case "gameover":
                     // confirm button
+                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("終了する", width * 25 / 100, height * 85 / 100, paint);
+
+                    String gameoverText = "";
+                    if(MainActivity.winner == 0){
+                        gameoverText = "村に潜んだすべての人狼を追放しました。村人チームの勝利です。";
+                    }else if(MainActivity.winner == 1){
+                        gameoverText = "人狼達は最後の獲物を捕らえた後、次の村へと去って行きました。人狼チームの勝利です。";
+                    }else if(MainActivity.winner == 2){
+                        gameoverText = "妖狐は村人と人狼を欺き、この村を支配しました。妖狐チームの勝利です。";
+                    }
+                    TextPaint gameoverTextPaint = new TextPaint();
+                    gameoverTextPaint.setTextSize(width * 5 / 100);
+                    StaticLayout gameoverTextLayout = new StaticLayout(gameoverText,gameoverTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+                    canvas.translate(width * 2 / 10, height * 40 / 100);//text の左上座標の指定
+
+                    gameoverTextLayout.draw(canvas);
+                    canvas.restore();
                     break;
                 default:
                     break;
@@ -466,6 +486,8 @@ public class CustomView extends View {
             Paint surfaceView = new Paint();
             surfaceView.setColor(Color.BLACK);
             surfaceView.setAlpha(200);
+
+
             switch (MainActivity.surfaceView){
                 case "night_action":
 //                    MainActivity.setListAdapter("night_action");
@@ -480,6 +502,11 @@ public class CustomView extends View {
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("戻る", width * 25 / 100, height * 85 / 100, paint);
 //
+                    break;
+                case "invisible":
+                    MainActivity.drawListView(false);
+                    MainActivity.historyListView.setVisibility(View.INVISIBLE);
+
                     break;
                 default:
                     break;
@@ -636,10 +663,6 @@ public class CustomView extends View {
         myPlayerId = MainActivity.myPlayerId;
 
     }
-
-
-
-
 
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,int reqWidth, int reqHeight) {
 

@@ -152,8 +152,21 @@ public class Utility {
                 cardId = R.drawable.card5;
                 break;
 
+            case Mason:
+                name = "共有者";
+                token = "共";
+                hasAction = false;
+                hasActionFirst = false;
+                hasTableFirst = true;
+                explain = "あなたは共有者です。";
+                //判定
+                seerResult = 1;
+                mediumResult = 1;
+                isFinishCount = 1;
+                cardId = R.drawable.card6;
+                break;
             case Fox:
-                name = "妖狐//未実装";
+                name = "妖狐";
                 token = "狐";
                 hasAction = false;
                 hasActionFirst = false;

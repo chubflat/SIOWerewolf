@@ -61,13 +61,16 @@ public class MainActivity extends Activity {
     public static String myName = "guest";
     public static int myPlayerId = 0;
     public static int afternoonVictimId;
-    public static int votetime;
+    public static int voteTime;
+    public static int winner;
+
 
 
 	// socketIO
 //	private EditText editText;
 	public static ArrayAdapter<String> adapter;
     public static ArrayAdapter<String> historyAdapter;
+    public static ArrayAdapter<String> companionListAdapter;
     public static SocketIO socket;
     private Handler handler = new Handler();
     public static String receivedmsg = "";
@@ -77,7 +80,7 @@ public class MainActivity extends Activity {
     // List
 	public static ListView listView;
     public static ListView historyListView;
-    public static ListView bottomListView;
+    public static ListView companionListView;
 //	public static SimpleAdapter simpleAdapter;
 	//    public static Adapter adapter;
 	public static CustomView customView = null;
@@ -138,7 +141,8 @@ public class MainActivity extends Activity {
     public static long startDate;
     public static long stopDate;
     public static String timer;
-    public static Bitmap roleImg;
+//    public static Bitmap roleImg;
+    public static int roleImg;
 
 
     @Override
@@ -246,7 +250,20 @@ public class MainActivity extends Activity {
 
         mFrameLayout.addView(historyListView);
         historyListView.setVisibility(View.INVISIBLE);
-        /**historyListView 追加終了**/
+        /**historyListView 追加終了*
+         * companionListView 追加*/
+        companionListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        companionListView = new ListView(this);
+        FrameLayout.LayoutParams companionLp = new FrameLayout.LayoutParams(CustomView.width *90/100, CustomView.height *35/100);
+        companionLp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
+        companionLp.bottomMargin = customView.height * 15 / 100;
+
+        companionListView.setAdapter(companionListAdapter);
+        companionListView.setLayoutParams(companionLp);
+        companionListView.setBackgroundColor(Color.WHITE);
+
+        mFrameLayout.addView(companionListView);
+        companionListView.setVisibility(View.INVISIBLE);
         /**chat 追加**/
 
         mFrameLayout.addView(listView);
@@ -261,12 +278,12 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 
-        Resources r = getResources();
+//        Resources r = getResources();
 
 //        for(int i = 0;i<3;i++){
 //            //TODO 役職追加時
 //            int bitmapId = (int)Utility.getRoleInfo(getRole(0)).get("carId");
-            roleImg = BitmapFactory.decodeResource(r,R.drawable.card0);
+//            roleImg = BitmapFactory.decodeResource(r,R.drawable.card0);
 ////            Bitmap roleBitmap = customView.decodeSampledBitmapFromResource(customView.getResources(),bitmapId,customView.bitmapWidth,customView.bitmapHeight);
 //            roleBitmapArray.add(roleBitmap);
 //        }
@@ -275,6 +292,7 @@ public class MainActivity extends Activity {
     /**onCreateここまで**/
 
     public static void initBackground(){
+
         isSettingScene = true;
         isGameScene = false;
         settingPhase = "setting_menu";
@@ -282,7 +300,7 @@ public class MainActivity extends Activity {
         victimString = "いません";
         lastGuardPlayerId = 100000;
         afternoonVictimId = -1;
-        votetime = 1;
+        voteTime = 1;
 
         listPlayerIdArray = new ArrayList<>();
         roomInfoDicArray = new ArrayList<>();
@@ -304,7 +322,8 @@ public class MainActivity extends Activity {
         surfaceView = "invisible";
 
         // 画像配列
-        roleBitmapArray = new ArrayList<>();
+        roleImg = R.drawable.card0;
+//        roleBitmapArray = new ArrayList<>();
 //        roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),R.drawable.card0,customView.bitmapWidth,customView.bitmapHeight);
 
 
@@ -423,7 +442,8 @@ public class MainActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(timer.equals("00:00")){
-
+                                    surfaceView = "invisible";
+                                    drawListView(false);
                                 }else{
                                     String action = String.format("action:%d/%d/%d", (int) playerInfoDicArray.get(myPlayerId).get("roleId"), myPlayerId, selectedPlayerId);
                                     sendEvent(fixedGameInfo.get("periId"), action);
@@ -431,7 +451,7 @@ public class MainActivity extends Activity {
                                     surfaceView = "invisible";
                                     drawListView(false);
                                     actionDone = true;
-                                    if(playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Bodyguard){
+                                    if((int)playerInfoDicArray.get(myPlayerId).get("roleId") == (int)Utility.Role.Bodyguard.ordinal()){
                                         lastGuardPlayerId = selectedPlayerId;
                                     }
                                 }
@@ -506,7 +526,7 @@ public class MainActivity extends Activity {
 //                        }
 //                    }
 //                }
-                String voteHistory = String.format("-------%d日目%d回目投票結果-------",day,votetime);
+                String voteHistory = String.format("-------%d日目%d回目投票結果-------",day,voteTime);
                 historyAdapter.add(voteHistory);
                 for(int i = 2;i<receivedCommandMessageArray.length;i++){
                     String[] result = receivedCommandMessageArray[i].split(",",0);
@@ -519,7 +539,7 @@ public class MainActivity extends Activity {
                 }
                 break;
             case "night_action":
-                if(playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Werewolf){
+                if((int)playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Werewolf.ordinal()){
                     for(int i = 0;i<playerInfoDicArray.size();i++){
                         if((Boolean)playerInfoDicArray.get(i).get("isLive") && (int)playerInfoDicArray.get(i).get("roleId") != (int)playerInfoDicArray.get(myPlayerId).get("roleId")){
                             adapter.add((String)playerInfoDicArray.get(i).get("userName"));
@@ -779,6 +799,7 @@ public class MainActivity extends Activity {
                                                 isWaiting = false;
                                                 //receivedCommandMessageArray  = 0,2/1,1/2,0/3,1
                                                 //receivedCommandMessageArray[0] = 0,2
+                                                int myRole = 1111;//default
                                                 for(int i= 0;i<receivedCommandMessageArray.length;i++){
                                                     String[] playerRole = receivedCommandMessageArray[i].split(",",0);
                                                     int j = Integer.valueOf(playerRole[0]);
@@ -786,15 +807,26 @@ public class MainActivity extends Activity {
 //                                                    infoDic.get("playerInfoDicArray").get(j).put("roleId", Integer.valueOf(playerRole[1]));
                                                     playerInfoDicArray.get(j).put("roleId",Integer.valueOf(playerRole[1]));
                                                     playerInfoDicArray.get(j).put("isLive", true);
+                                                    if(j == myPlayerId){
+                                                        myRole = Integer.valueOf(playerRole[1]);
+                                                    }
+                                                }
+                                                // 同じ役職者をとってくる
+                                                companionListAdapter.add("----------仲間を確認してください---------");
+                                                for(int i = 0;i<receivedCommandMessageArray.length;i++){
+                                                    if((int)playerInfoDicArray.get(i).get("roleId") == myRole && myRole != myPlayerId){
+                                                        companionListAdapter.add((String)playerInfoDicArray.get(i).get("userName"));
+                                                    }
                                                 }
                                                 startDate =(int)(System.currentTimeMillis()/1000);
                                                 stopDate = startDate + 4;
                                                 isWaiting = true;
-//                                                loopEngine.rotateStart();
-                                                roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
+                                                loopEngine.rotateStart();
+//                                                roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
                                                 break;
                                             case "gameEnd":
                                                 gamePhase = "gameover";
+                                                winner = Integer.valueOf(msgInfo[5]);
                                                 break;
                                             default:
                                                 break;
@@ -869,8 +901,7 @@ public class MainActivity extends Activity {
                                                     for(int i = 0;i<nightVictim.length;i++){
                                                         int victimId = Integer.valueOf(nightVictim[i]);
                                                         playerInfoDicArray.get(victimId).put("isLive",false);
-                                                        victimString = String.format("「%s」さん、",playerInfoDicArray.get(victimId).get("name"));
-
+                                                        victimString = String.format("「%s」さん、",victimString + playerInfoDicArray.get(victimId).get("userName"));
                                                     }
                                                 }
 
@@ -889,7 +920,7 @@ public class MainActivity extends Activity {
                                                 setListAdapter("voteResult");
                                                 drawListView(true);
                                                 gamePhase = "voteFinish";
-                                                votetime = Integer.valueOf(receivedCommandMessageArray[0]);
+                                                voteTime = Integer.valueOf(receivedCommandMessageArray[0]);
                                                 afternoonVictimId = Integer.valueOf(receivedCommandMessageArray[1]);
                                                 if(afternoonVictimId != -1){
                                                     playerInfoDicArray.get(afternoonVictimId).put("isLive",false);
@@ -1086,28 +1117,34 @@ public class MainActivity extends Activity {
         timer = minute + ":" + second;
         if(timer.equals("00:00")){
             loopEngine.stop();
+            drawChat(false);
+            surfaceView = "invisible";
+            historyListView.setVisibility(View.INVISIBLE);
             if(gamePhase.equals("night_chat") || gamePhase.equals("night_action") || gamePhase.equals("history")){
                 sendEvent(fixedGameInfo.get("periId"),"nightFinish:"+myId);
                 gamePhase = "night_chat";
-                surfaceView = "invisible";
-                drawChat(false);
+//                surfaceView = "invisible";
+//                historyListView.setVisibility(View.INVISIBLE);
+//                drawChat(false);
             }else if(gamePhase.equals("afternoon_meeting")){
                 gamePhase = "evening_voting";
                 setListAdapter("vote");
-
+//                historyListView.setVisibility(View.INVISIBLE);
             }
 
         }
         customView.invalidate();
     }
     public static void rotate(){
-        int i = (int)(Math.random()*10);
+        int i = (int)(Math.random()*6);
 //        roleImg = roleBitmapArray.get(i);
+        roleImg = (int)getRoleInfo(getRole(i)).get("cardId");
         if(System.currentTimeMillis() / 1000 == stopDate){
             loopEngine.rotateStop();
 //            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
             isWaiting = false;
-            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
+            roleImg = (int)getPlayerInfo(myPlayerId,"roleId","cardId");
+//            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
         }
         customView.invalidate();
     }
