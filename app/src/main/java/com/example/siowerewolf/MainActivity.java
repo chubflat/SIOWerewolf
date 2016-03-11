@@ -141,7 +141,7 @@ public class MainActivity extends Activity {
     public static long startDate;
     public static long stopDate;
     public static String timer;
-//    public static Bitmap roleImg;
+    public static Bitmap roleBitmap;
     public static int roleImg;
 
 
@@ -272,6 +272,15 @@ public class MainActivity extends Activity {
         drawChat(false);
         initControls();
 
+
+        roleBitmapArray = new ArrayList<>();
+        for(int i = 0;i<10;i++){
+            int role = (int)Utility.getRoleInfo(getRole(i)).get("cardId");
+            Bitmap bm = BitmapFactory.decodeResource(getResources(),role);
+            roleBitmapArray.add(bm);
+        }
+        roleBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.card0);
+
 		try {
 			connect();
 		} catch(Exception e) {
@@ -322,7 +331,7 @@ public class MainActivity extends Activity {
         surfaceView = "invisible";
 
         // 画像配列
-        roleImg = R.drawable.card0;
+//        roleImg = R.drawable.card0;
 //        roleBitmapArray = new ArrayList<>();
 //        roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),R.drawable.card0,customView.bitmapWidth,customView.bitmapHeight);
 
@@ -814,7 +823,7 @@ public class MainActivity extends Activity {
                                                 // 同じ役職者をとってくる
                                                 companionListAdapter.add("----------仲間を確認してください---------");
                                                 for(int i = 0;i<receivedCommandMessageArray.length;i++){
-                                                    if((int)playerInfoDicArray.get(i).get("roleId") == myRole && myRole != myPlayerId){
+                                                    if((int)playerInfoDicArray.get(i).get("roleId") == myRole && i != myPlayerId){
                                                         companionListAdapter.add((String)playerInfoDicArray.get(i).get("userName"));
                                                     }
                                                 }
@@ -1136,16 +1145,25 @@ public class MainActivity extends Activity {
         customView.invalidate();
     }
     public static void rotate(){
-        int i = (int)(Math.random()*6);
-//        roleImg = roleBitmapArray.get(i);
-        roleImg = (int)getRoleInfo(getRole(i)).get("cardId");
+
+        int i = (int)(Math.random()*roleBitmapArray.size());
+        roleBitmap = roleBitmapArray.get(i);
+
         if(System.currentTimeMillis() / 1000 == stopDate){
             loopEngine.rotateStop();
-//            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
+            roleBitmap = roleBitmapArray.get((int)playerInfoDicArray.get(myPlayerId).get("roleId"));
             isWaiting = false;
-            roleImg = (int)getPlayerInfo(myPlayerId,"roleId","cardId");
-//            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
         }
+
+////        roleImg = roleBitmapArray.get(i);
+//        roleImg = (int)getRoleInfo(getRole(i)).get("cardId");
+//        if(System.currentTimeMillis() / 1000 == stopDate){
+//            loopEngine.rotateStop();
+////            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
+//            isWaiting = false;
+//            roleImg = (int)getPlayerInfo(myPlayerId,"roleId","cardId");
+////            roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
+//        }
         customView.invalidate();
     }
 
@@ -1177,7 +1195,7 @@ class LoopEngine extends Handler {
             sendMessageDelayed(obtainMessage(0),500);//50ミリ秒後にメッセージを出力
         }else if(isRotate){
             MainActivity.rotate();
-            sendMessageDelayed(obtainMessage(0),100);
+            sendMessageDelayed(obtainMessage(0),20);
         }
     }
 }

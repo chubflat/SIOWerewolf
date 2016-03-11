@@ -238,9 +238,8 @@ public class CustomView extends View {
                     Rect rotateCardRect = new Rect(width * 15 /100,height * 20 / 100 ,width * 85 / 100 ,height *20 /100 + width * 70 / 100  * 1125 /938 );
                     //TODO cardRotate
                     //TODO roleImgを取ってくる:デフォルトで村人
-                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(roleImg, null, rotateCardRect, paint);
-
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),MainActivity.roleImg,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(MainActivity.roleBitmap, null, rotateCardRect, paint);
 //                    canvas.drawText((String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"), width * 25 / 100, height * 5 / 100, paint);
 
                     // confirm button
@@ -253,6 +252,7 @@ public class CustomView extends View {
                     break;
 
                 case "roleCheck":
+                    roleImg = MainActivity.roleBitmap;
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
                     //Rect宣言
@@ -264,11 +264,11 @@ public class CustomView extends View {
                     // 画面上部のテキスト情報
                     canvas.drawBitmap(frameImg, null, topFrameRect, paint);
 
-                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
-                    canvas.drawBitmap(roleImg, null, roleCheckCardRect, paint);
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(MainActivity.roleBitmap, null, roleCheckCardRect, paint);
 
 
-                    // 各役職の説明
+                    // 仲間の表示
 
                     canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
                     if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasTableFirst")){
