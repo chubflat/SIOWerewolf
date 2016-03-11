@@ -455,10 +455,14 @@ public class CustomView extends View {
 
                     break;
                 case "heaven":
+//                    backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.bg_heaven,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
+
 
                     break;
                 case "gameover":
                     // confirm button
+                    backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("終了する", width * 25 / 100, height * 85 / 100, paint);

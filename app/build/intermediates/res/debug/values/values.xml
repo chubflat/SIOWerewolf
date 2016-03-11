@@ -26,5 +26,7 @@
     <string name="title_activity_main">SIOWerewolf</string>
     <!-- From: file:/C:/GitHub/SIOWerewolf/app/src/main/res/values/styles.xml -->
     <eat-comment/>
-    <style name="AppTheme" parent="android:Theme.Light"/>
+    <style name="AppTheme" parent="android:Theme.Light">
+        <item name="android:windowBackground">@null</item>
+    </style>
 </resources>

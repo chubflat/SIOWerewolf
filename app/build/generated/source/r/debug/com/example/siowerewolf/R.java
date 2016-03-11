@@ -57,18 +57,20 @@ public final class R {
         public static final int evening=0x7f02001c;
         public static final int explain=0x7f02001d;
         public static final int frame=0x7f02001e;
-        public static final int ic_action_search=0x7f02001f;
-        public static final int ic_launcher=0x7f020020;
-        public static final int icon00=0x7f020021;
-        public static final int icon58=0x7f020022;
-        public static final int icon76=0x7f020023;
-        public static final int in_message_bg=0x7f020024;
-        public static final int morning=0x7f020025;
-        public static final int night=0x7f020026;
-        public static final int no_image=0x7f020027;
-        public static final int out_message_bg=0x7f020028;
-        public static final int time_frame=0x7f020029;
-        public static final int top=0x7f02002a;
+        public static final int gm=0x7f02001f;
+        public static final int ic_action_search=0x7f020020;
+        public static final int ic_launcher=0x7f020021;
+        public static final int icon00=0x7f020022;
+        public static final int icon58=0x7f020023;
+        public static final int icon76=0x7f020024;
+        public static final int in_message_bg=0x7f020025;
+        public static final int morning=0x7f020026;
+        public static final int night=0x7f020027;
+        public static final int no_image=0x7f020028;
+        public static final int out_message_bg=0x7f020029;
+        public static final int player=0x7f02002a;
+        public static final int time_frame=0x7f02002b;
+        public static final int top=0x7f02002c;
     }
     public static final class id {
         public static final int activity_chat=0x7f090000;
