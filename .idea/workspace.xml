@@ -67,14 +67,14 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6411483">
-              <caret line="1197" column="50" selection-start-line="1197" selection-start-column="50" selection-end-line="1197" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.67866325">
+              <caret line="929" column="49" selection-start-line="929" selection-start-column="49" selection-end-line="929" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="class#15124:15339" expanded="false" />
-                <element signature="e#26234#48520#0" expanded="true" />
-                <element signature="e#27417#27432#0" expanded="true" />
-                <element signature="e#48519#48520#0" expanded="true" />
+                <element signature="e#26234#48677#0" expanded="true" />
+                <element signature="e#27361#27376#0" expanded="true" />
+                <element signature="e#48676#48677#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1859,9 +1859,9 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#15124:15339" expanded="false" />
-            <element signature="e#26234#48520#0" expanded="true" />
-            <element signature="e#27417#27432#0" expanded="true" />
-            <element signature="e#48519#48520#0" expanded="true" />
+            <element signature="e#26234#48677#0" expanded="true" />
+            <element signature="e#27361#27376#0" expanded="true" />
+            <element signature="e#48676#48677#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1891,9 +1891,9 @@
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#15124:15339" expanded="false" />
-            <element signature="e#26234#48520#0" expanded="true" />
-            <element signature="e#27417#27432#0" expanded="true" />
-            <element signature="e#48519#48520#0" expanded="true" />
+            <element signature="e#26234#48677#0" expanded="true" />
+            <element signature="e#27361#27376#0" expanded="true" />
+            <element signature="e#48676#48677#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1955,14 +1955,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/siowerewolf/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6411483">
-          <caret line="1197" column="50" selection-start-line="1197" selection-start-column="50" selection-end-line="1197" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.67866325">
+          <caret line="929" column="49" selection-start-line="929" selection-start-column="49" selection-end-line="929" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="class#15124:15339" expanded="false" />
-            <element signature="e#26234#48520#0" expanded="true" />
-            <element signature="e#27417#27432#0" expanded="true" />
-            <element signature="e#48519#48520#0" expanded="true" />
+            <element signature="e#26234#48677#0" expanded="true" />
+            <element signature="e#27361#27376#0" expanded="true" />
+            <element signature="e#48676#48677#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -639,8 +639,6 @@ public class MainActivity extends Activity {
                             receivedmsg = message.getString("message");
                             String [] msgInfo = receivedmsg.split(":",0);
                             getCommand(msgInfo);
-                            surfaceView = "invisible";
-
 
                             // command,receivedCommandMessage,receivedCommandMessageArray
 
@@ -854,6 +852,7 @@ public class MainActivity extends Activity {
                                                 break;
                                             case "nightStart":
 
+                                                surfaceView = "invisible";
                                                 if(afternoonVictimId != -1){
                                                     Log.d("nightStart","nightStart");
                                                     actionDone = false;
@@ -901,6 +900,7 @@ public class MainActivity extends Activity {
 
                                                 break;
                                             case "afternoonStart":
+                                                surfaceView = "invisible";
                                                 gamePhase = "morning";
                                                 day++;
                                                 if(msgInfo.length < 6 ){
@@ -916,6 +916,7 @@ public class MainActivity extends Activity {
 
                                                 break;
                                             case "victimCheckFinish":
+                                                surfaceView = "invisible";
                                                 Log.d("victimCheckFinish","victimCheckFinish=");
                                                 isWaiting = false;
                                                 gamePhase = "afternoon_meeting";
@@ -925,6 +926,7 @@ public class MainActivity extends Activity {
                                                 break;
 
                                             case "voteResult":
+                                                surfaceView = "invisible";
                                                 Log.d("voteResult","voteResult=");
                                                 setListAdapter("voteResult");
                                                 drawListView(true);
@@ -934,7 +936,6 @@ public class MainActivity extends Activity {
                                                 if(afternoonVictimId != -1){
                                                     playerInfoDicArray.get(afternoonVictimId).put("isLive",false);
                                                 }
-                                                Log.d("victimFinish","victimFinish=");
                                                 break;
                                             default:
                                                 break;
