@@ -851,7 +851,6 @@ public class MainActivity extends Activity {
                                                 loopEngine.start();
                                                 break;
                                             case "nightStart":
-
                                                 surfaceView = "invisible";
                                                 if(afternoonVictimId != -1){
                                                     Log.d("nightStart","nightStart");
@@ -901,7 +900,6 @@ public class MainActivity extends Activity {
                                                 break;
                                             case "afternoonStart":
                                                 surfaceView = "invisible";
-                                                gamePhase = "morning";
                                                 day++;
                                                 if(msgInfo.length < 6 ){
                                                     victimString = "いません";
@@ -914,6 +912,11 @@ public class MainActivity extends Activity {
                                                     }
                                                 }
 
+                                                if((Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
+                                                    gamePhase = "morning";
+                                                }else{
+                                                    gamePhase = "heaven";
+                                                }
                                                 break;
                                             case "victimCheckFinish":
                                                 surfaceView = "invisible";
@@ -927,15 +930,19 @@ public class MainActivity extends Activity {
 
                                             case "voteResult":
                                                 surfaceView = "invisible";
-                                                Log.d("voteResult","voteResult=");
-                                                setListAdapter("voteResult");
-                                                drawListView(true);
-                                                gamePhase = "voteFinish";
                                                 voteTime = Integer.valueOf(receivedCommandMessageArray[0]);
                                                 afternoonVictimId = Integer.valueOf(receivedCommandMessageArray[1]);
                                                 if(afternoonVictimId != -1){
                                                     playerInfoDicArray.get(afternoonVictimId).put("isLive",false);
                                                 }
+                                                if((Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
+                                                    setListAdapter("voteResult");
+                                                    drawListView(true);
+                                                    gamePhase = "voteFinish";
+                                                }else{
+                                                    gamePhase = "heaven";
+                                                }
+
                                                 break;
                                             default:
                                                 break;
@@ -945,11 +952,11 @@ public class MainActivity extends Activity {
                                     }
                                         customView.invalidate();
 
-                                    }else{
-                                    }
-                                    break;
-                                default:
-                                    break;
+                                }else{
+                                }
+                                break;
+                            default:
+                                break;
                             }
                         } catch (JSONException e) {
 								e.printStackTrace();

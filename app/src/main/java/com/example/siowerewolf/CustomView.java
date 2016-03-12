@@ -270,7 +270,7 @@ public class CustomView extends View {
 
                     // 仲間の表示
 
-                    canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
+//                    canvas.drawBitmap(frameImg,null,belowFrameRect,paint);
                     if((Boolean)MainActivity.getPlayerInfo(myPlayerId,"roleId","hasTableFirst")){
                         MainActivity.companionListView.setVisibility(View.VISIBLE);
                     }
@@ -455,7 +455,7 @@ public class CustomView extends View {
 
                     break;
                 case "heaven":
-//                    backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.bg_heaven,bitmapWidth,bitmapHeight);
+                    backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.bg_heaven,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
 
