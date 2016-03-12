@@ -566,6 +566,9 @@ public class MainActivity extends Activity {
 
 
                 break;
+            case "gameOver":
+
+                break;
             default:
                 break;
         }
@@ -639,7 +642,6 @@ public class MainActivity extends Activity {
                             receivedmsg = message.getString("message");
                             String [] msgInfo = receivedmsg.split(":",0);
                             getCommand(msgInfo);
-
                             // command,receivedCommandMessage,receivedCommandMessageArray
 
                             switch (msgInfo[0]){
@@ -832,7 +834,7 @@ public class MainActivity extends Activity {
 //                                                roleImg = customView.decodeSampledBitmapFromResource(customView.getResources(),(int)getPlayerInfo(myPlayerId, "roleId", "cardId"),customView.bitmapWidth,customView.bitmapHeight);
                                                 break;
                                             case "gameEnd":
-                                                gamePhase = "gameover";
+                                                gamePhase = "gameOver";
                                                 winner = Integer.valueOf(msgInfo[5]);
                                                 break;
                                             default:
@@ -948,7 +950,7 @@ public class MainActivity extends Activity {
                                                 break;
                                         }
                                     }else{
-                                        gamePhase = "heaven";
+//                                        gamePhase = "heaven";
                                     }
                                         customView.invalidate();
 
@@ -1146,7 +1148,7 @@ public class MainActivity extends Activity {
             }else if(gamePhase.equals("afternoon_meeting")){
                 gamePhase = "evening_voting";
                 setListAdapter("vote");
-//                historyListView.setVisibility(View.INVISIBLE);
+                historyListView.setVisibility(View.INVISIBLE);
             }
 
         }

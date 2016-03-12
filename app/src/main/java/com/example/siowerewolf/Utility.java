@@ -14,6 +14,12 @@ public class Utility {
         SeerModeRevelation, //お告げ
     }
 
+    public static enum Winner{
+        Village,
+        Wolf,
+        Fox,
+    }
+
     public static enum Role{
         /* TODO 役職追加時 */
         Villager,
@@ -56,6 +62,7 @@ public class Utility {
         Boolean hasAction = false;
         Boolean hasActionFirst = false;
         String explain = "";
+        int winner = 0;
         int seerResult = 1; //人狼判定
         int mediumResult = 1;//人狼判定
         int isFinishCount = 1;//人間カウント
@@ -70,6 +77,8 @@ public class Utility {
                 hasActionFirst = false;
                 hasTableFirst = false;
                 explain = "村人は特殊な能力を持たないただの一般人ですが、このゲームの主人公でもあります。他の村人や特殊能力を持った仲間たちと協力して人狼を処刑し、全滅させましょう。";
+                // 判定
+                winner = Utility.Winner.Village.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
@@ -86,6 +95,7 @@ public class Utility {
                 actionButtonText = "噛む";
                 explain = "人狼は毎晩目を覚まし、村の人間を一人ずつ選んで喰い殺していきます。人狼同士で協力して人間を喰い尽くし、村を全滅させてしまいましょう。";
                 // 判定
+                winner = Utility.Winner.Wolf.ordinal();
                 seerResult = -1;
                 mediumResult = -1;
                 isFinishCount = -1;
@@ -103,6 +113,7 @@ public class Utility {
                 actionDialogText = "占います";
                 actionButtonText = "占う";
                 explain = "占い師は毎晩目を覚まし、自分が人狼だと疑っている人物を１人指定してその人物が人狼かそうでないかを知ることができます。";
+                winner = Utility.Winner.Village.ordinal();
                 //判定
                 seerResult = 1;
                 mediumResult = 1;
@@ -118,6 +129,7 @@ public class Utility {
                 hasTableFirst = false;
                 explain = "霊媒師は毎晩目を覚まし、その日の昼のターンに処刑された人が人狼だったのかそうでなかったのかを知ることができます。";
                 //判定
+                winner = Utility.Winner.Village.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
@@ -131,6 +143,8 @@ public class Utility {
                 hasActionFirst = false;
                 hasTableFirst = false;
                 explain = "狂人は何も能力を持っていませんが、人狼側の人間です。人狼が勝利した時、自らも勝者となります。予言者に見られてもただの人間と判定されます。積極的に役職を騙り村を混乱させましょう。";
+                // 判定
+                winner = Utility.Winner.Wolf.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
@@ -146,6 +160,8 @@ public class Utility {
                 actionDialogText = "守ります";
                 actionButtonText = "守る";
                 explain = "狩人は毎晩目を覚まし、誰かを一人指定してその人物を人狼の襲撃から守ります。ただし、自分自身を守ることはできません。";
+                // 判定
+                winner = Utility.Winner.Village.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
@@ -160,6 +176,7 @@ public class Utility {
                 hasTableFirst = true;
                 explain = "あなたは共有者です。";
                 //判定
+                winner = Utility.Winner.Village.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
@@ -173,6 +190,7 @@ public class Utility {
                 hasTableFirst = true;
                 explain = "";
                 //判定
+                winner = Utility.Winner.Fox.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 0;
@@ -318,6 +336,7 @@ public class Utility {
                 hasTableFirst = true;
                 explain = "";
                 //判定
+                winner = Utility.Winner.Wolf.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
@@ -331,6 +350,7 @@ public class Utility {
                 hasTableFirst = true;
                 explain = "";
                 //判定
+                winner = Utility.Winner.Fox.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
@@ -417,6 +437,7 @@ public class Utility {
         infoDic.put("hasTableFirst",hasTableFirst);
         infoDic.put("actionButtonText",actionButtonText);
         infoDic.put("actionDialogText",actionDialogText);
+        infoDic.put("winner",winner);
         infoDic.put("seerResult",seerResult);
         infoDic.put("mediumResult",mediumResult);
         infoDic.put("isFinishCount",isFinishCount);

@@ -287,7 +287,7 @@ public class CustomView extends View {
 
                     String roleText = String.format("あなたの役職は「%s」です。%s",(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "name"),(String)MainActivity.getPlayerInfo(myPlayerId, "roleId", "explain"));
                     TextPaint mTextPaint = new TextPaint();
-                    mTextPaint.setTextSize(width * 5/100);
+                    mTextPaint.setTextSize(width * 4/100);
                     StaticLayout mTextLayout = new StaticLayout(roleText,mTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
                     canvas.translate(width * 2 / 10, height * 25 / 100);//text の左上座標の指定
 
@@ -299,11 +299,12 @@ public class CustomView extends View {
                 case "night_chat":
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
+
                     MainActivity.drawChat(true);
                     roleImg = decodeSampledBitmapFromResource(getResources(),(int)MainActivity.getPlayerInfo(myPlayerId,"roleId","cardId"),bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(roleImg, null, roleCardRect, paint);
                     canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
-                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
+                    canvas.drawText(MainActivity.timer, width * 30 / 100, height * 10 / 100, paint);
 
                     historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *95 /100);
                     canvas.drawBitmap(buttonImg,null,historyRect,paint);
@@ -331,7 +332,9 @@ public class CustomView extends View {
 
                         }
                     }
-
+                    if(MainActivity.timer.equals("00:00")){
+                        MainActivity.drawChat(false);
+                    }
                     break;
 
 //                case "night_action":
@@ -400,7 +403,7 @@ public class CustomView extends View {
                     backCard = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backCard,null,roleCardRect,paint);
                     canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
-                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
+                    canvas.drawText(MainActivity.timer, width * 30 / 100, height * 10 / 100, paint);
 
                     historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *95 /100);
                     canvas.drawBitmap(buttonImg,null,historyRect,paint);
@@ -413,7 +416,7 @@ public class CustomView extends View {
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
-                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
+                    canvas.drawText(MainActivity.timer, width * 30 / 100, height * 10 / 100, paint);
 
                     canvas.drawText("全員の投票待ち", width * 20 / 100, height * 50 / 100, paint);
 
@@ -428,20 +431,13 @@ public class CustomView extends View {
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
                     canvas.drawBitmap(backCard, null, roleCardRect, paint);
 //                    canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
-//                    canvas.drawText(MainActivity.timer, width * 25 / 100, height * 10 / 100, paint);
+//                    canvas.drawText(MainActivity.timer, width * 30 / 100, height * 10 / 100, paint);
 
 //                    Rect voteFinishFrameRect = new Rect(width * 15 / 100,height * 10 / 100,width * 85 / 100 ,height * 80 / 100);
 //                    canvas.drawBitmap(frameImg, null, voteFinishFrameRect, paint);
 
 //                    String result = String.format("%d日目%s回目の投票の結果、\n %sが追放されました。",MainActivity.day,MainActivity.receivedCommandMessageArray[0],"aaa");
-                    String afternoonVictim = "";
-                    if(MainActivity.afternoonVictimId !=-1){
-                        afternoonVictim =String.format("%sが追放されました。", (String) MainActivity.playerInfoDicArray.get(MainActivity.afternoonVictimId).get("userName"));
-                    }else{
-                        afternoonVictim = "処刑者が決まりませんでした。再投票を行います。";
-                    }
-                    String result = String.format("%d日目%d回目の投票の結果、\n %s",MainActivity.day,MainActivity.voteTime,afternoonVictim);
-                    canvas.drawText(result,width * 15/100,height * 10/100,paint);
+
                     MainActivity.drawListView(true);
 
                     String text4 = "";
@@ -453,34 +449,66 @@ public class CustomView extends View {
                     }
                     canvas.drawText(text4, width * 25 / 100, height * 85 / 100, paint);
 
+                    String afternoonVictim = "";
+                    if(MainActivity.afternoonVictimId !=-1){
+                        afternoonVictim =String.format("%sが追放されました。", (String) MainActivity.playerInfoDicArray.get(MainActivity.afternoonVictimId).get("userName"));
+                    }else{
+                        afternoonVictim = "処刑者が決まりませんでした。再投票を行います。";
+                    }
+                    String result = String.format("%d日目%d回目の投票の結果、\n %s",MainActivity.day,MainActivity.voteTime,afternoonVictim);
+//                    canvas.drawText(result,width * 15/100,height * 10/100,paint);
+
+                    TextPaint voteResultPaint = new TextPaint();
+                    voteResultPaint.setTextSize(width * 5 / 100);
+                    StaticLayout voteResultLayout = new StaticLayout(result,voteResultPaint,width*70/100, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+                    canvas.translate(width * 20 / 100, height * 10 / 100);//text の左上座標の指定
+
+                    voteResultLayout.draw(canvas);
+                    canvas.restore();
+
                     break;
                 case "heaven":
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.bg_heaven,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
+                    Rect heavenFrameRect = new Rect(width * 15 / 100,height * 40 / 100,width * 85 / 100 ,height * 60 / 100);
+                    canvas.drawBitmap(frameImg, null, heavenFrameRect, paint);
+
+                    String heavenText = "あなたは死亡しました。以後ゲームが終了するまで話をすることができません。";
+
+                    TextPaint heavenPaint = new TextPaint();
+                    heavenPaint.setTextSize(width * 5 / 100);
+                    StaticLayout heavenLayout = new StaticLayout(heavenText,heavenPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+                    canvas.translate(width * 2 / 10, height * 50 / 100);//text の左上座標の指定
+
+                    heavenLayout.draw(canvas);
+                    canvas.restore();
 
 
                     break;
-                case "gameover":
+                case "gameOver":
                     // confirm button
                     backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("終了する", width * 25 / 100, height * 85 / 100, paint);
 
-                    String gameoverText = "";
+                    String gameOverText = "";
                     if(MainActivity.winner == 0){
-                        gameoverText = "村に潜んだすべての人狼を追放しました。村人チームの勝利です。";
+//                        gameOverText = "村に潜んだすべての人狼を追放しました。村人チームの勝利です。";
+                        gameOverText = "村人チームの勝利です";
                     }else if(MainActivity.winner == 1){
-                        gameoverText = "人狼達は最後の獲物を捕らえた後、次の村へと去って行きました。人狼チームの勝利です。";
+//                        gameOverText = "人狼達は最後の獲物を捕らえた後、次の村へと去って行きました。人狼チームの勝利です。";
+                        gameOverText = "人狼チームの勝利です。";
                     }else if(MainActivity.winner == 2){
-                        gameoverText = "妖狐は村人と人狼を欺き、この村を支配しました。妖狐チームの勝利です。";
+//                        gameOverText = "妖狐は村人と人狼を欺き、この村を支配しました。妖狐チームの勝利です。";
+                        gameOverText = "妖狐チームの勝利です。";
                     }
-                    TextPaint gameoverTextPaint = new TextPaint();
-                    gameoverTextPaint.setTextSize(width * 5 / 100);
-                    StaticLayout gameoverTextLayout = new StaticLayout(gameoverText,gameoverTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+                    TextPaint gameOverTextPaint = new TextPaint();
+                    gameOverTextPaint.setTextSize(width * 5 / 100);
+                    StaticLayout gameOverTextLayout = new StaticLayout(gameOverText,gameOverTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
                     canvas.translate(width * 2 / 10, height * 40 / 100);//text の左上座標の指定
 
-                    gameoverTextLayout.draw(canvas);
+                    gameOverTextLayout.draw(canvas);
                     canvas.restore();
                     break;
                 default:
@@ -510,6 +538,10 @@ public class CustomView extends View {
                 case "invisible":
                     MainActivity.drawListView(false);
                     MainActivity.historyListView.setVisibility(View.INVISIBLE);
+                    if(gamePhase.equals("evening_voting") || gamePhase.equals("voteFinish")){
+                        MainActivity.drawListView(true);
+
+                    }
 
                     break;
                 default:
@@ -618,28 +650,38 @@ public class CustomView extends View {
                                     MainActivity.isWaiting = true;
                                 }
                                 break;
-                            case "gameover":
+                            case "gameOver":
                                 if(!(MainActivity.isWaiting)){
                                     MainActivity.initBackground();
+                                    MainActivity.adapter.clear();
+                                    MainActivity.historyAdapter.clear();
+                                    MainActivity.companionListAdapter.clear();
                                 }
                                 break;
                             default:
                                 break;
                         }
                     }else if(getTouchButton(historyRect) && MainActivity.surfaceView.equals("invisible")){
-                        switch (gamePhase){
-                            case "night_chat":
-                            case "afternoon_meeting":
-                                MainActivity.surfaceView = "history";
-                                break;
-                            default:
-                                break;
+                        if(MainActivity.timer.equals("00:00")){
+                        }else{
+                            switch (gamePhase){
+                                case "night_chat":
+                                case "afternoon_meeting":
+                                    MainActivity.surfaceView = "history";
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }else if(getTouchButton(actionButtonRect) && !(MainActivity.actionDone)){
-                        if(gamePhase.equals("night_chat")&&MainActivity.surfaceView.equals("invisible")){
-                            MainActivity.surfaceView = "night_action";
-                            MainActivity.setListAdapter("night_action");
+                        if(MainActivity.timer.equals("00:00")){
+                        }else{
+                            if(gamePhase.equals("night_chat")&&MainActivity.surfaceView.equals("invisible")){
+                                MainActivity.surfaceView = "night_action";
+                                MainActivity.setListAdapter("night_action");
+                            }
                         }
+
                     }
                 }
                 break;
