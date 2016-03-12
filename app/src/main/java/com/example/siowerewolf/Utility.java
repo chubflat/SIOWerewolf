@@ -31,6 +31,8 @@ public class Utility {
         Mason,
         Fox,
         Cat,
+        Fanatic,
+        Immoralist,
         Lycan,
         ToughGuy,
         ApprenticeSeer,
@@ -42,8 +44,7 @@ public class Utility {
         Beholder,
         Hunter,
         //        Mimic,
-        Fanatic,
-        Immoralist,
+
         Baker,
         Noble,
         Slave,
@@ -197,6 +198,48 @@ public class Utility {
                 cardId = R.drawable.card7;
                 break;
 
+            case Cat:
+                name = "猫又";
+                token = "猫";
+                hasAction = false;
+                hasActionFirst = false;
+                explain = "";
+                //判定
+                seerResult = 1;
+                mediumResult = 1;
+                isFinishCount = 1;
+                cardId = R.drawable.card21;
+                break;
+            case Fanatic:
+                name = "狂信者";
+                token = "信";
+                hasAction = false;
+                hasActionFirst = false;
+                hasTableFirst = true;
+                explain = "";
+                //判定
+                winner = Utility.Winner.Wolf.ordinal();
+                seerResult = 1;
+                mediumResult = 1;
+                isFinishCount = 1;
+                cardId = R.drawable.card19;
+                break;
+
+            case Immoralist:
+                name = "背徳者";
+                token = "背";
+                hasAction = false;
+                hasActionFirst = false;
+                hasTableFirst = true;
+                explain = "";
+                //判定
+                winner = Utility.Winner.Fox.ordinal();
+                seerResult = 1;
+                mediumResult = 1;
+                isFinishCount = 1;
+                cardId = R.drawable.card20;
+                break;
+
             case Lycan:
                 name = "狼憑き//未実装";
                 hasAction = false;
@@ -327,47 +370,6 @@ public class Utility {
 //                isFinishCount = 1;
 //                cardId = R.drawable.card18;
 //                break;
-
-            case Fanatic:
-                name = "狂信者//未実装";
-                token = "信";
-                hasAction = false;
-                hasActionFirst = true;
-                hasTableFirst = true;
-                explain = "";
-                //判定
-                winner = Utility.Winner.Wolf.ordinal();
-                seerResult = 1;
-                mediumResult = 1;
-                isFinishCount = 1;
-                cardId = R.drawable.card19;
-                break;
-
-            case Immoralist:
-                name = "背徳者//未実装";
-                hasAction = false;
-                hasActionFirst = true;
-                hasTableFirst = true;
-                explain = "";
-                //判定
-                winner = Utility.Winner.Fox.ordinal();
-                seerResult = 1;
-                mediumResult = 1;
-                isFinishCount = 1;
-                cardId = R.drawable.card20;
-                break;
-
-            case Cat:
-                name = "猫又//未実装";
-                hasAction = false;
-                hasActionFirst = false;
-                explain = "";
-                //判定
-                seerResult = 1;
-                mediumResult = 1;
-                isFinishCount = 1;
-                cardId = R.drawable.card21;
-                break;
 
             case Baker:
                 name = "パン屋//未実装";

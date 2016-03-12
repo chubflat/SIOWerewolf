@@ -91,7 +91,7 @@ public class CustomView extends View {
     protected void onDraw(Canvas canvas){
 
         Paint paint = new Paint();
-        paint.setTextSize(width * 8 / 100);
+        paint.setTextSize(width * 6 / 100);
         paint.setColor(Color.BLACK);
 
         canvas.drawColor(0, PorterDuff.Mode.CLEAR);
@@ -282,6 +282,7 @@ public class CustomView extends View {
                         text2 = "初日夜へ";
                     }else{
                         text2 = "全員の確認待ち";
+                        paint.setColor(Color.WHITE);
 
                     }
                     canvas.drawText(text2,width * 25/100,height * 85/100,paint);
@@ -396,6 +397,38 @@ public class CustomView extends View {
                     canvas.restore();
 
                     break;
+                case "beforeAfternoon":
+                    backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.morning,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
+
+//                    roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backCard,null,roleCardRect,paint);
+                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
+                    Rect beforeAfternoonFrameRect = new Rect(width * 15 / 100,height * 40 / 100,width * 85 / 100 ,height * 60 / 100);
+                    canvas.drawBitmap(frameImg, null, beforeAfternoonFrameRect, paint);
+
+                    //TODO Text表示
+
+//                    String beforeAfternoon = "";
+                    if(!(MainActivity.isWaiting)){
+                        canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                        text3 = "確認";
+                    }else{
+                        text3 = "全員の確認待ち";
+                    }
+                    canvas.drawText(text3, width * 25 / 100, height * 85 / 100, paint);
+
+//                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",MainActivity.day,MainActivity.victimString);
+
+                    TextPaint beforeAfternoonTextPaint = new TextPaint();
+                    beforeAfternoonTextPaint.setTextSize(width * 5 / 100);
+                    StaticLayout beforeAfternoonTextLayout = new StaticLayout(MainActivity.victimString,beforeAfternoonTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+                    canvas.translate(width * 2 / 10, height * 40 / 100);//text の左上座標の指定
+
+                    beforeAfternoonTextLayout.draw(canvas);
+                    canvas.restore();
+
+                    break;
                 case "afternoon_meeting":
                     // background
                     backgroundImg = decodeSampledBitmapFromResource(getResources(), R.drawable.afternoon, width, height);
@@ -403,12 +436,21 @@ public class CustomView extends View {
 
                     backCard = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
                     canvas.drawBitmap(backCard,null,roleCardRect,paint);
-                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
+                    canvas.drawBitmap(timerFrameImg, null, timerRect, paint);
                     canvas.drawText(MainActivity.timer, width * 30 / 100, height * 10 / 100, paint);
 
                     historyRect = new Rect(width * 5 /100,height * 87 / 100 ,width * 25 / 100 ,height *95 /100);
-                    canvas.drawBitmap(buttonImg,null,historyRect,paint);
-                    canvas.drawText("履歴",width * 7/100,height * 92 / 100,paint);
+                    canvas.drawBitmap(buttonImg, null, historyRect, paint);
+                    canvas.drawText("履歴", width * 7 / 100, height * 92 / 100, paint);
+
+                    if(!(MainActivity.isWaiting)){
+                        canvas.drawBitmap(buttonImg,null,actionButtonRect,paint);
+                        action = "議論終了";
+                    }else{
+                        action = "終了待ち";
+                    }
+
+                    canvas.drawText(action,width * 75 / 100 ,height * 92 / 100,paint);
 
                     break;
                 case "evening_voting":
@@ -447,12 +489,14 @@ public class CustomView extends View {
                         text4 = "確認";
                     }else{
                         text4 = "全員の確認待ち";
+                        paint.setColor(Color.WHITE);
                     }
                     canvas.drawText(text4, width * 25 / 100, height * 85 / 100, paint);
 
+                    paint.setColor(Color.BLACK);
                     String afternoonVictim = "";
                     if(MainActivity.afternoonVictimId !=-1){
-                        afternoonVictim =String.format("%sが追放されました。", (String) MainActivity.playerInfoDicArray.get(MainActivity.afternoonVictimId).get("userName"));
+                        afternoonVictim =String.format("%sさんが追放されました。", (String) MainActivity.playerInfoDicArray.get(MainActivity.afternoonVictimId).get("userName"));
                     }else{
                         afternoonVictim = "処刑者が決まりませんでした。再投票を行います。";
                     }
@@ -462,9 +506,41 @@ public class CustomView extends View {
                     TextPaint voteResultPaint = new TextPaint();
                     voteResultPaint.setTextSize(width * 5 / 100);
                     StaticLayout voteResultLayout = new StaticLayout(result,voteResultPaint,width*70/100, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
-                    canvas.translate(width * 20 / 100, height * 10 / 100);//text の左上座標の指定
+                    canvas.translate(width * 20 / 100, height * 5 / 100);//text の左上座標の指定
 
                     voteResultLayout.draw(canvas);
+                    canvas.restore();
+
+                    break;
+                case "beforeNight":
+                    backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.evening,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
+
+    //                    roleImg = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
+                    canvas.drawBitmap(backCard,null,roleCardRect,paint);
+                    canvas.drawBitmap(timerFrameImg,null,timerRect,paint);
+                    Rect beforeNightFrameRect = new Rect(width * 15 / 100,height * 40 / 100,width * 85 / 100 ,height * 60 / 100);
+                    canvas.drawBitmap(frameImg, null, beforeNightFrameRect, paint);
+
+                    //TODO Text表示
+
+    //                    String beforeAfternoon = "";
+                    if(!(MainActivity.isWaiting)){
+                        canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
+                        text3 = "確認";
+                    }else{
+                        text3 = "全員の確認待ち";
+                    }
+                    canvas.drawText(text3, width * 25 / 100, height * 85 / 100, paint);
+
+    //                    String morningText = String.format("%d日目の朝になりました。昨日の犠牲者は%sでした。",MainActivity.day,MainActivity.victimString);
+
+                    TextPaint beforeNightTextPaint = new TextPaint();
+                    beforeNightTextPaint.setTextSize(width * 5 / 100);
+                    StaticLayout beforeNightTextLayout = new StaticLayout(MainActivity.victimString,beforeNightTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+                    canvas.translate(width * 2 / 10, height * 40 / 100);//text の左上座標の指定
+
+                    beforeNightTextLayout.draw(canvas);
                     canvas.restore();
 
                     break;
@@ -641,7 +717,12 @@ public class CustomView extends View {
                                     MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"checkVictim:" + MainActivity.myId);
                                     MainActivity.isWaiting = true;
                                 }
-
+                                break;
+                            case "beforeAfternoon":
+                                if(!MainActivity.isWaiting){
+                                    MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"morningVictimCheck:" + MainActivity.myId);
+                                    MainActivity.isWaiting = true;
+                                }
                                 break;
                             case "afternoon_meeting":
                                 MainActivity.surfaceView = "invisible";
@@ -650,6 +731,12 @@ public class CustomView extends View {
                             case "voteFinish":
                                 if(!(MainActivity.isWaiting)){
                                     MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"checkVoting:" + MainActivity.myId);
+                                    MainActivity.isWaiting = true;
+                                }
+                                break;
+                            case "beforeNight":
+                                if(!MainActivity.isWaiting){
+                                    MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"afternoonVictimCheck:" + MainActivity.myId);
                                     MainActivity.isWaiting = true;
                                 }
                                 break;
@@ -682,6 +769,10 @@ public class CustomView extends View {
                             if(gamePhase.equals("night_chat")&&MainActivity.surfaceView.equals("invisible")){
                                 MainActivity.surfaceView = "night_action";
                                 MainActivity.setListAdapter("night_action");
+                            }else if(gamePhase.equals("afternoon_meeting") && !(MainActivity.isWaiting)){
+                                MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"finishAfternoonRequest:" + MainActivity.myId);
+                            }else{
+
                             }
                         }
 

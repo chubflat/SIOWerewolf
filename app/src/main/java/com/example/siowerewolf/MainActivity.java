@@ -200,7 +200,7 @@ public class MainActivity extends Activity {
 //                    dialogPattern = "room_select";
 //                    setDialog(roomDialogText);
 
-                } else {
+                } else if(!(gamePhase.equals("gameOver"))){
                     selectedPlayerId = listPlayerIdArray.get(position);
                     switch (gamePhase) {
                         case "evening_voting":
@@ -226,6 +226,8 @@ public class MainActivity extends Activity {
                         default:
                             break;
                     }
+                }else{
+                    selectedPlayerId = -2;
                 }
                 customView.invalidate();
 //
@@ -513,38 +515,56 @@ public class MainActivity extends Activity {
                 }
                 break;
             case "voteResult":
-//                ArrayList<Integer> resultArray = new ArrayList<>();
-//                for(int i =2;i<receivedCommandMessageArray.length;i++){
-//                    String[] result = receivedCommandMessageArray[i].split(",",0);
-//                    int voteNum = Integer.valueOf(result[2]);
-//                    resultArray.add(voteNum);
-//                }
-//                int max = Collections.max(resultArray);
-//
-//                for(int i = max;i>=0;i--){
-//                    for(int j = 0;j<resultArray.size();j++){
-//                        if(resultArray.get(j) == i){
-//                            String[] result = receivedCommandMessageArray[j+2].split(",", 0);
-//                            int voteNum = Integer.valueOf(result[2]);
-//                            resultArray.add(voteNum);
-//                            String voteFrom = (String)playerInfoDicArray.get(Integer.valueOf(result[0])).get("userName");
-//                            String voteTo = (String)playerInfoDicArray.get(Integer.valueOf(result[1])).get("userName");
-//                            String resultString = String.format("(%d票) %s  →  %s", voteNum, voteFrom, voteTo);
-//                            adapter.add(resultString);
-//                        }
-//                    }
-//                }
                 String voteHistory = String.format("-------%d日目%d回目投票結果-------",day,voteTime);
                 historyAdapter.add(voteHistory);
+
+                ArrayList<Map<String,Integer>> array = new ArrayList<>();
+                ArrayList<Map<String,Integer>> resultArray = new ArrayList<>();
+
                 for(int i = 2;i<receivedCommandMessageArray.length;i++){
-                    String[] result = receivedCommandMessageArray[i].split(",",0);
-                    int voteNum = Integer.valueOf(result[2]);
-                    String voteFrom = (String)playerInfoDicArray.get(Integer.valueOf(result[0])).get("userName");
-                    String voteTo = (String)playerInfoDicArray.get(Integer.valueOf(result[1])).get("userName");
-                    String resultString = String.format("(%d票) %s  →  %s", voteNum, voteFrom, voteTo);
+                    Map<String ,Integer> map = new HashMap<>();
+                    String[] result = receivedCommandMessageArray[i].split(",", 0);
+                    int voter = Integer.valueOf(result[0]);
+                    int voteder = Integer.valueOf(result[1]);
+                    int count = Integer.valueOf(result[2]);
+                    map.put("voter",voter);
+                    map.put("voteder",voteder);
+                    map.put("count", count);
+                    array.add(map);
+                }
+
+                while (array.size() > 0){
+                    int maxIndex = -1;//array のindex
+                    int maxCount = -1;//max投票数
+                    for(int i = 0;i<array.size();i++){
+                        int count = array.get(i).get("count");
+                        if(count > maxCount){
+                            maxCount = count;
+                            maxIndex = i;
+                        }
+                    }
+                    resultArray.add(array.get(maxIndex));
+                    array.remove(maxIndex);
+                }
+
+                for(int i = 0;i<resultArray.size();i++){
+                    String voter = (String)playerInfoDicArray.get(resultArray.get(i).get("voter")).get("userName");
+                    String voteder = (String)playerInfoDicArray.get(resultArray.get(i).get("voteder")).get("userName");
+                    int count = resultArray.get(i).get("count");
+                    String resultString = String.format("(%d票) %s  →  %s",count, voter,voteder);
                     adapter.add(resultString);
                     historyAdapter.add(resultString);
                 }
+//                for(int i = 2;i<receivedCommandMessageArray.length;i++){
+//                    String[] result = receivedCommandMessageArray[i].split(",",0);
+//                    int voteNum = Integer.valueOf(result[2]);
+//                    String voteFrom = (String)playerInfoDicArray.get(Integer.valueOf(result[0])).get("userName");
+//                    String voteTo = (String)playerInfoDicArray.get(Integer.valueOf(result[1])).get("userName");
+//                    String resultString = String.format("(%d票) %s  →  %s", voteNum, voteFrom, voteTo);
+//                    adapter.add(resultString);
+//                    historyAdapter.add(resultString);
+//                }
+
                 break;
             case "night_action":
                 if((int)playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Werewolf.ordinal()){
@@ -831,12 +851,30 @@ public class MainActivity extends Activity {
                                                     }
                                                 }
                                                 // 同じ役職者をとってくる
-                                                companionListAdapter.add("----------仲間を確認してください---------");
-                                                for(int i = 0;i<receivedCommandMessageArray.length;i++){
-                                                    if((int)playerInfoDicArray.get(i).get("roleId") == myRole && i != myPlayerId){
-                                                        companionListAdapter.add((String)playerInfoDicArray.get(i).get("userName"));
+
+                                                if((int)playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Fanatic.ordinal()){
+                                                    companionListAdapter.add("----------人狼を確認してください---------");
+                                                    for(int i = 0;i<receivedCommandMessageArray.length;i++){
+                                                        if((int)playerInfoDicArray.get(i).get("roleId") == Utility.Role.Werewolf.ordinal()){
+                                                            companionListAdapter.add((String)playerInfoDicArray.get(i).get("userName"));
+                                                        }
+                                                    }
+                                                }else if((int)playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Fanatic.ordinal()){
+                                                    companionListAdapter.add("----------妖狐を確認してください---------");
+                                                    for(int i = 0;i<receivedCommandMessageArray.length;i++){
+                                                        if((int)playerInfoDicArray.get(i).get("roleId") == Utility.Role.Fox.ordinal()){
+                                                            companionListAdapter.add((String)playerInfoDicArray.get(i).get("userName"));
+                                                        }
+                                                    }
+                                                }else{
+                                                    companionListAdapter.add("----------仲間を確認してください---------");
+                                                    for(int i = 0;i<receivedCommandMessageArray.length;i++){
+                                                        if((int)playerInfoDicArray.get(i).get("roleId") == myRole && i != myPlayerId){
+                                                            companionListAdapter.add((String)playerInfoDicArray.get(i).get("userName"));
+                                                        }
                                                     }
                                                 }
+
                                                 startDate =(int)(System.currentTimeMillis()/1000);
                                                 stopDate = startDate + 4;
                                                 isWaiting = true;
@@ -860,7 +898,7 @@ public class MainActivity extends Activity {
                                                 actionDone = false;
                                                 gamePhase = "night_chat";
                                                 startDate =(int)(System.currentTimeMillis()/1000);
-                                                stopDate = startDate + (int)ruleDic.get("night_timer")*20;
+                                                stopDate = startDate + (int)ruleDic.get("night_timer")*60;
                                                 loopEngine.start();
                                                 break;
                                             case "nightStart":
@@ -870,7 +908,7 @@ public class MainActivity extends Activity {
                                                     actionDone = false;
                                                     gamePhase = "night_chat";
                                                     startDate =(int)(System.currentTimeMillis()/1000);
-                                                    stopDate = startDate + (int)ruleDic.get("night_timer")*20;
+                                                    stopDate = startDate + (int)ruleDic.get("night_timer")*60;
                                                     loopEngine.start();
                                                 }else{
                                                     gamePhase = "evening_voting";
@@ -922,15 +960,56 @@ public class MainActivity extends Activity {
                                                     for(int i = 0;i<nightVictim.length;i++){
                                                         int victimId = Integer.valueOf(nightVictim[i]);
                                                         playerInfoDicArray.get(victimId).put("isLive",false);
-                                                        victimString = String.format("「%s」さん、",victimString + playerInfoDicArray.get(victimId).get("userName"));
+                                                        String victim =  String.format("「%s」さん",playerInfoDicArray.get(victimId).get("userName"));
+                                                        victimString = victimString + victim;
                                                     }
                                                 }
-
                                                 if((Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
                                                     gamePhase = "morning";
                                                 }else{
                                                     gamePhase = "heaven";
                                                 }
+                                                break;
+                                            case "morningVictim"://後追い発生時
+                                            case "afternoonVictim":
+                                                victimString = "";
+                                                for(int i = 0;i<receivedCommandMessageArray.length;i++){
+                                                    String[] morningVictimArray = receivedCommandMessageArray[i].split(",", 0);
+                                                    int victimId = Integer.valueOf(morningVictimArray[0]);
+                                                    playerInfoDicArray.get(victimId).put("isLive",false);
+                                                    String name = (String) playerInfoDicArray.get(victimId).get("userName");
+                                                    int reasonRoleId = Integer.valueOf(morningVictimArray[1]);
+                                                    String reason = "";
+                                                    if(reasonRoleId == Utility.Role.Cat.ordinal()){
+                                                        reason = "猫又の呪いで死亡しました。";
+                                                    }else if(reasonRoleId == Utility.Role.Immoralist.ordinal()){
+                                                        reason = "妖狐の後を追って自殺しました。";
+                                                    }
+                                                    String morningVictim = String.format("「%s」さんは%s",name,reason);
+                                                    victimString = victimString + morningVictim;
+                                                }
+                                                if((Boolean)playerInfoDicArray.get(myPlayerId).get("isLive")){
+                                                    if(receivedCommand.equals("morningVictim")){
+                                                        gamePhase = "beforeAfternoon";
+                                                    }else if(receivedCommand.equals("afternoonVictim")){
+                                                        gamePhase = "beforeNight";
+                                                    }
+
+                                                }else{
+                                                    gamePhase = "heaven";
+                                                }
+
+                                                break;
+                                            case "finishAfternoon":
+                                                loopEngine.stop();
+                                                timer = "00:00";
+                                                drawChat(false);
+                                                surfaceView = "invisible";
+                                                historyListView.setVisibility(View.INVISIBLE);
+
+                                                gamePhase = "evening_voting";
+                                                setListAdapter("vote");
+                                                historyListView.setVisibility(View.INVISIBLE);
                                                 break;
                                             case "victimCheckFinish":
                                                 surfaceView = "invisible";
@@ -938,7 +1017,7 @@ public class MainActivity extends Activity {
                                                 isWaiting = false;
                                                 gamePhase = "afternoon_meeting";
                                                 startDate =System.currentTimeMillis()/1000;
-                                                stopDate = startDate + (int)ruleDic.get("timer")*20;
+                                                stopDate = startDate + (int)ruleDic.get("timer")*60;
                                                 loopEngine.start();
                                                 break;
 
