@@ -254,7 +254,7 @@ public class MainActivity extends Activity {
          * companionListView 追加*/
         companionListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         companionListView = new ListView(this);
-        FrameLayout.LayoutParams companionLp = new FrameLayout.LayoutParams(CustomView.width *90/100, CustomView.height *35/100);
+        FrameLayout.LayoutParams companionLp = new FrameLayout.LayoutParams(CustomView.width *90/100, CustomView.height *25/100);
         companionLp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
         companionLp.bottomMargin = customView.height * 15 / 100;
 
@@ -305,7 +305,7 @@ public class MainActivity extends Activity {
         isGameScene = false;
         settingPhase = "setting_menu";
         day = 1;
-        victimString = "いません";
+        victimString = "";
         lastGuardPlayerId = 100000;
         afternoonVictimId = -1;
         voteTime = 1;
@@ -568,7 +568,7 @@ public class MainActivity extends Activity {
             case "gameOver":
                 for(int i = 0;i<playerInfoDicArray.size();i++){
                     String name = (String)playerInfoDicArray.get(i).get("userName");
-                    String role = (String)playerInfoDicArray.get(i).get("roleId");
+                    String role = (String)getPlayerInfo(i,"roleId","name");
                     String winStatus = "";
                     if((int)getPlayerInfo(i,"roleId","winner") == winner){
                         winStatus = "勝利";
@@ -846,6 +846,7 @@ public class MainActivity extends Activity {
                                             case "gameEnd":
                                                 gamePhase = "gameOver";
                                                 winner = Integer.valueOf(msgInfo[5]);
+                                                setListAdapter("gameOver");
                                                 break;
                                             default:
                                                 break;
@@ -913,6 +914,7 @@ public class MainActivity extends Activity {
                                             case "afternoonStart":
                                                 surfaceView = "invisible";
                                                 day++;
+                                                victimString = "";
                                                 if(msgInfo.length < 6 ){
                                                     victimString = "いません";
                                                 }else{

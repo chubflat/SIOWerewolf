@@ -256,8 +256,8 @@ public class CustomView extends View {
                     canvas.drawBitmap(backgroundImg, null, backgroundRect, paint);
 
                     //Rect宣言
-                    Rect topFrameRect = new Rect(width * 5 /100,height * 5 / 100 ,width * 95 / 100 ,height * 50 /100);
-                    Rect belowFrameRect = new Rect(width * 20 /100,height * 60 / 100 ,width * 80 / 100 ,height * 75 /100);
+                    Rect topFrameRect = new Rect(width * 5 /100,height * 5 / 100 ,width * 95 / 100 ,height * 45 /100);
+//                    Rect belowFrameRect = new Rect(width * 20 /100,height * 60 / 100 ,width * 80 / 100 ,height * 75 /100);
                     Rect roleCheckCardRect = new Rect(width * 42 /100,height * 10 / 100 ,width * 58 / 100 ,height * 10 /100 + width * 16/100 * 1125/938);
 
                     // canvasDraw
@@ -479,7 +479,7 @@ public class CustomView extends View {
                     TextPaint heavenPaint = new TextPaint();
                     heavenPaint.setTextSize(width * 5 / 100);
                     StaticLayout heavenLayout = new StaticLayout(heavenText,heavenPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
-                    canvas.translate(width * 2 / 10, height * 50 / 100);//text の左上座標の指定
+                    canvas.translate(width * 25 / 100, height * 45 / 100);//text の左上座標の指定
 
                     heavenLayout.draw(canvas);
                     canvas.restore();
@@ -505,7 +505,7 @@ public class CustomView extends View {
 //                        gameOverText = "妖狐は村人と人狼を欺き、この村を支配しました。妖狐チームの勝利です。";
                         gameOverText = "妖狐チームの勝利です";
                     }
-                    canvas.drawText(gameOverText,width * 20 / 100, height * 10 / 100, paint);
+                    canvas.drawText(gameOverText,width * 10 / 100, height * 10 / 100, paint);
 
 //                    TextPaint gameOverTextPaint = new TextPaint();
 //                    gameOverTextPaint.setTextSize(width * 5 / 100);
@@ -544,7 +544,6 @@ public class CustomView extends View {
                     MainActivity.historyListView.setVisibility(View.INVISIBLE);
                     if(gamePhase.equals("evening_voting") || gamePhase.equals("voteFinish") ||gamePhase.equals("gameOver")){
                         MainActivity.drawListView(true);
-
                     }
 
                     break;
