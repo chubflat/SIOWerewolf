@@ -77,7 +77,7 @@ public class Utility {
                 hasAction = false;
                 hasActionFirst = false;
                 hasTableFirst = false;
-                explain = "村人は特殊な能力を持たないただの一般人ですが、このゲームの主人公でもあります。他の村人や特殊能力を持った仲間たちと協力して人狼を処刑し、全滅させましょう。";
+                explain = "村人は特殊な能力を持たないただの人です。夜時間は考察を書きましょう。";
                 // 判定
                 winner = Utility.Winner.Village.ordinal();
                 seerResult = 1;
@@ -94,7 +94,7 @@ public class Utility {
                 hasTableFirst = true;
                 actionDialogText = "噛みます";
                 actionButtonText = "噛む";
-                explain = "人狼は毎晩目を覚まし、村の人間を一人ずつ選んで喰い殺していきます。人狼同士で協力して人間を喰い尽くし、村を全滅させてしまいましょう。";
+                explain = "人狼は毎晩仲間同士で相談し人間を一人噛むことができます。夜時間は狼専用チャットで相談し、代表者が襲撃先を選択します。";
                 // 判定
                 winner = Utility.Winner.Wolf.ordinal();
                 seerResult = -1;
@@ -113,7 +113,7 @@ public class Utility {
                 hasTableFirst = false;
                 actionDialogText = "占います";
                 actionButtonText = "占う";
-                explain = "占い師は毎晩目を覚まし、自分が人狼だと疑っている人物を１人指定してその人物が人狼かそうでないかを知ることができます。";
+                explain = "予言者は毎晩疑っている人物を１人指定してその人物が人狼かそうでないかを知ることができます。";
                 winner = Utility.Winner.Village.ordinal();
                 //判定
                 seerResult = 1;
@@ -128,7 +128,7 @@ public class Utility {
                 hasAction = false;
                 hasActionFirst = false;
                 hasTableFirst = false;
-                explain = "霊媒師は毎晩目を覚まし、その日の昼のターンに処刑された人が人狼だったのかそうでなかったのかを知ることができます。";
+                explain = "霊媒師は毎晩その日の昼のターンに処刑された人が人狼だったのかそうでなかったのかを知ることができます。";
                 //判定
                 winner = Utility.Winner.Village.ordinal();
                 seerResult = 1;
@@ -143,7 +143,7 @@ public class Utility {
                 hasAction = false;
                 hasActionFirst = false;
                 hasTableFirst = false;
-                explain = "狂人は何も能力を持っていませんが、人狼側の人間です。人狼が勝利した時、自らも勝者となります。予言者に見られてもただの人間と判定されます。積極的に役職を騙り村を混乱させましょう。";
+                explain = "あなたは「狂人」です。能力はありませんが嘘をついて村を混乱させましょう。";
                 // 判定
                 winner = Utility.Winner.Wolf.ordinal();
                 seerResult = 1;
@@ -160,7 +160,7 @@ public class Utility {
                 hasTableFirst = false;
                 actionDialogText = "守ります";
                 actionButtonText = "守る";
-                explain = "狩人は毎晩目を覚まし、誰かを一人指定してその人物を人狼の襲撃から守ります。ただし、自分自身を守ることはできません。";
+                explain = "狩人は毎晩誰かを一人指定してその人物を人狼の襲撃から守ります。ただし、自分自身を守ることはできません。";
                 // 判定
                 winner = Utility.Winner.Village.ordinal();
                 seerResult = 1;
@@ -175,7 +175,7 @@ public class Utility {
                 hasAction = false;
                 hasActionFirst = false;
                 hasTableFirst = true;
-                explain = "あなたは共有者です。";
+                explain = "共有者は必ず複数人で一組として存在し、お互いに相手を確認できます。夜時間には共有者専用チャットを使用できます。";
                 //判定
                 winner = Utility.Winner.Village.ordinal();
                 seerResult = 1;
@@ -189,7 +189,7 @@ public class Utility {
                 hasAction = false;
                 hasActionFirst = false;
                 hasTableFirst = true;
-                explain = "";
+                explain = "妖狐は第３の勢力です。ゲームが終了した時に妖狐が生き残っていれば勝利します。妖狐同士は夜時間に専用チャットを使用できます。";
                 //判定
                 winner = Utility.Winner.Fox.ordinal();
                 seerResult = 1;
@@ -203,12 +203,12 @@ public class Utility {
                 token = "猫";
                 hasAction = false;
                 hasActionFirst = false;
-                explain = "";
+                explain = "猫又は村人陣営です。猫又は昼の会議で処刑された場合、生存者の中からランダムで一人を道連れにします。夜に人狼に噛まれた場合は、噛んだ人狼を道連れにします。";
                 //判定
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
-                cardId = R.drawable.card21;
+                cardId = R.drawable.card8;
                 break;
             case Fanatic:
                 name = "狂信者";
@@ -216,13 +216,13 @@ public class Utility {
                 hasAction = false;
                 hasActionFirst = false;
                 hasTableFirst = true;
-                explain = "";
+                explain = "狂信者は初日の夜に誰が人狼かがわかります。人狼が勝利するように場を混乱させましょう。占い結果、霊媒結果は人間と判定されます。";
                 //判定
                 winner = Utility.Winner.Wolf.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
-                cardId = R.drawable.card19;
+                cardId = R.drawable.card9;
                 break;
 
             case Immoralist:
@@ -231,13 +231,13 @@ public class Utility {
                 hasAction = false;
                 hasActionFirst = false;
                 hasTableFirst = true;
-                explain = "";
+                explain = "背徳者は妖狐陣営です。ゲーム終了時に妖狐が生き残っていれば、勝利します。背徳者は「妖狐」が誰かを知ることができ、妖狐が全滅した際、後を追って死亡します。その場合、後追い自殺として表示されます。";
                 //判定
                 winner = Utility.Winner.Fox.ordinal();
                 seerResult = 1;
                 mediumResult = 1;
                 isFinishCount = 1;
-                cardId = R.drawable.card20;
+                cardId = R.drawable.card10;
                 break;
 
             case Lycan:

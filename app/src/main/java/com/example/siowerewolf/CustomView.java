@@ -108,7 +108,7 @@ public class CustomView extends View {
         backCard = decodeSampledBitmapFromResource(getResources(),R.drawable.back_card,bitmapWidth,bitmapHeight);
 
         //SettingScene用Rect初期化
-        backgroundRect = new Rect(0,0,bitmapWidth,bitmapHeight);
+        backgroundRect = new Rect(0,0,width,height);
         buttonRect3 = new Rect(width * 10 / 100 ,height * 50 / 100,width * 90 / 100 ,height * 60 / 100);
         buttonRect2 = new Rect(width * 10 / 100 ,height * 65 / 100,width * 90 / 100 ,height * 75 / 100);
 
@@ -116,14 +116,11 @@ public class CustomView extends View {
         buttonRect1 = new Rect(width * 25 / 100 ,height * 80 / 100,width * 75 / 100 ,height * 90 / 100);
         actionButtonRect = new Rect (width * 75 / 100 ,height * 87 / 100,width * 95 / 100 ,height * 95 / 100);
         topTextRect = new Rect(width * 20 / 100 ,height * 5 / 100,width * 80 / 100 ,height * 15 / 100);
-        roleCardRect = new Rect(width * 5 / 100, height * 5/100 ,width * 20 / 100 ,height * 20 / 100);
+        roleCardRect = new Rect(width * 5 / 100, height * 5/100 ,width * 20 / 100 ,height *5 /100 + width * 15 / 100  * 1125 /938 );
         timerRect = new Rect(width * 22 / 100, height * 5/100 ,width * 70 / 100 ,height * 15 / 100);
 
         //TODO GameSceneとの共有変数の初期化
         setSameVariable();
-
-        backgroundImg = decodeSampledBitmapFromResource(getResources(),R.drawable.afternoon,bitmapWidth,bitmapHeight);
-//        canvas.drawBitmap(backgroundImg,null,backgroundRect,paint);
 
         // default List非表示
         MainActivity.drawListView(false);
@@ -771,6 +768,7 @@ public class CustomView extends View {
                                 MainActivity.setListAdapter("night_action");
                             }else if(gamePhase.equals("afternoon_meeting") && !(MainActivity.isWaiting)){
                                 MainActivity.sendEvent(MainActivity.fixedGameInfo.get("periId"),"finishAfternoonRequest:" + MainActivity.myId);
+                                MainActivity.isWaiting = true;
                             }else{
 
                             }

@@ -258,7 +258,7 @@ public class MainActivity extends Activity {
         companionListView = new ListView(this);
         FrameLayout.LayoutParams companionLp = new FrameLayout.LayoutParams(CustomView.width *90/100, CustomView.height *25/100);
         companionLp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
-        companionLp.bottomMargin = customView.height * 15 / 100;
+        companionLp.bottomMargin = customView.height * 20 / 100;
 
         companionListView.setAdapter(companionListAdapter);
         companionListView.setLayoutParams(companionLp);
