@@ -282,6 +282,7 @@ public class CustomView extends View {
                         text2 = "初日夜へ";
                     }else{
                         text2 = "全員の確認待ち";
+
                     }
                     canvas.drawText(text2,width * 25/100,height * 85/100,paint);
 
@@ -492,24 +493,27 @@ public class CustomView extends View {
                     canvas.drawBitmap(buttonImg, null, buttonRect1, paint);
                     canvas.drawText("終了する", width * 25 / 100, height * 85 / 100, paint);
 
+                    MainActivity.drawListView(true);
                     String gameOverText = "";
                     if(MainActivity.winner == 0){
 //                        gameOverText = "村に潜んだすべての人狼を追放しました。村人チームの勝利です。";
                         gameOverText = "村人チームの勝利です";
                     }else if(MainActivity.winner == 1){
 //                        gameOverText = "人狼達は最後の獲物を捕らえた後、次の村へと去って行きました。人狼チームの勝利です。";
-                        gameOverText = "人狼チームの勝利です。";
+                        gameOverText = "人狼チームの勝利です";
                     }else if(MainActivity.winner == 2){
 //                        gameOverText = "妖狐は村人と人狼を欺き、この村を支配しました。妖狐チームの勝利です。";
-                        gameOverText = "妖狐チームの勝利です。";
+                        gameOverText = "妖狐チームの勝利です";
                     }
-                    TextPaint gameOverTextPaint = new TextPaint();
-                    gameOverTextPaint.setTextSize(width * 5 / 100);
-                    StaticLayout gameOverTextLayout = new StaticLayout(gameOverText,gameOverTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
-                    canvas.translate(width * 2 / 10, height * 40 / 100);//text の左上座標の指定
+                    canvas.drawText(gameOverText,width * 20 / 100, height * 10 / 100, paint);
 
-                    gameOverTextLayout.draw(canvas);
-                    canvas.restore();
+//                    TextPaint gameOverTextPaint = new TextPaint();
+//                    gameOverTextPaint.setTextSize(width * 5 / 100);
+//                    StaticLayout gameOverTextLayout = new StaticLayout(gameOverText,gameOverTextPaint,width*3/5, Layout.Alignment.ALIGN_NORMAL,1.0f, 0.0f, false);
+//                    canvas.translate(width * 2 / 10, height * 40 / 100);//text の左上座標の指定
+//
+//                    gameOverTextLayout.draw(canvas);
+//                    canvas.restore();
                     break;
                 default:
                     break;
@@ -538,7 +542,7 @@ public class CustomView extends View {
                 case "invisible":
                     MainActivity.drawListView(false);
                     MainActivity.historyListView.setVisibility(View.INVISIBLE);
-                    if(gamePhase.equals("evening_voting") || gamePhase.equals("voteFinish")){
+                    if(gamePhase.equals("evening_voting") || gamePhase.equals("voteFinish") ||gamePhase.equals("gameOver")){
                         MainActivity.drawListView(true);
 
                     }

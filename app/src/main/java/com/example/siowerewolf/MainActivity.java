@@ -272,7 +272,6 @@ public class MainActivity extends Activity {
         drawChat(false);
         initControls();
 
-
         roleBitmapArray = new ArrayList<>();
         for(int i = 0;i<10;i++){
             int role = (int)Utility.getRoleInfo(getRole(i)).get("cardId");
@@ -567,15 +566,26 @@ public class MainActivity extends Activity {
 
                 break;
             case "gameOver":
-
+                for(int i = 0;i<playerInfoDicArray.size();i++){
+                    String name = (String)playerInfoDicArray.get(i).get("userName");
+                    String role = (String)playerInfoDicArray.get(i).get("roleId");
+                    String winStatus = "";
+                    if((int)getPlayerInfo(i,"roleId","winner") == winner){
+                        winStatus = "勝利";
+                    }else{
+                        winStatus = "敗北";
+                    }
+                    String winText = String.format("%s %s(%s)",name,role,winStatus);
+                    adapter.add(winText);
+                }
                 break;
             default:
                 break;
         }
     }
 
-    public static Object getPlayerInfo(int arrayId,String playerInfoKey,String roleInfoKey){
-        Object playerInfo = getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(arrayId).get(playerInfoKey))).get(roleInfoKey);
+    public static Object getPlayerInfo(int playerId,String playerInfoKey,String roleInfoKey){
+        Object playerInfo = getRoleInfo(MainActivity.getRole((int) MainActivity.playerInfoDicArray.get(playerId).get(playerInfoKey))).get(roleInfoKey);
 
         return playerInfo;
     }
