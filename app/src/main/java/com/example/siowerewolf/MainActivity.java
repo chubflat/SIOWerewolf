@@ -88,6 +88,7 @@ public class MainActivity extends Activity {
 
 	// 各種List宣言
 	public static List<Map<String,Object>> playerInfoDicArray;//参加者Array
+	public static List<Map<String,Object>> playerArray;//参加者Array
 	public static List<Map<String,String>> listInfoDicArray;//リストに表示する情報のArray
 	public static ArrayList<Integer> listPlayerIdArray;//listに入っているplayerId Array
 	public static ArrayList<Integer> victimArray;//夜間犠牲者Array
@@ -275,7 +276,7 @@ public class MainActivity extends Activity {
         initControls();
 
         roleBitmapArray = new ArrayList<>();
-        for(int i = 0;i<10;i++){
+        for(int i = 0;i<Utility.getMaxRoleCount();i++){
             int role = (int)Utility.getRoleInfo(getRole(i)).get("cardId");
             Bitmap bm = BitmapFactory.decodeResource(getResources(),role);
             roleBitmapArray.add(bm);
@@ -316,6 +317,7 @@ public class MainActivity extends Activity {
         roomInfoDicArray = new ArrayList<>();
         fixedGameInfo = new HashMap<>();
         playerInfoDicArray = new ArrayList<>();
+        playerArray = new ArrayList<>();
         roleArray = new ArrayList<>();
         infoDic = new HashMap<>();
 
@@ -723,33 +725,46 @@ public class MainActivity extends Activity {
                                         }
                                         switch (receivedCommand){
                                             case "member":
+
                                                 Map<String,Object> member = new HashMap<String, Object>();
+
                                                 int playerId = Integer.valueOf(receivedCommandMessageArray[0]);
                                                 String userId = receivedCommandMessageArray[1];
                                                 String userName = receivedCommandMessageArray[2];
                                                 member.put("playerId",playerId);
                                                 member.put("userId",userId);
                                                 member.put("userName",userName);
-                                                playerInfoDicArray.add(member);
+                                                playerArray.add(member);
+
                                                 if(userId.equals(myId)){
                                                     myPlayerId = playerId;
                                                 }
                                                 userDic.put(userId,receivedCommandMessageArray[2]);
 
-//                                            Collections.sort(playerInfoDicArray, new Comparator<Map<String, Object>>() {
-//                                                public int compare(Map<String, Object> member1, Map<String, Object> member2) {
-//                                                    // 引数１と引数２はそれぞれ商品データ。
-//
-//                                                    // 商品データのproduct_idを取得する。
-//                                                    String player_id1 = member1.get("playerId").toString();
-//                                                    String player_id2 = member2.get("playerId").toString();
-//
-//                                                    return player_id1.compareTo(player_id2);
-//                                                }
-//                                            });
-                                                if(playerInfoDicArray.size() == Integer.valueOf(receivedCommandMessageArray[3])){
+                                                Log.d("111","111=");
+                                                if(playerArray.size() == Integer.valueOf(receivedCommandMessageArray[3])){
+                                                    Log.d("222","222=");
                                                     // 参加人数分の配列取得
+
+                                                    while (playerArray.size() > 0){
+                                                        Log.d("333","333=");
+                                                        int idIndex = 100;
+                                                        int idCount = 100;
+
+                                                        for(int i = 0;i<playerArray.size();i++){
+                                                            int id = (int)playerArray.get(i).get("playerId");
+                                                            if(id < idCount){
+                                                                idIndex = i;
+                                                                idCount = id;
+                                                            }
+                                                        }
+                                                        Log.d("444","444=");
+                                                        playerInfoDicArray.add(playerArray.get(idIndex));
+                                                        playerArray.remove(idIndex);
+                                                    }
+
                                                     sendEvent(fixedGameInfo.get("periId"),"memberCheck:"+ myId);
+
 //                                                    infoDic.put("playerInfoDicArray",(ArrayList<String,Map<String,Object>>)playerInfoDicArray);
                                                 }
 
@@ -861,14 +876,14 @@ public class MainActivity extends Activity {
                                                     }
                                                 }else if((int)playerInfoDicArray.get(myPlayerId).get("roleId") == Utility.Role.Fanatic.ordinal()){
                                                     companionListAdapter.add("----------妖狐を確認してください---------");
-                                                    for(int i = 0;i<receivedCommandMessageArray.length;i++){
+                                                    for(int i = 0;i<playerInfoDicArray.size();i++){
                                                         if((int)playerInfoDicArray.get(i).get("roleId") == Utility.Role.Fox.ordinal()){
                                                             companionListAdapter.add((String)playerInfoDicArray.get(i).get("userName"));
                                                         }
                                                     }
                                                 }else{
                                                     companionListAdapter.add("----------仲間を確認してください---------");
-                                                    for(int i = 0;i<receivedCommandMessageArray.length;i++){
+                                                    for(int i = 0;i<playerInfoDicArray.size();i++){
                                                         if((int)playerInfoDicArray.get(i).get("roleId") == myRole && i != myPlayerId){
                                                             companionListAdapter.add((String)playerInfoDicArray.get(i).get("userName"));
                                                         }
@@ -1077,7 +1092,6 @@ public class MainActivity extends Activity {
         TextView meLabel = (TextView) findViewById(R.id.meLbl);
         TextView companionLabel = (TextView) findViewById(R.id.friendLabel);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-
         companionLabel.setText("");// Hard Coded
 //        meLabel.setText("melbl");
         loadHistory();

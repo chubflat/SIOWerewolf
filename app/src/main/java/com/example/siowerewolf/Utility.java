@@ -449,4 +449,9 @@ public class Utility {
 
         return infoDic;
     }
+
+    public static int getMaxRoleCount(){
+        int maxCount = 11;// 背徳者まで実装;
+        return maxCount;
+    }
 }

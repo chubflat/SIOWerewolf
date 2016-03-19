@@ -157,10 +157,10 @@ public class CustomView extends View {
 
                     /**接続先変更**/
                     canvas.drawBitmap(buttonImg, null, buttonRect3, paint);
-                    canvas.drawText("接続先変更", width * 25 / 100, height * 55 / 100, paint);
+                    canvas.drawText("名前変更", width * 25 / 100, height * 55 / 100, paint);
                     /**user name**/
                     canvas.drawBitmap(buttonImg,null,buttonRect2,paint);
-                    canvas.drawText("名前変更", width * 25 / 100, height * 70 / 100, paint);
+                    canvas.drawText("IP変更", width * 25 / 100, height * 70 / 100, paint);
                     /**user_setting**/
                     canvas.drawBitmap(buttonImg,null,buttonRect1,paint);
                     canvas.drawText("戻る",width * 25/100,height * 85/100,paint);
@@ -664,10 +664,9 @@ public class CustomView extends View {
                             if(getTouchButton(buttonRect1)){
                                 MainActivity.settingPhase = "setting_menu";
                             }else if(getTouchButton(buttonRect3)){
-                                setDialog("editIpAddress");
-
-                            }else if(getTouchButton(buttonRect2)){
                                 setDialog("editUserName");
+                            }else if(getTouchButton(buttonRect2)){
+                                setDialog("editIpAddress");
                             }
                             break;
                         case "rule_confirm":
